@@ -20,6 +20,7 @@ export DH_KAFKA_ADDRESS=$(getmtask_address $kafka_appid);
 export DH_KAFKA_PORT=$(getmtask_port $kafka_appid);
 export DH_ZK_ADDRESS="${ZK_ADDRESS}"
 export DH_ZK_PORT="${ZK_PORT}"
+export DH_HAZELCAST_PORT="${PORT1}"
 env
 ./devicehive-start.sh
 

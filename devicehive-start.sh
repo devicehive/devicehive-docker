@@ -8,5 +8,6 @@ java -server -Xmx512m -XX:MaxRAMFraction=1 -XX:+UseConcMarkSweepGC -XX:+CMSParal
 -Dmetadata.broker.list=${DH_KAFKA_ADDRESS}:${DH_KAFKA_PORT} \
 -Dzookeeper.connect=${DH_ZK_ADDRESS}:${DH_ZK_PORT} \
 -Dthreads.count=${DH_KAFKA_THREADS_COUNT:-3} \
+-Dhazelcast.port=${DH_HAZELCAST_PORT:-5701} \
 -Dserver.context-path=/api \
 ./devicehive-${DH_VERSION}-boot.jar
