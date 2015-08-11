@@ -21,16 +21,20 @@ To enable DeviceHive to communicate over Apache Kafka message bus to scale out a
 
 ## Run
 In order to run DeviceHive from docker container, define environment variables as per your requirements and run:
-```docker --name my-devicehive -p 80:80 astaff/devicehive```
-you can access your DeviceHive API http://device_hive_host_url/api. Additionally you can install DeviceHive admin console and supply DeviceHive API URL in ```$DH_API_URL```
-```docker --name my-devicehive-admin -p 80:8080 astaff/devicehive-admin```
+```
+docker --name my-devicehive -p 80:80 astaff/devicehive
+```
+you can access your DeviceHive API http://devicehive-host-url/api. Additionally you can install DeviceHive admin console and supply DeviceHive API URL in ```$DH_API_URL```:
+```
+docker --name my-devicehive-admin -p 80:8080 astaff/devicehive-admin
+```
 this will open DeviceHive admin console and make it accessible at http://device_hive_host_url:8080/admin
 
 ## Mesos
 DeviceHive can also be started in Mesos using Marathin. In order to do this DeviceHive docker container provides devicehive-start-marathon.sh script which uses Mesos Marathon to discover connection parameters for ZK, Kafka and Postgres. In order to run this script you should run docker as follows:
-```docker -e "MARAHTON_MASTER_ADDRESS=<address>" -e "MARAHTON_MASTER_PORT=<port>" -e "ZK_ADDRESS=address" -e "ZK_PORT=port" --name my-devicehive -p 80:80 astaff/devicehive ./devicehive-start-marathon.sh```
-
-
+```
+docker -e "MARAHTON_MASTER_ADDRESS=<address>" -e "MARAHTON_MASTER_PORT=<port>" -e "ZK_ADDRESS=address" -e "ZK_PORT=port" --name my-devicehive -p 80:80 astaff/devicehive ./devicehive-start-marathon.sh
+```
 You can also use upper case -P instead of -p to auto-generate ports for DeviceHive API and optional Admin Console.
 
 Enjoy!
