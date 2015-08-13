@@ -22,11 +22,11 @@ To enable DeviceHive to communicate over Apache Kafka message bus to scale out a
 ## Run
 In order to run DeviceHive from docker container, define environment variables as per your requirements and run:
 ```
-docker --name my-devicehive -p 80:80 astaff/devicehive
+docker run --name my-devicehive -p 80:80 astaff/devicehive
 ```
 you can access your DeviceHive API http://devicehive-host-url/api. Additionally you can install DeviceHive admin console and supply DeviceHive API URL in ```$DH_API_URL```:
 ```
-docker --name my-devicehive-admin -p 80:8080 astaff/devicehive-admin
+docker run --name my-devicehive-admin -p 80:8080 astaff/devicehive-admin
 ```
 this will open DeviceHive admin console and make it accessible at http://device_hive_host_url:8080/admin
 
