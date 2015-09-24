@@ -15,7 +15,7 @@ DeviceHive docker container accepts the following environment variables which en
 To enable DeviceHive to communicate over Apache Kafka message bus to scale out and interoperate with other componets, such us Apache Spark, or to enable support of Apache Cassandra for fast and scalable storage of device messages define the following environment variables:
 * ```${DH_KAFKA_ADDRESS}``` — Address of Apache Kafka broker node. If no address is defined DeviceHive will run in standalone mode.
 * ```${DH_KAFKA_PORT}``` — Port of Apache Kafka broker node. Igonred if ```${DH_KAFKA_ADDRESS}``` is undefined.
-```${DK_ZK_ADDRESS}``` — Comma-separated list of addressed of ZooKeeper instances. Igonred if ```${DH_KAFKA_ADDRESS}``` is undefined.
+```${DK_ZH_ADDRESS}``` — Comma-separated list of addressed of ZooKeeper instances. Igonred if ```${DH_KAFKA_ADDRESS}``` is undefined.
 * ```${DK_ZK_PORT}``` — Port of ZooKeeper instances. Igonred if ```${DH_KAFKA_ADDRESS}``` is undefined.
 * ```${DH_KAFKA_THREADS_COUNT}``` — Number of Kafka threads, defaults to ```3```. 
 
@@ -24,11 +24,56 @@ In order to run DeviceHive from docker container, define environment variables a
 ```
 docker run --name my-devicehive -p 80:80 astaff/devicehive
 ```
-you can access your DeviceHive API http://devicehive-host-url/api. Additionally you can install DeviceHive admin console and supply DeviceHive API URL in ```$DH_API_URL```:
+you can access your DeviceHive API http://devicehive-host-url/api. 
+
+## Linking
+
+[postgres] https://hub.docker.com/_/postgres/ ""
+[ches/kafka] https://hub.docker.com/r/ches/kafka/ "ches/kafka"
+[jplock/zookeeper] https://hub.docker.com/r/jplock/zookeeper/ "jplock/zookeeper"
+
+This image can be linked with other containers like [postgres], [ches/kafka], [jplock/zookeeper] or any other as soon as those expose the following environment variables via link:
 ```
-docker run --name my-devicehive-admin -p 80:8080 astaff/devicehive-admin
+ZOOKEEPER_PORT_2181_TCP_ADDR, ZOOKEEPER_PORT_2181_TCP_PORT
+KAFKA_PORT_9092_TCP_ADDR, KAFKA_PORT_9092_TCP_PORT
+POSTGRES_PORT_5432_TCP_ADDR, POSTGRES_PORT_5432_TCP_PORT
 ```
-this will open DeviceHive admin console and make it accessible at http://device_hive_host_url:8080/admin
+
+## Docker-Compose
+
+Below is an example of linking using docker-compose.
+```
+dh: 
+  image: devicehive/devicehive
+  links:
+    - "postgres"
+    - "kafka"
+    - "zookeeper"
+  ports:
+    - "80:80"
+  environment:
+    DH_POSTGRES_USERNAME: "postgres"
+    DH_POSTGRES_PASSWORD: "mysecretpassword"
+    DH_POSTGRES_DB: "postgres"
+
+zookeeper:
+  image: jplock/zookeeper:3.4.6
+  expose:
+    - "2181"
+
+kafka:
+  image: ches/kafka:0.8.2.1
+  links:
+    - "zookeeper"
+  expose:
+    - "9092"
+
+postgres: 
+  image: postgres:9.4.4
+  expose:
+    - "5432"
+```
+
 
 ## Mesos
 DeviceHive can also be started in Mesos using Marathin. In order to do this DeviceHive docker container provides devicehive-start-marathon.sh script which uses Mesos Marathon to discover connection parameters for ZK, Kafka and Postgres. In order to run this script you should run docker as follows:
