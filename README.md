@@ -28,7 +28,7 @@ you can access your DeviceHive API http://devicehive-host-url/api.
 
 ## Linking
 
-[postgres]: https://hub.docker.com/_/postgres/ ""
+[postgres]: https://hub.docker.com/_/postgres/ "postgres"
 [ches/kafka]: https://hub.docker.com/r/ches/kafka/ "ches/kafka"
 [jplock/zookeeper]: https://hub.docker.com/r/jplock/zookeeper/ "jplock/zookeeper"
 
