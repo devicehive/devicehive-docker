@@ -3,7 +3,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 MAINTAINER astaff 
 
-ENV DH_VERSION="2.0.3"
+ENV DH_VERSION="2.0.4"
 
 # install java8 & postgres
 RUN apt-get update && \ 
@@ -27,9 +27,6 @@ ADD devicehive-start.sh /opt/devicehive-${DH_VERSION}/
 
 #start script for Mesos
 ADD devicehive-start-marathon.sh /opt/devicehive-${DH_VERSION}/
-
-#installing devicehive server
-ADD devicehive-server.properties /opt/devicehive-${DH_VERSION}/
 
 VOLUME ["/var/log/devicehive"]
 
