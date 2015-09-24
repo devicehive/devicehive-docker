@@ -28,9 +28,9 @@ you can access your DeviceHive API http://devicehive-host-url/api.
 
 ## Linking
 
-[postgres] https://hub.docker.com/_/postgres/ ""
-[ches/kafka] https://hub.docker.com/r/ches/kafka/ "ches/kafka"
-[jplock/zookeeper] https://hub.docker.com/r/jplock/zookeeper/ "jplock/zookeeper"
+[postgres]: https://hub.docker.com/_/postgres/ ""
+[ches/kafka]: https://hub.docker.com/r/ches/kafka/ "ches/kafka"
+[jplock/zookeeper]: https://hub.docker.com/r/jplock/zookeeper/ "jplock/zookeeper"
 
 This image can be linked with other containers like [postgres], [ches/kafka], [jplock/zookeeper] or any other as soon as those expose the following environment variables via link:
 ```
