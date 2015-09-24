@@ -32,7 +32,7 @@ you can access your DeviceHive API http://devicehive-host-url/api.
 [ches/kafka]: https://hub.docker.com/r/ches/kafka/ "ches/kafka"
 [jplock/zookeeper]: https://hub.docker.com/r/jplock/zookeeper/ "jplock/zookeeper"
 
-This image can be linked with other containers like [postgres], [ches/kafka], [jplock/zookeeper] or any other as soon as those expose the following environment variables via link:
+This image can be linked with other containers like [postgres], [ches/kafka], [jplock/zookeeper] or any other as soon as the following environment variables are exposed via links:
 ```
 ZOOKEEPER_PORT_2181_TCP_ADDR, ZOOKEEPER_PORT_2181_TCP_PORT
 KAFKA_PORT_9092_TCP_ADDR, KAFKA_PORT_9092_TCP_PORT
