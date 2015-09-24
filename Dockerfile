@@ -25,9 +25,6 @@ ADD https://github.com/devicehive/devicehive-java-server/releases/download/${DH_
 #start script
 ADD devicehive-start.sh /opt/devicehive-${DH_VERSION}/
 
-#start script for Mesos
-ADD devicehive-start-marathon.sh /opt/devicehive-${DH_VERSION}/
-
 VOLUME ["/var/log/devicehive"]
 
 WORKDIR /opt/devicehive-${DH_VERSION}/
