@@ -6,7 +6,7 @@ DeviceHive is an Open Source IoT Data Platform which helps to connect devices to
 
 ## Configure 
 ### PostgreSQL
-* ```${DH_POSTGRES_ADDRESS}``` — Address of PostgreSQL server instance. If no address is defined DeviceHive will run with file-based storage. 
+* ```${DH_POSTGRES_ADDRESS}``` — Address of PostgreSQL server instance. 
 * ```${DH_POSTGRES_PORT}``` — Port of PostgreSQL server instance. Default: 5432. Igonred if ```${DH_POSTGRES_ADDRESS}``` is undefined.
 * ```${DH_POSTGRES_DB}``` — PostgreSQL database name for DeviceHive meta data. It is assumed that it already exists and either blank or has been initialized by DeviceHive. Ignored if ```${DH_POSTGRES_ADDRESS}``` is undefined.
 * ```${DH_POSTGRES_USERNAME}``` and ```${DH_POSTGRES_PASSWORD}``` — login/password for DeviceHive user in PostgreSQL that have full access to ```${DH_POSTGRES_DB}```. Igonred if  ```${DH_POSTGRES_ADDRESS}``` is undefined.
