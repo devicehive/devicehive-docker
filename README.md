@@ -74,14 +74,6 @@ postgres:
     - "5432"
 ```
 
-
-## Mesos
-DeviceHive can also be started in Mesos using Marathin. In order to do this DeviceHive docker container provides devicehive-start-marathon.sh script which uses Mesos Marathon to discover connection parameters for ZK, Kafka and Postgres. In order to run this script you should run docker as follows:
-```
-docker -e "MARATHON_MASTER_ADDRESS=<address>" -e "MARATHON_MASTER_PORT=<port>" -e "ZK_ADDRESS=address" -e "ZK_PORT=port" --name my-devicehive -p 80:80 astaff/devicehive ./devicehive-start-marathon.sh
-```
-You can also use upper case -P instead of -p to auto-generate ports for DeviceHive API and optional Admin Console.
-
 Enjoy!
 
 
