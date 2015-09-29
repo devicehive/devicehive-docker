@@ -3,7 +3,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 MAINTAINER astaff 
 
-ENV DH_VERSION="2.0.4"
+ENV DH_VERSION="2.0.6"
 
 # install java8 & postgres
 RUN apt-get update && \ 
