@@ -26,6 +26,14 @@ docker run --name my-devicehive -p 80:80 devicehive/devicehive
 ```
 you can access your DeviceHive API http://devicehive-host-url/api. 
 
+
+## Logging
+By default DeviceHive writes minimum logs for better performance. You can see default [logback.xml](https://github.com/devicehive/devicehive-java-server/blob/development/src/main/resources/logback.xml).
+It is possible to override logging without rebuilding jar file or docker file. Given you have log config `config.xml` in the current folder as include parameters as follows:
+```
+docker run -p 80:80 -v ./config.xml:/opt/devicehive/config.xml -e _JAVA_OPTIONS="-Dlogging.config=file:/opt/devicehive/config.xml" devicehive/devicehive
+```
+
 ## Linking
 
 [postgres]: https://hub.docker.com/_/postgres/ "postgres"
