@@ -1,5 +1,5 @@
 dh: 
-  image: devicehive/devicehive
+  build: .
   links:
     - "postgres"
     - "kafka"
@@ -11,19 +11,22 @@ dh:
     DH_POSTGRES_PASSWORD: "mysecretpassword"
     DH_POSTGRES_DB: "postgres"
 
+
 zookeeper:
   image: jplock/zookeeper:3.4.6
-  expose:
-    - "2181"
+  ports:
+    - "2181:2181"
 
 kafka:
   image: ches/kafka:0.8.2.1
   links:
     - "zookeeper"
-  expose:
-    - "9092"
+  environment:
+    ZOOKEEPER_IP: "192.168.149.131"
+  ports:
+    - "9092:9092"
 
 postgres: 
   image: postgres:9.4.4
-  expose:
-    - "5432"
+  ports:
+    - "5432:5432"

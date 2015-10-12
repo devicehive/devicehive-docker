@@ -1,33 +1,21 @@
-FROM ubuntu:14.04
-ENV DEBIAN_FRONTEND noninteractive
+FROM develar/java:8u45
 
-MAINTAINER astaff 
+MAINTAINER devicehive
 
-ENV DH_VERSION="2.0.6"
+ENV DH_VERSION="2.0.8"
 
-# install java8 & postgres
-RUN apt-get update && \ 
-    apt-get install -y unzip curl software-properties-common jq && \
-    /bin/echo debconf shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections && \
-    /bin/echo debconf shared/accepted-oracle-license-v1-1 seen true | /usr/bin/debconf-set-selections && \
-    add-apt-repository ppa:webupd8team/java  && \
-    apt-get update  && \
-    apt-get install -y oracle-java8-installer && \
-    apt-get clean autoclean && \
-    apt-get autoremove -y && \
-    rm -rf /var/lib/{apt,dpkg,cache,log}/
+RUN mkdir -p /opt/devicehive
 
-RUN rm -rf /opt/devicehive*
-RUN mkdir /opt/devicehive-${DH_VERSION}
-
-ADD https://github.com/devicehive/devicehive-java-server/releases/download/${DH_VERSION}/devicehive-${DH_VERSION}-boot.jar /opt/devicehive-${DH_VERSION}/
+ADD https://github.com/devicehive/devicehive-java-server/releases/download/${DH_VERSION}/devicehive-${DH_VERSION}-boot.jar /opt/devicehive/
 
 #start script
-ADD devicehive-start.sh /opt/devicehive-${DH_VERSION}/
+ADD devicehive-start.sh /opt/devicehive/
 
 VOLUME ["/var/log/devicehive"]
 
-WORKDIR /opt/devicehive-${DH_VERSION}/
+WORKDIR /opt/devicehive/
+
+ENTRYPOINT ["/bin/sh"]
 
 CMD ["./devicehive-start.sh"]
 
