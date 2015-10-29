@@ -2,7 +2,7 @@ FROM develar/java:8u45
 
 MAINTAINER devicehive
 
-ENV DH_VERSION="2.0.9"
+ENV DH_VERSION="2.0.10"
 
 RUN mkdir -p /opt/devicehive
 
