@@ -1,32 +1,64 @@
-dh: 
-  build: .
-  links:
-    - "postgres"
-    - "kafka"
-    - "zookeeper"
-  ports:
-    - "80:80"
-  environment:
-    DH_POSTGRES_USERNAME: "postgres"
-    DH_POSTGRES_PASSWORD: "mysecretpassword"
-    DH_POSTGRES_DB: "postgres"
+version: "2"
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka:0.9.0.1
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
+  coordinator:
+    image: basho/riak-ts
+    ports:
+      - "8087:8087"
+      - "8098:8098"
+    environment:
+      - CLUSTER_NAME=riakts
+    labels:
+      - "com.basho.riak.cluster.name=riakts"
+    volumes:
+      - schemas:/etc/riak/schemas
+  member:
+    image: basho/riak-ts
+    ports:
+      - "8087"
+      - "8098"
+    labels:
+      - "com.basho.riak.cluster.name=riakts"
+    links:
+      - coordinator
+    depends_on:
+      - coordinator
+    environment:
+      - CLUSTER_NAME=riakts
+      - COORDINATOR_NODE=coordinator
 
-zookeeper:
-  image: jplock/zookeeper:3.4.6
-  ports:
-    - "2181:2181"
+  dh:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - zookeeper
+      - kafka
+      - coordinator
+      - member
+    environment:
+      DH_ZK_ADDRESS: zookeeper
+      DH_ZK_PORT: 2181
+      DH_KAFKA_ADDRESS: kafka
+      DH_KAFKA_PORT: 9092
+      RIAK_HOST: coordinator
+      RIAK_PORT: 8087
 
-kafka:
-  image: ches/kafka:0.8.2.1
-  links:
-    - "zookeeper"
-  environment:
-    ZOOKEEPER_IP: "192.168.149.131"
-  ports:
-    - "9092:9092"
-
-postgres: 
-  image: postgres:9.4.4
-  ports:
-    - "5432:5432"
+volumes:
+  schemas:
+    external: false
