@@ -26,7 +26,8 @@ services:
     labels:
       - "com.basho.riak.cluster.name=riakts"
     volumes:
-      - schemas:/etc/riak/schemas
+      - /etc/riak/schemas
+      - ./schemas:/etc/riak/schemas
   member:
     image: basho/riak-ts
     ports:

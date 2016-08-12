@@ -16,9 +16,9 @@ RUN cd /usr/share \
 
 ENV MAVEN_HOME /usr/share/maven
 
-RUN git clone -b storage-enhancements https://github.com/devicehive/devicehive-java-server.git /opt/devicehive && \
+RUN git clone -b development https://github.com/devicehive/devicehive-java-server.git /opt/devicehive && \
     cd /opt/devicehive && \
-    mvn clean package -Pbooted-riak,undertow -DskipTests && \
+    mvn clean package -Pbooted-riak,undertow,!booted-rdbms -DskipTests && \
     mv /opt/devicehive/devicehive-services/target/devicehive-services-${DH_VERSION}-boot.jar /opt/devicehive/
 
 #start script
