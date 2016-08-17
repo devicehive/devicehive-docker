@@ -57,8 +57,9 @@ services:
       DH_ZK_PORT: 2181
       DH_KAFKA_ADDRESS: kafka
       DH_KAFKA_PORT: 9092
-      RIAK_HOST: coordinator
-      RIAK_PORT: 8087
+      DH_RIAK_HOST: coordinator
+      DH_RIAK_PORT: 8087
+      DH_RIAK_HTTP_PORT: 8098
 
 volumes:
   schemas:

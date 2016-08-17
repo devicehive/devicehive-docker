@@ -6,7 +6,7 @@ ENV DH_VERSION="2.1.0-SNAPSHOT"
 ENV MAVEN_VERSION="3.3.3"
 
 RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh && \
+    apk add --no-cache bash git openssh curl && \
     mkdir -p /opt/devicehive
 
 RUN cd /usr/share \
