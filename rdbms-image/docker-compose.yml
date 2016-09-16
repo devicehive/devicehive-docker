@@ -20,11 +20,18 @@ services:
     image: postgres:9.4.4
     ports:
       - "5432:5432"
+ 
+  dh_admin:
+    build: ./devicehive-admin
+    ports: 
+      - "80:80"
+    depends_on:
+      - "dh"
 
   dh:
     build: .
     ports:
-      - "80:80"
+      - "8080:8080"
     depends_on:
       - "postgres"
       - "kafka"

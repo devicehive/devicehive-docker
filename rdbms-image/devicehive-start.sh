@@ -1,7 +1,5 @@
 #!/bin/bash -e
 
-nginx &
-
 set -x
 
 echo "Starting DeviceHive"

@@ -42,11 +42,18 @@ services:
     environment:
       - CLUSTER_NAME=riakts
       - COORDINATOR_NODE=coordinator
-    
+  
+  dh_admin:
+    build: ./devicehive-admin
+    ports:
+      - "80:80"
+    depends_on:
+      - "dh" 
+ 
   dh:
     build: .
     ports:
-      - "80:80"
+      - "8080:8080"
     depends_on:
       - zookeeper
       - kafka
