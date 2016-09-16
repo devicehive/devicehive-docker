@@ -15,9 +15,9 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-
+ 
   coordinator:
-    image: basho/riak-ts:1.3.1
+    image: basho/riak-ts:1.4.0
     ports:
       - "8087:8087"
       - "8098:8098"
@@ -26,14 +26,14 @@ services:
     labels:
       - "com.basho.riak.cluster.name=riakts"
     volumes:
-      - /etc/riak/schemas
       - ./schemas:/etc/riak/schemas
   member:
-    image: basho/riak-ts:1.3.1
+    image: basho/riak-ts:1.4.0
     ports:
       - "8087"
       - "8098"
-    labels:
+    command: bash -c "sleep 30; /usr/lib/riak/riak-cluster.sh" # wait until coordinator starts and activates datatype
+    labels:  
       - "com.basho.riak.cluster.name=riakts"
     links:
       - coordinator
@@ -42,11 +42,11 @@ services:
     environment:
       - CLUSTER_NAME=riakts
       - COORDINATOR_NODE=coordinator
-
+    
   dh:
     build: .
     ports:
-      - "8080:8080"
+      - "80:80"
     depends_on:
       - zookeeper
       - kafka
