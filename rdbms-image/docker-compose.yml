@@ -22,11 +22,14 @@ services:
       - "5432:5432"
  
   dh_admin:
-    build: ./devicehive-admin
+    build: ../devicehive-admin
     ports: 
       - "80:80"
     depends_on:
       - "dh"
+    environment:
+      DH_HOST: dh
+      DH_PORT: 8080 
 
   dh:
     build: .
