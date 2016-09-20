@@ -5,7 +5,7 @@ services:
     ports:
       - "2181:2181"
   kafka:
-    image: wurstmeister/kafka:0.9.0.1
+    image: wurstmeister/kafka:0.10.0.1
     ports:
       - "9092:9092"
     depends_on:
@@ -26,15 +26,32 @@ services:
     ports: 
       - "80:80"
     depends_on:
-      - "dh"
+      - "dh_frontend"
     environment:
-      DH_HOST: dh
+      DH_HOST: dh_frontend
       DH_PORT: 8080 
 
-  dh:
-    build: .
+  dh_frontend:
+    build: ./devicehive-frontend
     ports:
       - "8080:8080"
+    depends_on:
+      - "postgres"
+      - "kafka"
+      - "zookeeper"
+    environment:
+      DH_ZK_ADDRESS: zookeeper
+      DH_ZK_PORT: 2181
+      DH_KAFKA_ADDRESS: kafka
+      DH_KAFKA_PORT: 9092
+      DH_POSTGRES_ADDRESS: postgres
+      DH_POSTGRES_PORT: 5432
+      DH_POSTGRES_USERNAME: "postgres"
+      DH_POSTGRES_PASSWORD: "mysecretpassword"
+      DH_POSTGRES_DB: "postgres"
+    
+  dh_backend:
+    build: ./devicehive-backend
     depends_on:
       - "postgres"
       - "kafka"

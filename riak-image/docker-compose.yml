@@ -5,11 +5,11 @@ services:
     ports:
       - "2181:2181"
   kafka:
-    image: wurstmeister/kafka:0.9.0.1
+    image: wurstmeister/kafka:0.10.0.1
     ports:
       - "9092:9092"
     depends_on:
-      - zookeeper
+      - "zookeeper"
     environment:
       KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -36,9 +36,9 @@ services:
     labels:  
       - "com.basho.riak.cluster.name=riakts"
     links:
-      - coordinator
+      - "coordinator"
     depends_on:
-      - coordinator
+      - "coordinator"
     environment:
       - CLUSTER_NAME=riakts
       - COORDINATOR_NODE=coordinator
@@ -48,20 +48,36 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - "dh" 
+      - "dh_frontend" 
     environment:
-      DH_HOST: dh
+      DH_HOST: dh_frontend
       DH_PORT: 8080
 
-  dh:
-    build: .
+  dh_frontend:
+    build: ./devicehive-frontend
     ports:
       - "8080:8080"
     depends_on:
-      - zookeeper
-      - kafka
-      - coordinator
-      - member
+      - "zookeeper"
+      - "kafka"
+      - "coordinator"
+      - "member"
+    environment:
+      DH_ZK_ADDRESS: zookeeper
+      DH_ZK_PORT: 2181
+      DH_KAFKA_ADDRESS: kafka
+      DH_KAFKA_PORT: 9092
+      DH_RIAK_HOST: coordinator
+      DH_RIAK_PORT: 8087
+      DH_RIAK_HTTP_PORT: 8098
+
+  dh_backend:
+    build: ./devicehive-backend
+    depends_on:
+      - "zookeeper"
+      - "kafka"
+      - "coordinator"
+      - "member"
     environment:
       DH_ZK_ADDRESS: zookeeper
       DH_ZK_PORT: 2181
