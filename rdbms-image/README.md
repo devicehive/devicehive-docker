@@ -14,7 +14,9 @@ To enable DeviceHive to communicate over Apache Kafka message bus to scale out a
 * ```${DH_KAFKA_PORT}``` — Port of Apache Kafka broker node. Igonred if ```${DH_KAFKA_ADDRESS}``` is undefined.
 * ```${DK_ZH_ADDRESS}``` — Comma-separated list of addressed of ZooKeeper instances. Igonred if ```${DH_KAFKA_ADDRESS}``` is undefined.
 * ```${DK_ZK_PORT}``` — Port of ZooKeeper instances. Igonred if ```${DH_KAFKA_ADDRESS}``` is undefined.
-* ```${DH_KAFKA_THREADS_COUNT}``` — Number of Kafka threads, defaults to ```3```. 
+* ```${DH_KAFKA_THREADS_COUNT}``` — Number of Kafka threads, defaults to ```3```.
+ 
+More configurable parameters at [devicehive-start.sh](devicehive-start.sh).
 
 ## Run
 In order to run DeviceHive from docker container, define environment variables as per your requirements and run:
@@ -31,52 +33,60 @@ It is possible to override logging without rebuilding jar file or docker file. G
 docker run -p 80:80 -v ./config.xml:/opt/devicehive/config.xml -e _JAVA_OPTIONS="-Dlogging.config=file:/opt/devicehive/config.xml" devicehive/devicehive
 ```
 
-## Linking
-
-[postgres]: https://hub.docker.com/_/postgres/ "postgres"
-[ches/kafka]: https://hub.docker.com/r/ches/kafka/ "ches/kafka"
-[jplock/zookeeper]: https://hub.docker.com/r/jplock/zookeeper/ "jplock/zookeeper"
-
-This image can be linked with other containers like [postgres], [ches/kafka], [jplock/zookeeper] or any other as soon as the following environment variables are exposed via links:
-```
-ZOOKEEPER_PORT_2181_TCP_ADDR, ZOOKEEPER_PORT_2181_TCP_PORT
-KAFKA_PORT_9092_TCP_ADDR, KAFKA_PORT_9092_TCP_PORT
-POSTGRES_PORT_5432_TCP_ADDR, POSTGRES_PORT_5432_TCP_PORT
-```
-
 ## Docker-Compose
 
-Below is an example of linking using docker-compose.
+Below is an example of linking containers with services using [docker-compose](https://docs.docker.com/compose/compose-file/#version-2).
 ```
-dh: 
-  image: devicehive/devicehive
-  links:
-    - "postgres"
-    - "kafka"
-    - "zookeeper"
-  ports:
-    - "80:80"
-  environment:
-    DH_POSTGRES_USERNAME: "postgres"
-    DH_POSTGRES_PASSWORD: "mysecretpassword"
-    DH_POSTGRES_DB: "postgres"
+version: "2"
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka:0.9.0.1
+    ports:
+      - "9092:9092"
+    depends_on:
+      - "zookeeper"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
 
-zookeeper:
-  image: jplock/zookeeper:3.4.6
-  expose:
-    - "2181"
+  postgres:
+    image: postgres:9.4.4
+    ports:
+      - "5432:5432"
+ 
+  dh_admin:
+    build: ../devicehive-admin
+    ports: 
+      - "80:80"
+    depends_on:
+      - "dh"
+    environment:
+      DH_HOST: dh
+      DH_PORT: 8080 
 
-kafka:
-  image: ches/kafka:0.8.2.1
-  links:
-    - "zookeeper"
-  expose:
-    - "9092"
-
-postgres: 
-  image: postgres:9.4.4
-  expose:
-    - "5432"
+  dh:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "postgres"
+      - "kafka"
+      - "zookeeper"
+    environment:
+      DH_ZK_ADDRESS: zookeeper
+      DH_ZK_PORT: 2181
+      DH_KAFKA_ADDRESS: kafka
+      DH_KAFKA_PORT: 9092
+      DH_POSTGRES_ADDRESS: postgres
+      DH_POSTGRES_PORT: 5432
+      DH_POSTGRES_USERNAME: "postgres"
+      DH_POSTGRES_PASSWORD: "mysecretpassword"
 ```
 
 Enjoy!

@@ -6,8 +6,6 @@
 * ```${DH_RIAK_HOST}``` — Address of Riak TS server instance. 
 * ```${DH_RIAK_PORT}``` — Port of Riak TS server instance.
 
-More configurable parameters at [devicehive-start.sh](devicehive-start.sh)
-
 ### Kafka
 To enable DeviceHive to communicate over Apache Kafka message bus to scale out and interoperate with other componets, such us Apache Spark, or to enable support of Apache Cassandra for fast and scalable storage of device messages define the following environment variables:
 * ```${DH_KAFKA_ADDRESS}``` — Address of Apache Kafka broker node. If no address is defined DeviceHive will run in standalone mode.
@@ -15,6 +13,8 @@ To enable DeviceHive to communicate over Apache Kafka message bus to scale out a
 * ```${DK_ZH_ADDRESS}``` — Comma-separated list of addressed of ZooKeeper instances. Igonred if ```${DH_KAFKA_ADDRESS}``` is undefined.
 * ```${DK_ZK_PORT}``` — Port of ZooKeeper instances. Igonred if ```${DH_KAFKA_ADDRESS}``` is undefined.
 * ```${DH_KAFKA_THREADS_COUNT}``` — Number of Kafka threads, defaults to ```3```. 
+
+More configurable parameters at [devicehive-start.sh](devicehive-start.sh).
 
 ## Run
 In order to run DeviceHive from docker container, define environment variables as per your requirements and run:
@@ -31,18 +31,11 @@ It is possible to override logging without rebuilding jar file or docker file. G
 docker run -p 80:80 -v ./config.xml:/opt/devicehive/config.xml -e _JAVA_OPTIONS="-Dlogging.config=file:/opt/devicehive/config.xml" devicehive/devicehive
 ```
 
-## Linking
-
-[riak-ts]: https://hub.docker.com/r/basho/riak-ts/ "riak-ts"
-[ches/kafka]: https://hub.docker.com/r/ches/kafka/ "ches/kafka"
-[jplock/zookeeper]: https://hub.docker.com/r/jplock/zookeeper/ "jplock/zookeeper"
-
-This image can be linked with other containers like [riak-ts], [ches/kafka], [jplock/zookeeper] or any other.
-
 ## Docker-Compose
 
-Below is an example of linking using docker-compose.
+Below is an example of linking containers with services using [docker-compose](https://docs.docker.com/compose/compose-file/#version-2).
 ```
+version: "2"
 services:
   zookeeper:
     image: wurstmeister/zookeeper
@@ -59,9 +52,9 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-
+ 
   coordinator:
-    image: basho/riak-ts
+    image: basho/riak-ts:1.4.0
     ports:
       - "8087:8087"
       - "8098:8098"
@@ -70,14 +63,14 @@ services:
     labels:
       - "com.basho.riak.cluster.name=riakts"
     volumes:
-      - /etc/riak/schemas
       - ./schemas:/etc/riak/schemas
   member:
-    image: basho/riak-ts
+    image: basho/riak-ts:1.4.0
     ports:
       - "8087"
       - "8098"
-    labels:
+    command: bash -c "sleep 30; /usr/lib/riak/riak-cluster.sh" # wait until coordinator starts and activates datatype
+    labels:  
       - "com.basho.riak.cluster.name=riakts"
     links:
       - coordinator
@@ -86,27 +79,12 @@ services:
     environment:
       - CLUSTER_NAME=riakts
       - COORDINATOR_NODE=coordinator
-
-  dh:
-    build: .
+  
+  dh_admin:
+    build: ../devicehive-admin
     ports:
-      - "8080:8080"
+      - "80:80"
     depends_on:
-      - zookeeper
-      - kafka
-      - coordinator
-      - member
-    environment:
-      DH_ZK_ADDRESS: zookeeper
-      DH_ZK_PORT: 2181
-      DH_KAFKA_ADDRESS: kafka
-      DH_KAFKA_PORT: 9092
-      DH_RIAK_HOST: coordinator
-      DH_RIAK_PORT: 8087
-
-volumes:
-  schemas:
-    external: false
 ```
 
 Enjoy!
