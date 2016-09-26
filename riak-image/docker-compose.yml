@@ -1,0 +1,92 @@
+version: "2"
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka:0.10.0.1
+    ports:
+      - "9092:9092"
+    depends_on:
+      - "zookeeper"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+ 
+  coordinator:
+    image: basho/riak-ts:1.4.0
+    ports:
+      - "8087:8087"
+      - "8098:8098"
+    environment:
+      - CLUSTER_NAME=riakts
+    labels:
+      - "com.basho.riak.cluster.name=riakts"
+    volumes:
+      - ./schemas:/etc/riak/schemas
+  member:
+    image: basho/riak-ts:1.4.0
+    ports:
+      - "8087"
+      - "8098"
+    command: bash -c "sleep 30; /usr/lib/riak/riak-cluster.sh" # wait until coordinator starts and activates datatype
+    labels:  
+      - "com.basho.riak.cluster.name=riakts"
+    links:
+      - "coordinator"
+    depends_on:
+      - "coordinator"
+    environment:
+      - CLUSTER_NAME=riakts
+      - COORDINATOR_NODE=coordinator
+  
+  dh_admin:
+    build: ../devicehive-admin
+    ports:
+      - "80:80"
+    depends_on:
+      - "dh_frontend" 
+    environment:
+      DH_HOST: dh_frontend
+      DH_PORT: 8080
+
+  dh_frontend:
+    build: ./devicehive-frontend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "zookeeper"
+      - "kafka"
+      - "coordinator"
+      - "member"
+    environment:
+      DH_ZK_ADDRESS: zookeeper
+      DH_ZK_PORT: 2181
+      DH_KAFKA_ADDRESS: kafka
+      DH_KAFKA_PORT: 9092
+      DH_RIAK_HOST: coordinator
+      DH_RIAK_PORT: 8087
+      DH_RIAK_HTTP_PORT: 8098
+
+  dh_backend:
+    build: ./devicehive-backend
+    depends_on:
+      - "zookeeper"
+      - "kafka"
+      - "coordinator"
+      - "member"
+    environment:
+      DH_ZK_ADDRESS: zookeeper
+      DH_ZK_PORT: 2181
+      DH_KAFKA_ADDRESS: kafka
+      DH_KAFKA_PORT: 9092
+      DH_RIAK_HOST: coordinator
+      DH_RIAK_PORT: 8087
+      DH_RIAK_HTTP_PORT: 8098
+
+volumes:
+  schemas:
+    external: false
