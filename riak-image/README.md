@@ -22,7 +22,7 @@ More configurable parameters at [devicehive-start.sh](devicehive-frontend/device
 ## Run
 In order to run DeviceHive from docker container, define environment variables as per your requirements and run:
 ```
-docker run --name my-devicehive -p 80:80 devicehive/devicehive
+docker-compose up
 ```
 you can access your DeviceHive API http://devicehive-host-url/api. 
 
