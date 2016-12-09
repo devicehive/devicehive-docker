@@ -9,8 +9,8 @@ ADD admin-start.sh /opt/devicehive/
 
 #installing devicehive admin console
 ADD https://github.com/devicehive/devicehive-admin-console/archive/3.0.0.tar.gz /tmp
-RUN tar -C /tmp -xzf /tmp/2.0.4.tar.gz
-RUN cp -r /tmp/devicehive-admin-console-2.0.4/* /opt/devicehive/admin/
+RUN tar -C /tmp -xzf /tmp/3.0.0.tar.gz
+RUN cp -r /tmp/devicehive-admin-console-3.0.0/* /opt/devicehive/admin/
 RUN sed -i -e 's/restEndpoint.*/restEndpoint: location.origin +  \"\/api\/rest\"\,/' /opt/devicehive/admin/scripts/config.js
 
 COPY nginx.conf /etc/nginx/nginx.conf
