@@ -2,7 +2,7 @@ FROM frolvlad/alpine-oraclejdk8
 
 MAINTAINER devicehive
 
-ENV DH_VERSION="2.1.1-SNAPSHOT"
+ENV DH_VERSION="3.0.0-SNAPSHOT"
 ENV MAVEN_VERSION="3.3.3"
 
 RUN apk update && apk upgrade && \
