@@ -2,7 +2,7 @@ FROM frolvlad/alpine-oraclejdk8
 
 MAINTAINER devicehive
 
-ENV DH_VERSION="2.1.1-SNAPSHOT"
+ENV DH_VERSION="3.0.0-SNAPSHOT"
 ENV MAVEN_VERSION="3.3.3"
 
 RUN apk update && apk upgrade && \
@@ -18,7 +18,7 @@ RUN cd /usr/share \
 ENV MAVEN_HOME /usr/share/maven
 
 # download devicehive and build .jar
-RUN git clone -b redesign/microservices https://github.com/devicehive/devicehive-java-server.git /opt/devicehive && \
+RUN git clone -b development https://github.com/devicehive/devicehive-java-server.git /opt/devicehive && \
     cd /opt/devicehive && \
     mvn clean package -Pbooted-riak,shim-kafka,!booted-rdbms -DskipTests && \
     mv /opt/devicehive/devicehive-frontend/target/devicehive-frontend-${DH_VERSION}-boot.jar /opt/devicehive/
