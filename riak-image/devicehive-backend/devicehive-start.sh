@@ -4,9 +4,9 @@ set -x
 
 # Check if Zookeper, Kafka and riak are ready
 while true; do
-    `nc -z -v -w5 $DH_ZK_ADDRESS $DH_ZK_PORT`
+    `nc $DH_ZK_ADDRESS $DH_ZK_PORT`
     result_zk=$?
-    `nc -z -v -w5 $DH_KAFKA_ADDRESS $DH_KAFKA_PORT`
+    `nc $DH_KAFKA_ADDRESS $DH_KAFKA_PORT`
     result_kafka=$?
     `curl --output /dev/null --silent --head --fail "http://${DH_RIAK_HOST_MEMBER}:${DH_RIAK_HTTP_PORT}/ping"`
     result_riak=$?
