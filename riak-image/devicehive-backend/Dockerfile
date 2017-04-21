@@ -1,12 +1,15 @@
-FROM frolvlad/alpine-oraclejdk8
+FROM picoded/ubuntu-openjdk-8-jdk
 
 MAINTAINER devicehive
 
 ENV DH_VERSION="3.0.0-SNAPSHOT"
 ENV MAVEN_VERSION="3.3.3"
 
-RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh curl
+RUN apt-get update
+RUN apt-get install -y netcat # For startup order in devicehive-start.sh
+RUN apt-get install -y wget
+RUN apt-get install -y curl
+RUN apt-get install -y git
 
 RUN mkdir -p /opt/devicehive
 
@@ -18,7 +21,7 @@ RUN cd /usr/share \
 ENV MAVEN_HOME /usr/share/maven
 
 # download devicehive and build .jar
-RUN git clone -b development https://github.com/devicehive/devicehive-java-server.git /opt/devicehive && \
+RUN git clone -b master https://github.com/devicehive/devicehive-java-server.git /opt/devicehive && \
     cd /opt/devicehive && \
     mvn clean package -Pbooted-riak,shim-kafka,!booted-rdbms -DskipTests && \
     mv /opt/devicehive/devicehive-backend/target/devicehive-backend-${DH_VERSION}-boot.jar /opt/devicehive/

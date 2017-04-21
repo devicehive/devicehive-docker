@@ -5,13 +5,15 @@ services:
     ports:
       - "2181:2181"
   kafka:
-    image: wurstmeister/kafka:0.10.0.1
+    build: ../kafka
     ports:
       - "9092:9092"
-    depends_on:
+    links:
       - "zookeeper"
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      DH_ZK_ADDRESS: zookeeper
+      DH_ZK_PORT: 2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
@@ -48,6 +50,8 @@ services:
       DH_POSTGRES_USERNAME: "postgres"
       DH_POSTGRES_PASSWORD: "mysecretpassword"
       DH_POSTGRES_DB: "postgres"
+      DH_BACKEND_ADDRESS: dh_backend
+      DH_BACKEND_HAZELCAST_PORT: 5701
     
   dh_backend:
     build: ./devicehive-backend

@@ -2,10 +2,18 @@
 
 set -x
 
-sleep 120 # delay for devicehive-backend bootstrapping 
+# Check if backend is ready
+while true; do
+    `nc -z -v -w5 $DH_BACKEND_ADDRESS $DH_BACKEND_HAZELCAST_PORT`
+    result=$?
+
+    if [ "$result" -eq 0 ]; then
+        break
+    fi
+    sleep 3
+done
 
 echo "Starting DeviceHive"
-
 java -server -Xmx512m -XX:MaxRAMFraction=1 -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -jar \
 -Dflyway.enabled=false \
 -Driak.host=${DH_RIAK_HOST} \
