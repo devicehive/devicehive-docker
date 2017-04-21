@@ -5,10 +5,13 @@ MAINTAINER devicehive
 ENV DH_VERSION="3.0.0-SNAPSHOT"
 ENV MAVEN_VERSION="3.3.3"
 
-RUN apt-get update
-RUN apt-get install -y netcat # For startup order in devicehive-start.sh
-RUN apt-get install -y wget
-RUN apt-get install -y git
+RUN apt-get update -y \
+    && apt-get install -y \
+        netcat \
+        wget \
+        git \
+    && apt-get autoremove -y \
+    && apt-get clean
 
 RUN mkdir -p /opt/devicehive
 
