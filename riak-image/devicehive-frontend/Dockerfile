@@ -7,7 +7,9 @@ ENV MAVEN_VERSION="3.3.3"
 
 RUN apk update \
     && apk upgrade \
-    && apk add --no-cache bash git openssh netcat-openbsd
+    && apk add ca-certificates wget \
+    && update-ca-certificates \
+    && apk add --no-cache bash git openssh netcat-openbsd openssl
 
 RUN cd /usr/share \
     && wget http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz -O - | tar xzf - \
