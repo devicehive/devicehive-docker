@@ -7,24 +7,23 @@ ENV MAVEN_VERSION="3.3.3"
 ENV M2_HOME /usr/share/maven/
 
 RUN apk update \
-    && apk upgrade \
-    && apk add --no-cache bash netcat-openbsd curl
+    && apk add --no-cache netcat-openbsd curl
 
 # Builds .jar from source code and removes unnecessary dependencies.
 RUN apk add --virtual .build-dependencies ca-certificates git openssh openssl \
-    && mkdir /usr/share/maven \
-    && cd /usr/share/maven \
+    && mkdir $M2_HOME \
+    && cd $M2_HOME \
     && curl -O http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz \
     && tar -xf apache-maven-$MAVEN_VERSION-bin.tar.gz \
-    && mv apache-maven-$MAVEN_VERSION/* /usr/share/maven \
-    && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn \
+    && mv apache-maven-$MAVEN_VERSION/* $M2_HOME \
+    && ln -s $M2_HOME/bin/mvn /usr/bin/mvn \
     && mkdir -p /opt/devicehive \
     && git clone -b master https://github.com/devicehive/devicehive-java-server.git /opt/devicehive/source \
     && cd /opt/devicehive/source \
     && mvn clean package -Pbooted-riak,shim-kafka,!booted-rdbms -DskipTests \
     && mv /opt/devicehive/source/devicehive-backend/target/devicehive-backend-${DH_VERSION}-boot.jar /opt/devicehive/ \
     && rm -rf /opt/devicehive/source \
-    && rm -rf /usr/share/maven/ \
+    && rm -rf $M2_HOME \
     && rm -rf ~/.m2 \
     && apk del .build-dependencies
 
