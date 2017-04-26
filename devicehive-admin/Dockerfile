@@ -10,7 +10,7 @@ ADD admin-start.sh /opt/devicehive/
 #installing devicehive admin console
 ADD https://github.com/devicehive/devicehive-admin-console/archive/stable.tar.gz /tmp
 RUN tar -C /tmp -xzf /tmp/stable.tar.gz \
-    && cp -r /tmp/devicehive-admin-console-stable/* /opt/devicehive/admin/ \
+    && mv -v /tmp/devicehive-admin-console-stable/* /opt/devicehive/admin/ \
     && sed -i -e 's/restEndpoint.*/restEndpoint: location.origin +  \"\/api\/rest\"\,/' /opt/devicehive/admin/scripts/config.js \
     && rm -f /tmp/stable.tar.gz
 

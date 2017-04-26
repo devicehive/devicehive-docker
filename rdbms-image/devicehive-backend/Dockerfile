@@ -4,13 +4,14 @@ MAINTAINER devicehive
 
 ENV DH_VERSION="3.0.0-SNAPSHOT"
 ENV MAVEN_VERSION="3.3.3"
-ENV MAVEN_HOME /usr/share/maven/
+ENV M2_HOME /usr/share/maven/
 
-# Builds .jar from source code and removes unnecessary dependencies.
 RUN apk update \
     && apk upgrade \
-    && apk add --no-cache bash netcat-openbsd curl \
-    && apk add --virtual .build-dependencies ca-certificates git openssh openssl make \
+    && apk add --no-cache bash netcat-openbsd
+
+# Builds .jar from source code and removes unnecessary dependencies.
+RUN apk add --virtual .build-dependencies ca-certificates git openssh openssl curl \
     && mkdir /usr/share/maven \
     && cd /usr/share/maven \
     && curl -O http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz \
@@ -24,6 +25,7 @@ RUN apk update \
     && mv /opt/devicehive/source/devicehive-backend/target/devicehive-backend-${DH_VERSION}-boot.jar /opt/devicehive/ \
     && rm -rf /opt/devicehive/source \
     && rm -rf /usr/share/maven/ \
+    && rm -rf ~/.m2 \
     && apk del .build-dependencies
 
 #start script
