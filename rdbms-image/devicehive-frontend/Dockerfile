@@ -16,11 +16,10 @@ RUN apk add --virtual .build-dependencies ca-certificates git openssh openssl cu
     && curl -O http://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz \
     && tar -xf apache-maven-$MAVEN_VERSION-bin.tar.gz \
     && mv apache-maven-$MAVEN_VERSION/* $M2_HOME \
-    && ln -s $M2_HOME/bin/mvn /usr/bin/mvn \
     && mkdir -p /opt/devicehive \
     && git clone -b master https://github.com/devicehive/devicehive-java-server.git /opt/devicehive/source \
     && cd /opt/devicehive/source \
-    && mvn clean package -Pbooted-rdbms,shim-kafka,!booted-riak -DskipTests \
+    && $M2_HOME/bin/mvn clean package -Pbooted-rdbms,shim-kafka,!booted-riak -DskipTests \
     && mv /opt/devicehive/source/devicehive-frontend/target/devicehive-frontend-${DH_VERSION}-boot.jar /opt/devicehive/ \
     && rm -rf /opt/devicehive/source \
     && rm -rf $M2_HOME \
