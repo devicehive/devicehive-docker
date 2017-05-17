@@ -1,4 +1,4 @@
-FROM frolvlad/alpine-oraclejdk8
+FROM openjdk:8-jdk-alpine
 
 MAINTAINER devicehive
 
