@@ -18,7 +18,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   postgres:
-    image: postgres:9.4.4
+    image: postgres:9.4
     ports:
       - "5432:5432"
  
