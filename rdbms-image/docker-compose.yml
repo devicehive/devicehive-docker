@@ -70,4 +70,3 @@ services:
       DH_POSTGRES_PASSWORD: "mysecretpassword"
       DH_POSTGRES_DB: "postgres"
 
-
