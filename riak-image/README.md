@@ -1,5 +1,5 @@
 # Installation
-[DeviceHive](https://github.com/devicehive/devicehive-java-server) docker container accepts the following environment variables which enable persistent storage in Riak TS, message bus support through Apache Kafka and scalable storage of device messages using Apache Cassandra.
+[DeviceHive](https://github.com/devicehive/devicehive-java-server) Docker containers accept the following environment variables which enable persistent storage in Riak TS, message bus support through Apache Kafka and scalable storage of device messages using Apache Cassandra.
 
 ## Configure 
 ### Riak TS
@@ -20,7 +20,7 @@ To enable DeviceHive to communicate over Apache Kafka message bus to scale out a
 More configurable parameters at [devicehive-start.sh](devicehive-frontend/devicehive-start.sh) and [devicehive-start.sh](devicehive-backend/devicehive-start.sh).
 
 ## Run
-In order to run DeviceHive from docker container, define environment variables as per your requirements and run:
+In order to run DeviceHive stack in Docker containers, define environment variables as per your requirements and run:
 ```
 docker-compose up
 ```
@@ -36,28 +36,29 @@ docker run -p 80:80 -v ./config.xml:/opt/devicehive/config.xml -e _JAVA_OPTIONS=
 
 ## Docker-Compose
 
-Below is an example of linking containers with services using [docker-compose](https://docs.docker.com/compose/compose-file/#version-2).
+Below is an example of linking containers with services using [docker-compose](https://docs.docker.com/compose/compose-file/#version-3).
 ```
-version: "2"
+version: "3"
 services:
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
   kafka:
-    image: wurstmeister/kafka:0.10.0.1
+    image: devicehive/devicehive-kafka
     ports:
       - "9092:9092"
-    depends_on:
+    links:
       - "zookeeper"
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      DH_ZK_ADDRESS: zookeeper
+      DH_ZK_PORT: 2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
  
   coordinator:
-    image: basho/riak-ts:1.4.0
+    image: devicehive/devicehive-riakts
     ports:
       - "8087:8087"
       - "8098:8098"
@@ -65,10 +66,8 @@ services:
       - CLUSTER_NAME=riakts
     labels:
       - "com.basho.riak.cluster.name=riakts"
-    volumes:
-      - ./schemas:/etc/riak/schemas
   member:
-    image: basho/riak-ts:1.4.0
+    image: devicehive/devicehive-riakts
     ports:
       - "8087"
       - "8098"
@@ -84,9 +83,9 @@ services:
       - COORDINATOR_NODE=coordinator
   
   dh_admin:
-    build: ../devicehive-admin
+    image: devicehive/admin-console
     ports:
-      - "80:80"
+      - "80:8080"
     depends_on:
       - "dh_frontend"
     environment:
@@ -94,7 +93,7 @@ services:
       DH_PORT: 8080
 
   dh_frontend:
-    build: ./devicehive-frontend
+    image: devicehive/devicehive-frontend-riak
     ports:
       - "8080:8080"
     depends_on:
@@ -110,9 +109,11 @@ services:
       DH_RIAK_HOST: coordinator
       DH_RIAK_PORT: 8087
       DH_RIAK_HTTP_PORT: 8098
+      DH_BACKEND_ADDRESS: dh_backend
+      DH_BACKEND_HAZELCAST_PORT: 5701
 
   dh_backend:
-    build: ./devicehive-backend
+    image: devicehive/devicehive-backend-riak
     depends_on:
       - "zookeeper"
       - "kafka"
@@ -126,6 +127,7 @@ services:
       DH_RIAK_HOST: coordinator
       DH_RIAK_PORT: 8087
       DH_RIAK_HTTP_PORT: 8098
+      DH_RIAK_HOST_MEMBER: member
 
 volumes:
   schemas:
@@ -133,7 +135,4 @@ volumes:
 ```
 
 Enjoy!
-
-
-
 
