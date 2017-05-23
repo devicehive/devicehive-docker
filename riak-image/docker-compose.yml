@@ -57,7 +57,7 @@ services:
       DH_PORT: 8080
 
   dh_frontend:
-    image: devicehive/devicehive-frontend-riak:${DEVICEHIVE_TAG:-latest}
+    image: devicehive/devicehive-frontend-riak:${DH_TAG:-latest}
     ports:
       - "8080:8080"
     depends_on:
@@ -77,7 +77,7 @@ services:
       DH_BACKEND_HAZELCAST_PORT: 5701
 
   dh_backend:
-    image: devicehive/devicehive-backend-riak:${DEVICEHIVE_TAG:-latest}
+    image: devicehive/devicehive-backend-riak:${DH_TAG:-latest}
     depends_on:
       - "zookeeper"
       - "kafka"
