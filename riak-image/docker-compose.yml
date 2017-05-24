@@ -18,8 +18,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
  
   coordinator:
-    build: riak
-    image: devicehive/riak-ts
+    image: devicehive/devicehive-riakts
     ports:
       - "8087:8087"
       - "8098:8098"
@@ -30,8 +29,7 @@ services:
     volumes:
       - ./schemas:/etc/riak/schemas
   member:
-    build: riak
-    image: devicehive/riak-ts
+    image: devicehive/devicehive-riakts
     ports:
       - "8087"
       - "8098"
