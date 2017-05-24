@@ -26,8 +26,6 @@ services:
       - CLUSTER_NAME=riakts
     labels:
       - "com.basho.riak.cluster.name=riakts"
-    volumes:
-      - ./schemas:/etc/riak/schemas
   member:
     image: devicehive/devicehive-riakts
     ports:
