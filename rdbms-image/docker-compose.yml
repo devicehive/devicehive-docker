@@ -1,11 +1,11 @@
-version: "2"
+version: "3"
 services:
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
   kafka:
-    build: ../kafka
+    image: devicehive/devicehive-kafka
     ports:
       - "9092:9092"
     links:
@@ -23,9 +23,9 @@ services:
       - "5432:5432"
  
   dh_admin:
-    build: ../devicehive-admin
+    image: devicehive/admin-console:${DH_ADMIN_TAG:-latest}
     ports: 
-      - "80:80"
+      - "80:8080"
     depends_on:
       - "dh_frontend"
     environment:
@@ -33,7 +33,7 @@ services:
       DH_PORT: 8080 
 
   dh_frontend:
-    build: ./devicehive-frontend
+    image: devicehive/devicehive-frontend-rdbms:${DH_TAG:-latest}
     ports:
       - "8080:8080"
     depends_on:
@@ -52,9 +52,9 @@ services:
       DH_POSTGRES_DB: "postgres"
       DH_BACKEND_ADDRESS: dh_backend
       DH_BACKEND_HAZELCAST_PORT: 5701
-    
+
   dh_backend:
-    build: ./devicehive-backend
+    image: devicehive/devicehive-backend-rdbms:${DH_TAG:-latest}
     depends_on:
       - "postgres"
       - "kafka"

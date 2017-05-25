@@ -1,11 +1,11 @@
-version: "2"
+version: "3"
 services:
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
   kafka:
-    build: ../kafka
+    image: devicehive/devicehive-kafka
     ports:
       - "9092:9092"
     links:
@@ -18,8 +18,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
  
   coordinator:
-    build: riak
-    image: devicehive/riak-ts
+    image: devicehive/devicehive-riakts
     ports:
       - "8087:8087"
       - "8098:8098"
@@ -27,11 +26,8 @@ services:
       - CLUSTER_NAME=riakts
     labels:
       - "com.basho.riak.cluster.name=riakts"
-    volumes:
-      - ./schemas:/etc/riak/schemas
   member:
-    build: riak
-    image: devicehive/riak-ts
+    image: devicehive/devicehive-riakts
     ports:
       - "8087"
       - "8098"
@@ -47,9 +43,9 @@ services:
       - COORDINATOR_NODE=coordinator
   
   dh_admin:
-    build: ../devicehive-admin
+    image: devicehive/admin-console:${DH_ADMIN_TAG:-latest}
     ports:
-      - "80:80"
+      - "80:8080"
     depends_on:
       - "dh_frontend" 
     environment:
@@ -57,7 +53,7 @@ services:
       DH_PORT: 8080
 
   dh_frontend:
-    build: ./devicehive-frontend
+    image: devicehive/devicehive-frontend-riak:${DH_TAG:-latest}
     ports:
       - "8080:8080"
     depends_on:
@@ -77,7 +73,7 @@ services:
       DH_BACKEND_HAZELCAST_PORT: 5701
 
   dh_backend:
-    build: ./devicehive-backend
+    image: devicehive/devicehive-backend-riak:${DH_TAG:-latest}
     depends_on:
       - "zookeeper"
       - "kafka"
