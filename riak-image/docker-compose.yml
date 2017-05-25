@@ -43,9 +43,9 @@ services:
       - COORDINATOR_NODE=coordinator
   
   dh_admin:
-    build: ../devicehive-admin
+    image: devicehive/admin-console:${DH_ADMIN_TAG:-latest}
     ports:
-      - "80:80"
+      - "80:8080"
     depends_on:
       - "dh_frontend" 
     environment:
