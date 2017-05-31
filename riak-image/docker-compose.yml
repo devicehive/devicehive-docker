@@ -71,6 +71,7 @@ services:
       DH_RIAK_HTTP_PORT: 8098
       DH_BACKEND_ADDRESS: dh_backend
       DH_BACKEND_HAZELCAST_PORT: 5701
+      JWT_SECRET: ${JWT_SECRET}
 
   dh_backend:
     image: devicehive/devicehive-backend-riak:${DH_TAG:-latest}
