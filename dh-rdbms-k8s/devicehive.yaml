@@ -1,0 +1,166 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: hazelcast
+spec:
+  selector:
+    app: hazelcast
+  ports:
+    - protocol: TCP
+      port: 5701
+      targetPort: hazelcast
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: hazelcast
+  labels:
+    name: hazelcast
+spec:
+  template:
+    metadata:
+      labels:
+        app: hazelcast
+    spec:
+      containers:
+      - name: hazelcast
+        image: quay.io/pires/hazelcast-kubernetes:3.8.2
+        imagePullPolicy: Always
+        env:
+        - name: CLASSPATH
+          value: "/opt/devicehive/lib/"
+        - name: HC_GROUP_NAME
+          value: "devicehive"
+        - name: HC_GROUP_PASSWORD
+          value: "devicehivepassword"
+        volumeMounts:
+        - name: devicehive-hc-lib
+          mountPath: /opt/devicehive/lib
+        ports:
+        - name: hazelcast
+          containerPort: 5701
+      volumes:
+      - name: devicehive-hc-lib
+        configMap:
+          name: devicehive-hc-lib
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dh-frontend
+spec:
+  selector:
+    app: devicehive-frontend-rdbms
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: dh-frontend
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: devicehive-frontend-rdbms
+    spec:
+      containers:
+      - name: devicehive-frontend-rdbms
+        image: devicehive/devicehive-frontend-rdbms:latest
+        imagePullPolicy: Always
+        env:
+        - name: DH_ZK_ADDRESS
+          value: kafka-zookeeper-zk
+        - name: DH_ZK_PORT
+          value: "2181"
+        - name: DH_KAFKA_ADDRESS
+          value: kafka-kf
+        - name: DH_KAFKA_PORT
+          value: "9092"
+        - name: DH_POSTGRES_ADDRESS
+          value: postgres-postgresql
+        - name: DH_POSTGRES_PORT
+          value: "5432"
+        - name: DH_POSTGRES_USERNAME
+          value: "devicehive"
+        - name: DH_POSTGRES_PASSWORD
+          value: "devicehivepassword"
+        - name: DH_POSTGRES_DB
+          value: "devicehivedb"
+        - name: JWT_SECRET
+          value: "devicehive"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: dh-backend
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: devicehive-backend-rdbms
+    spec:
+      containers:
+      - name: devicehive-backend-rdbms
+        image: devicehive/devicehive-backend-rdbms:latest
+        imagePullPolicy: Always
+        env:
+        - name: DH_ZK_ADDRESS
+          value: kafka-zookeeper-zk
+        - name: DH_ZK_PORT
+          value: "2181"
+        - name: DH_KAFKA_ADDRESS
+          value: kafka-kf
+        - name: DH_KAFKA_PORT
+          value: "9092"
+        - name: DH_POSTGRES_ADDRESS
+          value: postgres-postgresql
+        - name: DH_POSTGRES_PORT
+          value: "5432"
+        - name: DH_POSTGRES_USERNAME
+          value: "devicehive"
+        - name: DH_POSTGRES_PASSWORD
+          value: "devicehivepassword"
+        - name: DH_POSTGRES_DB
+          value: "devicehivedb"
+        - name: HC_MEMBERS
+          value: "hazelcast"
+        - name: HC_GROUP_NAME
+          value: "devicehive"
+        - name: HC_GROUP_PASSWORD
+          value: "devicehivepassword"
+---
+# dh-admin service configuration depends on backing platform and stored in separate files.
+# 'admin-console-svc-loadbalancer.yaml' defines configuration for GKE
+# 'admin-console-svc-nodeport.yaml' defines configuration for Minicube
+#---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: dh-admin
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: devicehive-admin-console
+    spec:
+      containers:
+      - name: admin-console
+        image: devicehive/admin-console:latest
+        imagePullPolicy: Always
+        env:
+        - name: DH_HOST
+          value: dh-frontend
+        - name: DH_PORT
+          value: "8080"
+        ports:
+        - containerPort: 8080
+...

@@ -1,0 +1,15 @@
+---
+# 'admin-console-svc-nodeport.yaml' defines configuration for Minicube
+kind: Service
+apiVersion: v1
+metadata:
+  name: dh-admin
+spec:
+  selector:
+    app: devicehive-admin-console
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: NodePort
+...
