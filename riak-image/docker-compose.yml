@@ -61,6 +61,7 @@ services:
       - "kafka"
       - "coordinator"
       - "member"
+      - "dh_backend"
     environment:
       DH_ZK_ADDRESS: zookeeper
       DH_ZK_PORT: 2181
@@ -75,6 +76,8 @@ services:
 
   dh_backend:
     image: devicehive/devicehive-backend-riak:${DH_TAG:-latest}
+    ports:
+      - "5701"
     links:
       - "zookeeper"
       - "kafka"

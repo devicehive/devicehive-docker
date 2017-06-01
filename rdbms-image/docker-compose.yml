@@ -43,6 +43,7 @@ services:
       - "postgres"
       - "kafka"
       - "zookeeper"
+      - "dh_backend"
     environment:
       DH_ZK_ADDRESS: zookeeper
       DH_ZK_PORT: 2181
@@ -59,6 +60,8 @@ services:
 
   dh_backend:
     image: devicehive/devicehive-backend-rdbms:${DH_TAG:-latest}
+    ports:
+      - "5701"
     links:
       - "postgres"
       - "kafka"
