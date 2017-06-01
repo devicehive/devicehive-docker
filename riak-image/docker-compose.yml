@@ -46,7 +46,7 @@ services:
     image: devicehive/admin-console:${DH_ADMIN_TAG:-latest}
     ports:
       - "80:8080"
-    depends_on:
+    links:
       - "dh_frontend" 
     environment:
       DH_HOST: dh_frontend
@@ -56,7 +56,7 @@ services:
     image: devicehive/devicehive-frontend-riak:${DH_TAG:-latest}
     ports:
       - "8080:8080"
-    depends_on:
+    links:
       - "zookeeper"
       - "kafka"
       - "coordinator"
@@ -75,7 +75,7 @@ services:
 
   dh_backend:
     image: devicehive/devicehive-backend-riak:${DH_TAG:-latest}
-    depends_on:
+    links:
       - "zookeeper"
       - "kafka"
       - "coordinator"
