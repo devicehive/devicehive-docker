@@ -4,6 +4,7 @@ services:
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
+
   kafka:
     image: devicehive/devicehive-kafka
     ports:
@@ -21,25 +22,28 @@ services:
     image: postgres:9.4
     ports:
       - "5432:5432"
- 
+    volumes:
+      - devicehive-db:/var/lib/postgresql/data
+
   dh_admin:
     image: devicehive/admin-console:${DH_ADMIN_TAG:-latest}
-    ports: 
+    ports:
       - "80:8080"
-    depends_on:
+    links:
       - "dh_frontend"
     environment:
       DH_HOST: dh_frontend
-      DH_PORT: 8080 
+      DH_PORT: 8080
 
   dh_frontend:
     image: devicehive/devicehive-frontend-rdbms:${DH_TAG:-latest}
     ports:
       - "8080:8080"
-    depends_on:
+    links:
       - "postgres"
       - "kafka"
       - "zookeeper"
+      - "dh_backend"
     environment:
       DH_ZK_ADDRESS: zookeeper
       DH_ZK_PORT: 2181
@@ -52,10 +56,13 @@ services:
       DH_POSTGRES_DB: "postgres"
       DH_BACKEND_ADDRESS: dh_backend
       DH_BACKEND_HAZELCAST_PORT: 5701
+      JWT_SECRET: ${JWT_SECRET}
 
   dh_backend:
     image: devicehive/devicehive-backend-rdbms:${DH_TAG:-latest}
-    depends_on:
+    ports:
+      - "5701"
+    links:
       - "postgres"
       - "kafka"
       - "zookeeper"
@@ -70,3 +77,5 @@ services:
       DH_POSTGRES_PASSWORD: "mysecretpassword"
       DH_POSTGRES_DB: "postgres"
 
+volumes:
+  devicehive-db:
