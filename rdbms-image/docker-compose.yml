@@ -21,6 +21,8 @@ services:
     image: postgres:9.4
     ports:
       - "5432:5432"
+    volumes:
+      - devicehive-db:/var/lib/postgresql/data
  
   dh_admin:
     image: devicehive/admin-console:${DH_ADMIN_TAG:-latest}
@@ -71,3 +73,5 @@ services:
       DH_POSTGRES_PASSWORD: "mysecretpassword"
       DH_POSTGRES_DB: "postgres"
 
+volumes:
+  devicehive-db:
