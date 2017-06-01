@@ -47,7 +47,7 @@ services:
     ports:
       - "80:8080"
     links:
-      - "dh_frontend" 
+      - "dh_frontend"
     environment:
       DH_HOST: dh_frontend
       DH_PORT: 8080
