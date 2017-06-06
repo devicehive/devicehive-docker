@@ -33,5 +33,21 @@ spec:
         - name: POSTGRES_DB
           value: "devicehivedb"
         ports:
-        - containerPort: 5432
+        - name: postgresql
+          containerPort: 5432
+        livenessProbe:
+          initialDelaySeconds: 30
+          tcpSocket:
+            port: postgresql
+          timeoutSeconds: 1
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -i
+            - -c
+            - psql -h 127.0.0.1 -U $POSTGRESQL_USER -q -d $POSTGRESQL_DATABASE -c
+              'SELECT 1'
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
 ...

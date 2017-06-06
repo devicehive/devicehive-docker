@@ -52,7 +52,21 @@ spec:
         - name: JWT_SECRET
           value: "devicehive"
         ports:
-        - containerPort: 8080
+        - name: main-http
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /api/rest/info
+            port: main-http
+          initialDelaySeconds: 45
+          periodSeconds: 5
+          failureThreshold: 7
+        livenessProbe:
+          httpGet:
+            path: /api/rest/info
+            port: main-http
+          initialDelaySeconds: 90
+          periodSeconds: 3
 ---
 kind: Service
 apiVersion: v1
@@ -62,9 +76,10 @@ spec:
   selector:
     app: devicehive-backend-rdbms
   ports:
-    - protocol: TCP
+    - name: hazelcast
+      protocol: TCP
       port: 5701
-      targetPort: 5701
+      targetPort: hazelcast
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -101,7 +116,18 @@ spec:
         - name: DH_POSTGRES_DB
           value: "devicehivedb"
         ports:
-        - containerPort: 5701
+        - name: hazelcast
+          containerPort: 5701
+        readinessProbe:
+          tcpSocket:
+            port: hazelcast
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: hazelcast
+          initialDelaySeconds: 30
+          periodSeconds: 10
 ---
 # dh-admin service configuration depends on backing platform and stored in separate files.
 # 'admin-console-svc-loadbalancer.yaml' defines configuration for GKE
@@ -128,5 +154,12 @@ spec:
         - name: DH_PORT
           value: "8080"
         ports:
-        - containerPort: 8080
+        - name: main-http
+          containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /admin/
+            port: main-http
+          initialDelaySeconds: 3
+          periodSeconds: 3
 ...

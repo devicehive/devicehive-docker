@@ -25,7 +25,18 @@ spec:
       - name: zookeeper
         image: wurstmeister/zookeeper
         ports:
-        - containerPort: 2181
+        - name: zk-client
+          containerPort: 2181
+        readinessProbe:
+          tcpSocket:
+            port: zk-client
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: zk-client
+          initialDelaySeconds: 30
+          periodSeconds: 10
 ---
 kind: Service
 apiVersion: v1
@@ -67,5 +78,16 @@ spec:
         - name: DH_ZK_PORT
           value: "2181"
         ports:
-        - containerPort: 9092
+        - name: kafka
+          containerPort: 9092
+        readinessProbe:
+          tcpSocket:
+            port: kafka
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: kafka
+          initialDelaySeconds: 30
+          periodSeconds: 10
 ...
