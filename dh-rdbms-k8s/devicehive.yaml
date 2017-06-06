@@ -67,6 +67,13 @@ spec:
             port: main-http
           initialDelaySeconds: 90
           periodSeconds: 3
+        resources:
+          requests:
+            memory: 768Mi
+            cpu: 250m
+          limits:
+            memory: 768Mi
+            cpu: 1
 ---
 kind: Service
 apiVersion: v1
@@ -128,6 +135,13 @@ spec:
             port: hazelcast
           initialDelaySeconds: 30
           periodSeconds: 10
+        resources:
+          requests:
+            memory: 768Mi
+            cpu: 250m
+          limits:
+            memory: 768Mi
+            cpu: 1
 ---
 # dh-admin service configuration depends on backing platform and stored in separate files.
 # 'admin-console-svc-loadbalancer.yaml' defines configuration for GKE
@@ -162,4 +176,8 @@ spec:
             port: main-http
           initialDelaySeconds: 3
           periodSeconds: 3
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: 100m
 ...

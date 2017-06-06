@@ -50,4 +50,8 @@ spec:
               'SELECT 1'
           initialDelaySeconds: 5
           timeoutSeconds: 1
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: 100m
 ...
