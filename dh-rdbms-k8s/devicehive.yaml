@@ -162,5 +162,12 @@ spec:
         - name: DH_PORT
           value: "8080"
         ports:
-        - containerPort: 8080
+        - name: http
+          containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /admin/
+            port: http
+          initialDelaySeconds: 3
+          periodSeconds: 3
 ...
