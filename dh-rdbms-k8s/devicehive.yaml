@@ -102,7 +102,7 @@ spec:
           value: "devicehivedb"
         ports:
         - containerPort: 5701
-#---
+---
 # dh-admin service configuration depends on backing platform and stored in separate files.
 # 'admin-console-svc-loadbalancer.yaml' defines configuration for GKE
 # 'admin-console-svc-nodeport.yaml' defines configuration for Minicube
