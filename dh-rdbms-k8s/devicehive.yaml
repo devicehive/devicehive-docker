@@ -1,0 +1,183 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dh-frontend
+spec:
+  selector:
+    app: devicehive-frontend-rdbms
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: dh-frontend
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: devicehive-frontend-rdbms
+    spec:
+      containers:
+      - name: devicehive-frontend-rdbms
+        image: devicehive/devicehive-frontend-rdbms:development
+        imagePullPolicy: Always
+        env:
+        - name: DH_ZK_ADDRESS
+          value: kafka-zookeeper-zk
+        - name: DH_ZK_PORT
+          value: "2181"
+        - name: DH_KAFKA_ADDRESS
+          value: kafka-kf
+        - name: DH_KAFKA_PORT
+          value: "9092"
+        - name: DH_POSTGRES_ADDRESS
+          value: postgres-postgresql
+        - name: DH_POSTGRES_PORT
+          value: "5432"
+        - name: DH_POSTGRES_USERNAME
+          value: "devicehive"
+        - name: DH_POSTGRES_PASSWORD
+          value: "devicehivepassword"
+        - name: DH_POSTGRES_DB
+          value: "devicehivedb"
+        - name: DH_BACKEND_ADDRESS
+          value: dh-backend
+        - name: DH_BACKEND_HAZELCAST_PORT
+          value: "5701"
+        - name: JWT_SECRET
+          value: "devicehive"
+        ports:
+        - name: main-http
+          containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /api/rest/info
+            port: main-http
+          initialDelaySeconds: 45
+          periodSeconds: 5
+          failureThreshold: 7
+        livenessProbe:
+          httpGet:
+            path: /api/rest/info
+            port: main-http
+          initialDelaySeconds: 90
+          periodSeconds: 3
+        resources:
+          requests:
+            memory: 768Mi
+            cpu: 250m
+          limits:
+            memory: 768Mi
+            cpu: 1
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dh-backend
+spec:
+  selector:
+    app: devicehive-backend-rdbms
+  ports:
+    - name: hazelcast
+      protocol: TCP
+      port: 5701
+      targetPort: hazelcast
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: dh-backend
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: devicehive-backend-rdbms
+    spec:
+      containers:
+      - name: devicehive-backend-rdbms
+        image: devicehive/devicehive-backend-rdbms:development
+        imagePullPolicy: Always
+        env:
+        - name: DH_ZK_ADDRESS
+          value: kafka-zookeeper-zk
+        - name: DH_ZK_PORT
+          value: "2181"
+        - name: DH_KAFKA_ADDRESS
+          value: kafka-kf
+        - name: DH_KAFKA_PORT
+          value: "9092"
+        - name: DH_POSTGRES_ADDRESS
+          value: postgres-postgresql
+        - name: DH_POSTGRES_PORT
+          value: "5432"
+        - name: DH_POSTGRES_USERNAME
+          value: "devicehive"
+        - name: DH_POSTGRES_PASSWORD
+          value: "devicehivepassword"
+        - name: DH_POSTGRES_DB
+          value: "devicehivedb"
+        ports:
+        - name: hazelcast
+          containerPort: 5701
+        readinessProbe:
+          tcpSocket:
+            port: hazelcast
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: hazelcast
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        resources:
+          requests:
+            memory: 768Mi
+            cpu: 250m
+          limits:
+            memory: 768Mi
+            cpu: 1
+---
+# dh-admin service configuration depends on backing platform and stored in separate files.
+# 'admin-console-svc-loadbalancer.yaml' defines configuration for GKE
+# 'admin-console-svc-nodeport.yaml' defines configuration for Minicube
+#---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: dh-admin
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: devicehive-admin-console
+    spec:
+      containers:
+      - name: admin-console
+        image: devicehive/admin-console:development
+        imagePullPolicy: Always
+        env:
+        - name: DH_HOST
+          value: dh-frontend
+        - name: DH_PORT
+          value: "8080"
+        ports:
+        - name: main-http
+          containerPort: 8080
+        livenessProbe:
+          httpGet:
+            path: /admin/
+            port: main-http
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        resources:
+          limits:
+            memory: 256Mi
+            cpu: 100m
+...
