@@ -19,6 +19,14 @@ To enable DeviceHive to communicate over Apache Kafka message bus to scale out a
 
 More configurable parameters at [devicehive-start.sh](devicehive-frontend/devicehive-start.sh) and [devicehive-start.sh](devicehive-backend/devicehive-start.sh).
 
+### DeviceHive image tags
+By default docker-compose pulls `latest` images for DeviceHive frontend, backend and admin console.
+
+If you want to use in-development version of DeviceHive, export `DH_TAG=development` and `DH_ADMIN_TAG=development` environment variables. Also you can permanently set them in `.env` file in the same directory with docker-compose.yml. Consult with [env_file](https://docs.docker.com/compose/compose-file/#env_file) and [variable substitution](https://docs.docker.com/compose/compose-file/#variable-substitution) documentation for more details.
+
+### JWT secret
+DeviceHive use JWT tokens for authentication of users and devices. Secret value used for signing JWT tokens is generated at first start of DeviceHive and stored in database. You can set it via `JWT_SECRET` environment variable or by adding `JWT_SECRET=<value>` parameter in `.env` file.
+
 ## Run
 In order to run DeviceHive stack in Docker containers, define environment variables as per your requirements and run:
 ```
