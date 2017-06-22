@@ -1,0 +1,56 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: postgres-postgresql
+spec:
+  selector:
+    app: postgresql
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: postgresql
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: postgresql
+    spec:
+      containers:
+      - name: postgresql
+        image: postgres:9.6.3
+        env:
+        - name: POSTGRES_USER
+          value: "devicehive"
+        - name: POSTGRES_PASSWORD
+          value: "devicehivepassword"
+        - name: POSTGRES_DB
+          value: "devicehivedb"
+        ports:
+        - name: postgresql
+          containerPort: 5432
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -i
+            - -c
+            - psql -h 127.0.0.1 -U $POSTGRES_USER -q -d $POSTGRES_DB -c 'SELECT 1'
+          initialDelaySeconds: 30
+          timeoutSeconds: 1
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -i
+            - -c
+            - psql -h 127.0.0.1 -U $POSTGRES_USER -q -d $POSTGRES_DB -c 'SELECT 1'
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+...
