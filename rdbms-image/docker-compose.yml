@@ -56,20 +56,16 @@ services:
       JWT_SECRET: ${JWT_SECRET}
 
   hazelcast:
-    image: quay.io/pires/hazelcast-kubernetes:3.8.2
+    image: hazelcast/hazelcast:3.8.2
     ports:
       - "5701"
     volumes:
       - ../lib:/opt/devicehive/lib/:ro
     environment:
-      CLASSPATH: "/opt/devicehive/lib/"
-      HC_GROUP_NAME: ${HC_GROUP_NAME:-devicehive}
-      HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-devicehivepassword}
+      CLASSPATH: "/opt/devicehive/lib/devicehive-hazelcast-3.1.0.jar:."
 
   dh_backend:
     image: devicehive/devicehive-backend-rdbms:${DH_TAG:-latest}
-    ports:
-      - "5701"
     links:
       - "postgres"
       - "kafka"
@@ -86,8 +82,8 @@ services:
       DH_POSTGRES_PASSWORD: "mysecretpassword"
       DH_POSTGRES_DB: "postgres"
       HC_MEMBERS: hazelcast
-      HC_GROUP_NAME: ${HC_GROUP_NAME:-devicehive}
-      HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-devicehivepassword}
+      HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
+      HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
 
 volumes:
   devicehive-db:
