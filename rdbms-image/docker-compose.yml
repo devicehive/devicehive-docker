@@ -4,6 +4,8 @@ services:
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xmx1024m"
 
   kafka:
     image: devicehive/devicehive-kafka
@@ -63,6 +65,7 @@ services:
       - ../lib:/opt/devicehive/lib/:ro
     environment:
       CLASSPATH: "/opt/devicehive/lib/devicehive-hazelcast-3.1.0.jar:."
+      MAX_HEAP_SIZE: "512m"
 
   dh_backend:
     image: devicehive/devicehive-backend-rdbms:${DH_TAG:-development}

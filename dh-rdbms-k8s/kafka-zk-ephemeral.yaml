@@ -24,6 +24,9 @@ spec:
       containers:
       - name: zookeeper
         image: wurstmeister/zookeeper
+        env:
+        - name: JAVA_TOOL_OPTIONS
+          value: "-Xmx1024m"
         ports:
         - name: zk-client
           containerPort: 2181

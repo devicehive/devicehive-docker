@@ -30,6 +30,8 @@ spec:
         env:
         - name: CLASSPATH
           value: "/opt/devicehive/lib/devicehive-hazelcast-3.1.0.jar:."
+        - name: MAX_HEAP_SIZE
+          value: "512m"
         volumeMounts:
         - name: devicehive-hc-lib
           mountPath: /opt/devicehive/lib
