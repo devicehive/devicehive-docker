@@ -62,7 +62,7 @@ services:
     ports:
       - "5701"
     volumes:
-      - ../lib:/opt/devicehive/lib/:ro
+      - ../lib:/opt/devicehive/lib/:ro,Z
     environment:
       CLASSPATH: "/opt/devicehive/lib/devicehive-hazelcast-3.1.0.jar:."
       MAX_HEAP_SIZE: "512m"
