@@ -26,7 +26,7 @@ services:
       - devicehive-db:/var/lib/postgresql/data
 
   dh_admin:
-    image: devicehive/admin-console:${DH_ADMIN_TAG:-latest}
+    image: devicehive/admin-console:${DH_ADMIN_TAG:-development}
     ports:
       - "80:8080"
     links:
@@ -36,7 +36,7 @@ services:
       DH_PORT: 8080
 
   dh_frontend:
-    image: devicehive/devicehive-frontend-rdbms:${DH_TAG:-latest}
+    image: devicehive/devicehive-frontend-rdbms:${DH_TAG:-development}
     ports:
       - "8080:8080"
     links:
@@ -65,7 +65,7 @@ services:
       CLASSPATH: "/opt/devicehive/lib/devicehive-hazelcast-3.1.0.jar:."
 
   dh_backend:
-    image: devicehive/devicehive-backend-rdbms:${DH_TAG:-latest}
+    image: devicehive/devicehive-backend-rdbms:${DH_TAG:-development}
     links:
       - "postgres"
       - "kafka"
