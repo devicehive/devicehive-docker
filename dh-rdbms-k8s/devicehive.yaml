@@ -25,15 +25,11 @@ spec:
     spec:
       containers:
       - name: hazelcast
-        image: quay.io/pires/hazelcast-kubernetes:3.8.2
+        image: hazelcast/hazelcast:3.8.2
         imagePullPolicy: Always
         env:
         - name: CLASSPATH
-          value: "/opt/devicehive/lib/"
-        - name: HC_GROUP_NAME
-          value: "devicehive"
-        - name: HC_GROUP_PASSWORD
-          value: "devicehivepassword"
+          value: "/opt/devicehive/lib/devicehive-hazelcast-3.1.0.jar:."
         volumeMounts:
         - name: devicehive-hc-lib
           mountPath: /opt/devicehive/lib
@@ -133,9 +129,9 @@ spec:
         - name: HC_MEMBERS
           value: "hazelcast"
         - name: HC_GROUP_NAME
-          value: "devicehive"
+          value: "dev"
         - name: HC_GROUP_PASSWORD
-          value: "devicehivepassword"
+          value: "dev-pass"
 ---
 # dh-admin service configuration depends on backing platform and stored in separate files.
 # 'admin-console-svc-loadbalancer.yaml' defines configuration for GKE
