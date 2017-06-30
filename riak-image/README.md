@@ -30,10 +30,9 @@ DeviceHive use JWT tokens for authentication of users and devices. Secret value 
 ## Run
 In order to run DeviceHive stack in Docker containers, define environment variables as per your requirements and run:
 ```
-docker-compose up
+sudo docker-compose up -d
 ```
 you can access your DeviceHive API http://devicehive-host-url/api. 
-
 
 ## Logging
 By default DeviceHive writes minimum logs for better performance. You can see default [logback.xml](https://github.com/devicehive/devicehive-java-server/blob/development/src/main/resources/logback.xml).
@@ -42,105 +41,41 @@ It is possible to override logging without rebuilding jar file or docker file. G
 docker run -p 80:80 -v ./config.xml:/opt/devicehive/config.xml -e _JAVA_OPTIONS="-Dlogging.config=file:/opt/devicehive/config.xml" devicehive/devicehive
 ```
 
-## Docker-Compose
+# Docker Host configuration
+Example configuration steps for CentOS 7.3 to became Docker host:
 
-Below is an example of linking containers with services using [docker-compose](https://docs.docker.com/compose/compose-file/#version-3).
+1. Install CentOS 7.3, update it and reboot.
+2. Install docker-latest package:
 ```
-version: "3"
-services:
-  zookeeper:
-    image: wurstmeister/zookeeper
-    ports:
-      - "2181:2181"
-  kafka:
-    image: devicehive/devicehive-kafka
-    ports:
-      - "9092:9092"
-    links:
-      - "zookeeper"
-    environment:
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      DH_ZK_ADDRESS: zookeeper
-      DH_ZK_PORT: 2181
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
- 
-  coordinator:
-    image: devicehive/devicehive-riakts
-    ports:
-      - "8087:8087"
-      - "8098:8098"
-    environment:
-      - CLUSTER_NAME=riakts
-    labels:
-      - "com.basho.riak.cluster.name=riakts"
-  member:
-    image: devicehive/devicehive-riakts
-    ports:
-      - "8087"
-      - "8098"
-    command: bash -c "sleep 30; /usr/lib/riak/riak-cluster.sh" # wait until coordinator starts and activates datatype
-    labels:  
-      - "com.basho.riak.cluster.name=riakts"
-    links:
-      - "coordinator"
-    depends_on:
-      - "coordinator"
-    environment:
-      - CLUSTER_NAME=riakts
-      - COORDINATOR_NODE=coordinator
-  
-  dh_admin:
-    image: devicehive/admin-console
-    ports:
-      - "80:8080"
-    depends_on:
-      - "dh_frontend"
-    environment:
-      DH_HOST: dh_frontend
-      DH_PORT: 8080
-
-  dh_frontend:
-    image: devicehive/devicehive-frontend-riak
-    ports:
-      - "8080:8080"
-    depends_on:
-      - "zookeeper"
-      - "kafka"
-      - "coordinator"
-      - "member"
-    environment:
-      DH_ZK_ADDRESS: zookeeper
-      DH_ZK_PORT: 2181
-      DH_KAFKA_ADDRESS: kafka
-      DH_KAFKA_PORT: 9092
-      DH_RIAK_HOST: coordinator
-      DH_RIAK_PORT: 8087
-      DH_RIAK_HTTP_PORT: 8098
-      DH_BACKEND_ADDRESS: dh_backend
-      DH_BACKEND_HAZELCAST_PORT: 5701
-
-  dh_backend:
-    image: devicehive/devicehive-backend-riak
-    depends_on:
-      - "zookeeper"
-      - "kafka"
-      - "coordinator"
-      - "member"
-    environment:
-      DH_ZK_ADDRESS: zookeeper
-      DH_ZK_PORT: 2181
-      DH_KAFKA_ADDRESS: kafka
-      DH_KAFKA_PORT: 9092
-      DH_RIAK_HOST: coordinator
-      DH_RIAK_PORT: 8087
-      DH_RIAK_HTTP_PORT: 8098
-      DH_RIAK_HOST_MEMBER: member
-
-volumes:
-  schemas:
-    external: false
+sudo yum install -y docker-latest
 ```
+3. Configure Docker to use LVM-direct storage backend. These steps are required for better disk IO performance:
+
+    1. Add new disk with at least 10 GB of disk space. It will be used as physical volume for Docker volume group.
+    2. Add following lines to `/etc/sysconfig/docker-latest-storage-setup` files. Change `/dev/xvdb` for you device.
+    ```
+    VG=docker
+    DEVS=/dev/xvdb
+    ```
+    3. Run storage configuration utility
+    ```
+    sudo docker-latest-storage-setup
+    ```
+4. Enable and start Docker service:
+```
+sudo systemctl enable docker-latest
+sudo systemctl start docker-latest
+```
+5. Install docker-compose:
+
+    1. Install and update python-pip package manager:
+    ```
+    sudo yum install -y python2-pip
+    sudo pip install -U pip
+    ```
+    2.  Install docker-compose:
+    ```
+    pip install docker-compose
+    ```
 
 Enjoy!
-
