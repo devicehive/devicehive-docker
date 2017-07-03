@@ -37,7 +37,6 @@ kubectl create -f kafka-zk-ephemeral.yaml
 
 3. Install DeviceHive services:
 ```
-kubectl create configmap devicehive-hc-lib --from-file=../lib
 kubectl create -f devicehive.yaml
 ```
 
@@ -92,7 +91,6 @@ helm install --name postgres \
 
 4. Deploy DeviceHive:
 ```
-kubectl create configmap devicehive-hc-lib --from-file=../lib
 kubectl create -f devicehive.yaml
 ```
 
