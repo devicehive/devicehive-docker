@@ -4,6 +4,9 @@ services:
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xmx1024m"
+
   kafka:
     image: devicehive/devicehive-kafka
     ports:
@@ -12,10 +15,9 @@ services:
       - "zookeeper"
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_PORT: 9092
       DH_ZK_ADDRESS: zookeeper
       DH_ZK_PORT: 2181
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
  
   coordinator:
     image: devicehive/devicehive-riakts
