@@ -57,22 +57,19 @@ services:
       JWT_SECRET: ${JWT_SECRET}
 
   hazelcast:
-    image: hazelcast/hazelcast:3.8.2
+    image: devicehive/devicehive-hazelcast:${DH_TAG:-development}
     ports:
       - "5701"
-    volumes:
-      - ../lib:/opt/devicehive/lib/:ro,Z
     environment:
-      CLASSPATH: "/opt/devicehive/lib/devicehive-hazelcast-3.2.0.jar:."
       MAX_HEAP_SIZE: "512m"
 
   dh_backend:
     image: devicehive/devicehive-backend-rdbms:${DH_TAG:-development}
     links:
-      - "postgres"
-      - "kafka"
-      - "zookeeper"
       - "hazelcast"
+      - "kafka"
+      - "postgres"
+      - "zookeeper"
     environment:
       DH_ZK_ADDRESS: zookeeper
       DH_ZK_PORT: 2181
