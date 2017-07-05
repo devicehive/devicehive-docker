@@ -63,7 +63,7 @@ http://192.168.99.106:31360/admin
 - [Helm](https://helm.sh/) package mananger
 - Zookeeper (from incubator/kafka Helm Chart) requests at least 4Gi memory per cluster node. You should create cluster with at least n1-standard-2 machines.
 
-### DeviceHive Installation in Minikube
+### DeviceHive Installation in GKE
 
 1. Create kubernetes cluster:
 ```
