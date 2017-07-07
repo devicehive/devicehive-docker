@@ -59,7 +59,7 @@ services:
   hazelcast:
     image: devicehive/devicehive-hazelcast:${DH_TAG:-development}
     ports:
-      - "5701"
+      - "5701:5701"
     environment:
       MAX_HEAP_SIZE: "512m"
 
