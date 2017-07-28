@@ -16,7 +16,6 @@ To enable DeviceHive to communicate over Apache Kafka message bus to scale out a
 * ```${DK_ZK_PORT}``` — Port of ZooKeeper instances. Igonred if ```${DH_KAFKA_ADDRESS}``` is undefined.
 * ```${DH_RPC_SERVER_REQ_CONS_THREADS}``` — Kafka request consumer threads, defaults to ```1```.
 * ```${DH_RPC_SERVER_WORKER_THREADS}``` — Server worker threads, defaults to ```1```.
-* ```${DH_RPC_SERVER_DISR_WAIT_STRATEGY}``` — Disruptor wait strategy, defaults to ```blocking```. Available options are: ```sleeping```, ```yielding```, ```busy-spin```.
 * ```${DH_RPC_CLIENT_RES_CONS_THREADS}``` — Kafka response consumer threads, defaults to ```1```.
 
 More configurable parameters at [devicehive-start.sh](devicehive-frontend/devicehive-start.sh) and [devicehive-start.sh](devicehive-backend/devicehive-start.sh).
