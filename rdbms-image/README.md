@@ -19,7 +19,10 @@ To enable DeviceHive to communicate over Apache Kafka message bus to scale out a
 * `${DH_RPC_SERVER_WORKER_THREADS}` - Server worker threads, defaults to `3` if undefined.
 * `${DH_RPC_CLIENT_RES_CONS_THREADS}` - Kafka response consumer threads, defaults to `3`.
 
-More configurable parameters at [devicehive-start.sh](devicehive-frontend/devicehive-start.sh) and [devicehive-start.sh](devicehive-backend/devicehive-start.sh).
+You can find more configurable parameters in [frontend][fe-script-url] and [backend][be-script-url] startup scripts.
+
+[fe-script-url]: https://github.com/devicehive/devicehive-java-server/blob/master/dockerfiles/devicehive-frontend-rdbms/devicehive-start.sh
+[be-script-url]: https://github.com/devicehive/devicehive-java-server/blob/master/dockerfiles/devicehive-backend-rdbms/devicehive-start.sh
 
 ### DeviceHive image tags
 By default docker-compose pulls `latest` images for DeviceHive frontend, backend and admin console.
