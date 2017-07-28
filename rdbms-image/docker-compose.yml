@@ -45,8 +45,7 @@ services:
     environment:
       DH_ZK_ADDRESS: zookeeper
       DH_ZK_PORT: 2181
-      DH_KAFKA_ADDRESS: kafka
-      DH_KAFKA_PORT: 9092
+      DH_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       DH_POSTGRES_ADDRESS: postgres
       DH_POSTGRES_PORT: 5432
       DH_POSTGRES_USERNAME: "postgres"
@@ -71,8 +70,7 @@ services:
     environment:
       DH_ZK_ADDRESS: zookeeper
       DH_ZK_PORT: 2181
-      DH_KAFKA_ADDRESS: kafka
-      DH_KAFKA_PORT: 9092
+      DH_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       DH_POSTGRES_ADDRESS: postgres
       DH_POSTGRES_PORT: 5432
       DH_POSTGRES_USERNAME: "postgres"

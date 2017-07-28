@@ -66,10 +66,8 @@ spec:
           value: kafka-zookeeper-zk
         - name: DH_ZK_PORT
           value: "2181"
-        - name: DH_KAFKA_ADDRESS
-          value: kafka-kf
-        - name: DH_KAFKA_PORT
-          value: "9092"
+        - name: DH_KAFKA_BOOTSTRAP_SERVERS
+          value: kafka-kf:9092
         - name: DH_POSTGRES_ADDRESS
           value: postgres-postgresql
         - name: DH_POSTGRES_PORT
@@ -105,10 +103,8 @@ spec:
           value: kafka-zookeeper-zk
         - name: DH_ZK_PORT
           value: "2181"
-        - name: DH_KAFKA_ADDRESS
-          value: kafka-kf
-        - name: DH_KAFKA_PORT
-          value: "9092"
+        - name: DH_KAFKA_BOOTSTRAP_SERVERS
+          value: kafka-kf:9092
         - name: DH_POSTGRES_ADDRESS
           value: postgres-postgresql
         - name: DH_POSTGRES_PORT
