@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: zookeeper
-        image: confluentinc/cp-zookeeper:3.2.2
+        image: wurstmeister/zookeeper
         env:
         - name: ZOOKEEPER_CLIENT_PORT
           value: "2181"
@@ -66,7 +66,7 @@ spec:
     spec:
       containers:
       - name: kafka
-        image: confluentinc/cp-kafka:3.2.2
+        image: wurstmeister/kafka:0.10.2.1
         env:
         - name: KAFKA_ZOOKEEPER_CONNECT
           value: kafka-zookeeper-zk:2181
