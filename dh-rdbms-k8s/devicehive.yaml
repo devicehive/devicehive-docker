@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: hazelcast
-        image: devicehive/devicehive-hazelcast:3.3.0
+        image: devicehive/devicehive-hazelcast:development
         imagePullPolicy: Always
         env:
         - name: MAX_HEAP_SIZE
@@ -59,7 +59,7 @@ spec:
     spec:
       containers:
       - name: devicehive-frontend-rdbms
-        image: devicehive/devicehive-frontend-rdbms:3.3.0
+        image: devicehive/devicehive-frontend-rdbms:development
         imagePullPolicy: Always
         env:
         - name: DH_ZK_ADDRESS
@@ -96,7 +96,7 @@ spec:
     spec:
       containers:
       - name: devicehive-backend-rdbms
-        image: devicehive/devicehive-backend-rdbms:3.3.0
+        image: devicehive/devicehive-backend-rdbms:development
         imagePullPolicy: Always
         env:
         - name: DH_ZK_ADDRESS
@@ -139,7 +139,7 @@ spec:
     spec:
       containers:
       - name: admin-console
-        image: devicehive/admin-console:3.3.0
+        image: devicehive/admin-console:development
         imagePullPolicy: Always
         env:
         - name: DH_HOST

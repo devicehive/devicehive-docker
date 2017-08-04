@@ -25,7 +25,7 @@ services:
       - devicehive-db:/var/lib/postgresql/data
 
   dh_admin:
-    image: devicehive/admin-console:${DH_ADMIN_TAG:-3.3.0}
+    image: devicehive/admin-console:${DH_ADMIN_TAG:-development}
     ports:
       - "80:8080"
     links:
@@ -35,7 +35,7 @@ services:
       DH_PORT: 8080
 
   dh_frontend:
-    image: devicehive/devicehive-frontend-rdbms:${DH_TAG:-3.3.0}
+    image: devicehive/devicehive-frontend-rdbms:${DH_TAG:-development}
     ports:
       - "8080:8080"
     links:
@@ -54,14 +54,14 @@ services:
       JWT_SECRET: ${JWT_SECRET}
 
   hazelcast:
-    image: devicehive/devicehive-hazelcast:${DH_TAG:-3.3.0}
+    image: devicehive/devicehive-hazelcast:${DH_TAG:-development}
     ports:
       - "5701:5701"
     environment:
       MAX_HEAP_SIZE: "512m"
 
   dh_backend:
-    image: devicehive/devicehive-backend-rdbms:${DH_TAG:-3.3.0}
+    image: devicehive/devicehive-backend-rdbms:${DH_TAG:-development}
     links:
       - "hazelcast"
       - "kafka"
