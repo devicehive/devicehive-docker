@@ -18,8 +18,8 @@ This will start complete DeviceHive service stack running:
 More details in the [rdbms-image](rdbms-image/) subdirectory.
 
 ## System requirements for docker-compose installation
-* 2 CPU cores
-* 4 GB of RAM
+* 4 CPU cores
+* 8 GB of RAM
 * At least 16 GB of disk space for OS and Docker data (images, volumes, etc). On CentOS 7 it better to have additional 10 GB disk for Docker data.
 * Linux distribution that fully support containers. Like CentOS 7, Fedora 24 and newer, Ubuntu 14.04 and later
 * Docker version 1.13 and later
