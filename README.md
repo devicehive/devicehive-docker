@@ -1,13 +1,21 @@
 # Description
-DeviceHive is an Open Source IoT Data Platform which helps to connect devices to the cloud in minutes allowing to stream device data and send commands. DeviceHive is highly extensible through containerization. You can run a standalone container for experimentation, then add persistent relational storage for device and user meta-data using PostgreSQL or Riak TS, then scale up by adding Kafka and ZooKeeper message bus and finally attach Apache Spark analytics to Apache Kafka.
+DeviceHive is an Open Source IoT Data Platform which helps to connect devices to the cloud in minutes allowing to stream device data and send commands. DeviceHive is highly scalable through containerization. You can run a DeviceHive stack with single instance of each component, then scale up by adding additional Frontend, Backend, Kafka and ZooKeeper instances. And finally attach Apache Spark analytics to Apache Kafka.
 
 # Installation
 ## Docker-compose installation
-For now DeviceHive can be installed on Docker hosts with docker-compose. Two types of data storage are supported:
-* [PostgreSQL](rdbms-image/)
-* [Riak TS](riak-image/)
+The easiest way to try DeviceHive locally or in your development datacenter is to deploy it using [Docker Compose](https://docs.docker.com/compose/).
 
-More details in the appropriate subdirectories.
+This will start complete DeviceHive service stack running:
+
+* DeviceHive Frontend
+* DeviceHive Backend
+* Hazelcast IMDG
+* Zookeeper
+* Kafka
+* PostreSQL
+* Admin console
+
+More details in the [rdbms-image](rdbms-image/) subdirectory.
 
 ## System requirements for docker-compose installation
 * 2 CPU cores
