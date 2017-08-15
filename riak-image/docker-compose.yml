@@ -4,6 +4,7 @@ services:
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
+    restart: unless-stopped
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
 
@@ -13,6 +14,7 @@ services:
       - "9092:9092"
     links:
       - "zookeeper"
+    restart: unless-stopped
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
@@ -22,6 +24,7 @@ services:
     ports:
       - "8087:8087"
       - "8098:8098"
+    restart: unless-stopped
     environment:
       - CLUSTER_NAME=riakts
     labels:
@@ -38,6 +41,7 @@ services:
       - "coordinator"
     depends_on:
       - "coordinator"
+    restart: unless-stopped
     environment:
       - CLUSTER_NAME=riakts
       - COORDINATOR_NODE=coordinator
@@ -48,6 +52,7 @@ services:
       - "80:8080"
     links:
       - "dh_frontend"
+    restart: unless-stopped
     environment:
       DH_HOST: dh_frontend
       DH_PORT: 8080
@@ -61,6 +66,7 @@ services:
       - "kafka"
       - "coordinator"
       - "member"
+    restart: unless-stopped
     environment:
       DH_ZK_ADDRESS: zookeeper
       DH_ZK_PORT: 2181
@@ -74,6 +80,7 @@ services:
     image: devicehive/devicehive-hazelcast:${DH_TAG:-development}
     ports:
       - "5701:5701"
+    restart: unless-stopped
     environment:
       MAX_HEAP_SIZE: "512m"
 
@@ -85,6 +92,7 @@ services:
       - "kafka"
       - "member"
       - "zookeeper"
+    restart: unless-stopped
     environment:
       DH_ZK_ADDRESS: zookeeper
       DH_ZK_PORT: 2181
