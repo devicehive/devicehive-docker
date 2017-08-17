@@ -44,7 +44,7 @@ spec:
   ports:
     - protocol: TCP
       port: 8080
-      targetPort: 8080
+      targetPort: devicehive-api
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -81,7 +81,8 @@ spec:
         - name: JWT_SECRET
           value: "devicehive"
         ports:
-        - containerPort: 8080
+        - name: devicehive-api
+          containerPort: 8080
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
