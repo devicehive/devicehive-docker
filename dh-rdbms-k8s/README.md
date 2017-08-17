@@ -27,23 +27,23 @@ minikube start
 ### DeviceHive Installation in Minikube
 1. Install PostgreSQL:
 ```
-kubectl create -f postgresql-ephemeral.yaml
+kubectl apply -f postgresql-ephemeral.yaml
 ```
 
 2. Install Zookeeper and Kafka:
 ```
-kubectl create -f kafka-zk-ephemeral.yaml
+kubectl apply -f kafka-zk-ephemeral.yaml
 ```
 
 3. Install DeviceHive services:
 ```
-kubectl create -f devicehive.yaml
+kubectl apply -f devicehive.yaml
 ```
 
 4. Create service for Admin console:
 In Minikube service can be exposed to outer world only be NodePort.
 ```
-kubectl create -f admin-console-svc-nodeport.yaml
+kubectl apply -f admin-console-svc-nodeport.yaml
 ```
 
 ### Accessing DeviceHive
@@ -101,13 +101,13 @@ helm install \
 
 4. Deploy DeviceHive:
 ```
-kubectl create -f devicehive.yaml
+kubectl apply -f devicehive.yaml
 ```
 
 5. Create service for Admin console:
 In GKE we export service using load balancer:
 ```
-kubectl create -f admin-console-svc-loadbalancer.yaml
+kubectl apply -f admin-console-svc-loadbalancer.yaml
 ```
 
 ### Verifying installation
