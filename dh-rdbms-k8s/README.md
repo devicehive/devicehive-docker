@@ -116,8 +116,8 @@ To verify if all services are started, check that current number of replicas in 
 kubectl get deploy
 NAME                  DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
 dh-admin              1         1         1            1           37m
-dh-backend            3         3         3            3           37m
-dh-frontend           3         3         3            3           37m
+dh-backend            1         1         1            1           37m
+dh-frontend           1         1         1            1           37m
 ```
 
 ### Accessing DeviceHive
