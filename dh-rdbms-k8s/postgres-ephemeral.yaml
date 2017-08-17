@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: postgresql
-        image: postgres:9.6.3
+        image: postgres:9.6.4
         env:
         - name: POSTGRES_USER
           value: "devicehive"
