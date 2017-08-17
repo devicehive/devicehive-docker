@@ -2,7 +2,7 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: postgres-postgresql
+  name: dh-db-postgresql
 spec:
   selector:
     app: postgresql

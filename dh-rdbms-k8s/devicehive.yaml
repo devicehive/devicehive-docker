@@ -63,13 +63,13 @@ spec:
         imagePullPolicy: Always
         env:
         - name: DH_ZK_ADDRESS
-          value: kafka-zookeeper-zk
+          value: dh-bus-zookeeper
         - name: DH_ZK_PORT
           value: "2181"
         - name: DH_KAFKA_BOOTSTRAP_SERVERS
-          value: kafka-kf:9092
+          value: dh-bus-kafka:9092
         - name: DH_POSTGRES_ADDRESS
-          value: postgres-postgresql
+          value: dh-db-postgresql
         - name: DH_POSTGRES_PORT
           value: "5432"
         - name: DH_POSTGRES_USERNAME
@@ -100,13 +100,13 @@ spec:
         imagePullPolicy: Always
         env:
         - name: DH_ZK_ADDRESS
-          value: kafka-zookeeper-zk
+          value: dh-bus-zookeeper
         - name: DH_ZK_PORT
           value: "2181"
         - name: DH_KAFKA_BOOTSTRAP_SERVERS
-          value: kafka-kf:9092
+          value: dh-bus-kafka:9092
         - name: DH_POSTGRES_ADDRESS
-          value: postgres-postgresql
+          value: dh-db-postgresql
         - name: DH_POSTGRES_PORT
           value: "5432"
         - name: DH_POSTGRES_USERNAME
@@ -116,7 +116,7 @@ spec:
         - name: DH_POSTGRES_DB
           value: "devicehivedb"
         - name: HC_MEMBERS
-          value: "hazelcast"
+          value: "dh-hazelcast"
         - name: HC_GROUP_NAME
           value: "dev"
         - name: HC_GROUP_PASSWORD

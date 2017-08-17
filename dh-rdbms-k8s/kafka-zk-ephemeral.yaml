@@ -1,14 +1,14 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: kafka-zookeeper-zk
+  name: dh-bus-zookeeper
 spec:
   selector:
     app: zookeeper
   ports:
     - protocol: TCP
       port: 2181
-      targetPort: 2181
+      targetPort: zk-client
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -44,14 +44,14 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: kafka-kf
+  name: dh-bus-kafka
 spec:
   selector:
     app: kafka
   ports:
     - protocol: TCP
       port: 9092
-      targetPort: 9092
+      targetPort: kafka-client
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -69,20 +69,20 @@ spec:
         image: wurstmeister/kafka:0.10.2.1
         env:
         - name: KAFKA_ZOOKEEPER_CONNECT
-          value: kafka-zookeeper-zk:2181
+          value: dh-bus-zookeeper:2181
         - name: KAFKA_ADVERTISED_LISTENERS
-          value: PLAINTEXT://kafka-kf:9092
+          value: PLAINTEXT://dh-bus-kafka:9092
         ports:
-        - name: kafka
+        - name: kafka-client
           containerPort: 9092
         readinessProbe:
           tcpSocket:
-            port: kafka
+            port: kafka-client
           initialDelaySeconds: 30
           periodSeconds: 10
         livenessProbe:
           tcpSocket:
-            port: kafka
+            port: kafka-client
           initialDelaySeconds: 30
           periodSeconds: 10
 ...
