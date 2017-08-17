@@ -79,13 +79,23 @@ gcloud container clusters create "devicehive-cluster-1" \
 ```
 helm init
 helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
-helm install --name kafka incubator/kafka
+helm install \
+  --name dh-bus \
+  --version 0.1.4 \
+  --set Cpu=200m \
+  --set MaxCpu=400m \
+  incubator/kafka
 ```
 
 3. Install PostgreSQL to cluster:
 ```
-helm install --name postgres \
-  --set imageTag=9.6,postgresUser=devicehive,postgresPassword=devicehivepassword,postgresDatabase=devicehivedb \
+helm install \
+  --name dh-db \
+  --version 0.8.0 \
+  --set imageTag=9.6 \
+  --set postgresUser=devicehive \
+  --set postgresPassword=devicehivepassword \
+  --set postgresDatabase=devicehivedb \
   stable/postgresql
 ```
 
