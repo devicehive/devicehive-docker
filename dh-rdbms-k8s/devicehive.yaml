@@ -2,10 +2,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: hazelcast
+  name: dh-hazelcast
 spec:
   selector:
-    app: hazelcast
+    app: devicehive-hazelcast
   ports:
     - protocol: TCP
       port: 5701
@@ -14,17 +14,17 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: hazelcast
+  name: dh-hazelcast
   labels:
-    name: hazelcast
+    name: dh-hazelcast
 spec:
   template:
     metadata:
       labels:
-        app: hazelcast
+        app: devicehive-hazelcast
     spec:
       containers:
-      - name: hazelcast
+      - name: devicehive-hazelcast
         image: devicehive/devicehive-hazelcast:development
         imagePullPolicy: Always
         env:
