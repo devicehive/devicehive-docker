@@ -82,8 +82,11 @@ helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubato
 helm install \
   --name dh-bus \
   --version 0.1.4 \
-  --set Cpu=200m \
-  --set MaxCpu=400m \
+  --set Cpu=500m \
+  --set MaxCpu=4 \
+  --set Storage=20Gi \
+  --set Memory=1024Mi \
+  --set MaxMemory=1536Mi \
   incubator/kafka
 ```
 
