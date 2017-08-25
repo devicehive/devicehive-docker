@@ -54,7 +54,7 @@ services:
   dh_admin:
     image: devicehive/admin-console:${DH_ADMIN_TAG:-development}
     ports:
-      - "80:8080"
+      - "${DH_ADMIN_PORT:-80}:8080"
     links:
       - "dh_frontend"
     restart: unless-stopped
@@ -65,7 +65,7 @@ services:
   dh_frontend:
     image: devicehive/devicehive-frontend-riak:${DH_TAG:-development}
     ports:
-      - "8080:8080"
+      - "${DH_FRONTEND_PORT:-8080}:8080"
     links:
       - "zookeeper"
       - "kafka"
