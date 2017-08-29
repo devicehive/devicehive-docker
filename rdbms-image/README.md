@@ -56,7 +56,7 @@ openssl dhparam -out ssl/dhparam.pem 2048
 cp nginx-ssl-proxy.conf.example nginx-ssl-proxy.conf
 vi nginx-ssl-proxy.conf
 ```
-Note that ./ssl directory is mounted to /etc/ssl in container. So yout need to edit only last part of path in `ssl_certificate` and `ssl_certificate_key` parameters.
+Note that ./ssl directory is mounted to /etc/ssl in container. So you need to edit only last part of path in `ssl_certificate` and `ssl_certificate_key` parameters.
 
 5. Run DeviceHive with the following command:
 ```
