@@ -39,6 +39,34 @@ sudo docker-compose up -d
 ```
 You can now access your DeviceHive API at http://devicehive-host-url/api and Admin Console at http://devicehive-host-url/admin.
 
+## HTTPS configuration
+DeviceHive Frontend service doesn't provides connection encryption and relies on external service for that.
+
+For Docker Compose installation we will use Compose feature to read configuration from [multiple Compose files](https://docs.docker.com/compose/extends/#multiple-compose-files). Second Compose file will start nginx reverse proxy with HTTPS support.
+
+To configure secured HTTPS access to DeviceHive follow these steps.
+1. Generate key and certificate signing request for your domain, sign CSR with Certificate Authority. Resulting certificate and key files must be in the PEM format.
+2. Create `ssl` directory inside this directory and copy certificate and key files in it.
+3. Generate dhparam file for nginx:
+```
+openssl dhparam -out ssl/dhparam.pem 2048
+```
+4. Create nginx config file named `nginx-ssl-proxy.conf`. You can use provided example and edit certificate and key filenames:
+```
+cp nginx-ssl-proxy.conf.example nginx-ssl-proxy.conf
+vi nginx-ssl-proxy.conf
+```
+Note that ./ssl directory is mounted to /etc/ssl in container. So yout need to edit only last part of path in `ssl_certificate` and `ssl_certificate_key` parameters.
+
+5. Run DeviceHive with the following command:
+```
+sudo docker-compose -f docker-compose.yml -f nginx-ssl-proxy.yml up -d
+```
+
+If you don't want to specify two files with `-f` each time you need to start DeviceHive, add line `COMPOSE_FILE=docker-compose.yml:nginx-ssl-proxy.yml` in `.env` file.
+
+You can now access your DeviceHive API at https://devicehive-host-url/api and Admin Console at https://devicehive-host-url/admin.
+
 ## Logging
 By default DeviceHive writes minimum logs for better performance. You can see default [logback.xml](https://github.com/devicehive/devicehive-java-server/blob/development/src/main/resources/logback.xml).
 It is possible to override logging without rebuilding jar file or docker file. Given you have log config `config.xml` in the current folder as include parameters as follows:
