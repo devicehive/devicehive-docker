@@ -37,7 +37,7 @@ In order to run DeviceHive stack in Docker containers, define environment variab
 ```
 sudo docker-compose up -d
 ```
-you can access your DeviceHive API http://devicehive-host-url/api. 
+You can now access your DeviceHive API at http://devicehive-host-url/api and Admin Console at http://devicehive-host-url/admin.
 
 ## Logging
 By default DeviceHive writes minimum logs for better performance. You can see default [logback.xml](https://github.com/devicehive/devicehive-java-server/blob/development/src/main/resources/logback.xml).
