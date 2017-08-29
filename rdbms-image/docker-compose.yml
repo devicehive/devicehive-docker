@@ -30,7 +30,7 @@ services:
       - "5432:5432"
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${DH_POSTGRES_USER:-postgres}
+      POSTGRES_USER: ${DH_POSTGRES_USERNAME:-postgres}
       POSTGRES_PASSWORD: ${DH_POSTGRES_PASSWORD:-mysecretpassword}
       POSTGRES_DB: ${DH_POSTGRES_DB:-postgres}
     volumes:
