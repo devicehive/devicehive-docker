@@ -1,0 +1,14 @@
+version: "3"
+services:
+  nginx-ssl-proxy:
+    image: nginx:alpine
+    ports:
+      - "443:443"
+    restart: unless-stopped
+    links:
+      - "dh_admin"
+      - "dh_frontend"
+    volumes:
+      - "./ssl:/etc/ssl/:ro,Z"
+      - "./nginx-ssl-proxy.conf:/etc/nginx/conf.d/default.conf:ro,Z"
+
