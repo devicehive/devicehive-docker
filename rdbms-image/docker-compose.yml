@@ -52,9 +52,9 @@ services:
       - "zookeeper"
     restart: unless-stopped
     environment:
-      DH_ZK_ADDRESS: zookeeper
-      DH_ZK_PORT: 2181
-      DH_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      DH_ZK_ADDRESS: ${DH_ZK_ADDRESS:-zookeeper}
+      DH_ZK_PORT: ${DH_ZK_PORT:-2181}
+      DH_KAFKA_BOOTSTRAP_SERVERS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
       DH_POSTGRES_ADDRESS: ${DH_POSTGRES_ADDRESS:-postgres}
       DH_POSTGRES_PORT: ${DH_POSTGRES_PORT:-5432}
       DH_POSTGRES_USERNAME: ${DH_POSTGRES_USERNAME:-postgres}
@@ -79,9 +79,9 @@ services:
       - "zookeeper"
     restart: unless-stopped
     environment:
-      DH_ZK_ADDRESS: zookeeper
-      DH_ZK_PORT: 2181
-      DH_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      DH_ZK_ADDRESS: ${DH_ZK_ADDRESS:-zookeeper}
+      DH_ZK_PORT: ${DH_ZK_PORT:-2181}
+      DH_KAFKA_BOOTSTRAP_SERVERS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
       DH_POSTGRES_ADDRESS: ${DH_POSTGRES_ADDRESS:-postgres}
       DH_POSTGRES_PORT: ${DH_POSTGRES_PORT:-5432}
       DH_POSTGRES_USERNAME: ${DH_POSTGRES_USERNAME:-postgres}
