@@ -7,10 +7,11 @@ Docker Compose puts all containers together and provides a way to tweak configur
 DeviceHive service stack will start without any configuration. All containers are configured via environment variables and Docker Compose can pass variables from its environment to containers and read them from [.env](https://docs.docker.com/compose/compose-file/#env_file) file. To make persistent configuration changes we will add parameters in the `.env` file in current directory.
 
 ### PostgreSQL
-* `${DH_POSTGRES_ADDRESS}` - Address of PostgreSQL server instance. Required.
-* `${DH_POSTGRES_PORT}` - Port of PostgreSQL server instance, defaults to `5432` if undefined.
-* `${DH_POSTGRES_DB}` - PostgreSQL database name for DeviceHive meta data. It is assumed that it already exists and either blank or has been initialized by DeviceHive. Required.
-* `${DH_POSTGRES_USERNAME}` and `${DH_POSTGRES_PASSWORD}` - login/password for DeviceHive user in PostgreSQL that have full access to `${DH_POSTGRES_DB}`. Required.
+These variables are used by Frontend, Backend and PostgreSQL containers.
+* `DH_POSTGRES_ADDRESS` - Address of PostgreSQL server instance. Defaults to `postgres`, which is address of internal PostgreSQL container.
+* `DH_POSTGRES_PORT` - Port of PostgreSQL server instance, defaults to `5432` if undefined.
+* `DH_POSTGRES_DB` - PostgreSQL database name for DeviceHive metadata. It is assumed that database already exists and either blank or has been initialized by DeviceHive. Defaults to `postgres`.
+* `DH_POSTGRES_USERNAME` and `DH_POSTGRES_PASSWORD` - login/password for DeviceHive user in PostgreSQL that have full access to `DH_POSTGRES_DB`. Defaults are `postgres` and `mysecretpassword`.
 
 ### Kafka
 To enable DeviceHive to communicate over Apache Kafka message bus to scale out and interoperate with other componets, such us Apache Spark, or to enable support of Apache Cassandra for fast and scalable storage of device messages define the following environment variables:
