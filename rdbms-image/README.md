@@ -113,6 +113,24 @@ sudo docker-compose -f docker-compose.yml -f jmx-remote.yml
 
 Or add line `COMPOSE_FILE=docker-compose.yml:jmx-remote.yml` in `.env` file.
 
+## Backup and restore
+### Backup PostgreSQL database
+To backup database use following command:
+```
+sudo docker-compose exec postgres pg_dump --no-owner -c -U ${DH_POSTGRES_USERNAME:-postgres} ${DH_POSTGRES_DB:-postgres} > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
+```
+This will create dump\_\*.sql file in the current directory.
+
+### Restore PostgreSQL database
+To restore database from SQL dump file delete existing database (if any), start only postgres container and pass dump file contents to psql utility in container:
+```
+sudo docker-compose down
+sudo docker volume ls -q|grep devicehive-db| xargs sudo docker volume rm
+sudo docker-compose up -d postgres
+cat dump_*.sql | sudo docker exec -i rdbmsimage_postgres_1 psql -U ${DH_POSTGRES_USERNAME:-postgres} ${DH_POSTGRES_DB:-postgres}
+sudo docker-compose up -d
+```
+
 # Docker Host configuration
 Example configuration steps for CentOS 7.3 to became Docker host:
 
