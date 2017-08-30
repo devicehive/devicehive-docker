@@ -63,6 +63,7 @@ Note that ./ssl directory is mounted to /etc/ssl in container. So you need to ed
 ```
 sudo docker-compose -f docker-compose.yml -f nginx-ssl-proxy.yml up -d
 ```
+
 Or add line `COMPOSE_FILE=docker-compose.yml:nginx-ssl-proxy.yml` in `.env` file.
 
 You can now access your DeviceHive API at https://devicehive-host-url/api and Admin Console at https://devicehive-host-url/admin.
@@ -87,6 +88,25 @@ It is possible to override logging without rebuilding jar file or docker file. G
 ```
 docker run -p 80:80 -v ./config.xml:/opt/devicehive/config.xml -e _JAVA_OPTIONS="-Dlogging.config=file:/opt/devicehive/config.xml" devicehive/devicehive
 ```
+
+## Debugging
+DeviceHive Frontend and Backend services can be run with remote JMX connection enabled. TCP ports 9999-10002 must be open on a firewall.
+
+1. Create `jmxremote.password` and `jmxremote.access` file in the current directory. `jmxremote.password` must be readable by owner only. For example, if you want to grant JMX access for user 'developer' with password 'devpass', create these files like that:
+```
+echo "developer devpass" > jmxremote.password
+echo "developer readwrite" > jmxremote.access
+
+chmod 0400 jmxremote.password
+```
+
+2. Open `jmx-remote.yml` file and replace `<external hostname>` in _JAVA_OPTIONS env vars with actual hostname of DeviceHive server.
+3. Run DeviceHive with the following command:
+```
+sudo docker-compose -f docker-compose.yml -f jmx-remote.yml
+```
+
+Or add line `COMPOSE_FILE=docker-compose.yml:jmx-remote.yml` in `.env` file.
 
 # Docker Host configuration
 Example configuration steps for CentOS 7.3 to became Docker host:
