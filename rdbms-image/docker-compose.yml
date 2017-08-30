@@ -11,7 +11,6 @@ services:
   kafka:
     image: wurstmeister/kafka:0.10.2.1
     ports:
-      - "7071:7071"
       - "9092:9092"
     links:
       - "zookeeper"
@@ -19,10 +18,6 @@ services:
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-      KAFKA_OPTS: "${KAFKA_OPTS} -javaagent:/opt/kafka/jmx_prometheus_javaagent-0.10.jar=7071:/opt/kafka/kafka-0-8-2.yml"
-    volumes:
-      - ../lib/jmx_prometheus_javaagent-0.10.jar:/opt/kafka/jmx_prometheus_javaagent-0.10.jar:ro,z
-      - ../lib/kafka-0-8-2.yml:/opt/kafka/kafka-0-8-2.yml:ro,z
 
   postgres:
     image: postgres:9.4

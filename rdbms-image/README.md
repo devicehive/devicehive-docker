@@ -51,6 +51,7 @@ To configure secured HTTPS access to DeviceHive follow these steps.
 ```
 openssl dhparam -out ssl/dhparam.pem 2048
 ```
+
 4. Create nginx config file named `nginx-ssl-proxy.conf`. You can use provided example and edit certificate and key filenames:
 ```
 cp nginx-ssl-proxy.conf.example nginx-ssl-proxy.conf
@@ -62,10 +63,23 @@ Note that ./ssl directory is mounted to /etc/ssl in container. So you need to ed
 ```
 sudo docker-compose -f docker-compose.yml -f nginx-ssl-proxy.yml up -d
 ```
-
-If you don't want to specify two files with `-f` each time you need to start DeviceHive, add line `COMPOSE_FILE=docker-compose.yml:nginx-ssl-proxy.yml` in `.env` file.
+Or add line `COMPOSE_FILE=docker-compose.yml:nginx-ssl-proxy.yml` in `.env` file.
 
 You can now access your DeviceHive API at https://devicehive-host-url/api and Admin Console at https://devicehive-host-url/admin.
+
+## Monitoring
+### Kafka metrics
+You can start Kafka service with additional Prometheus metrics exporter. Necessary parameters for Kafka container are already configured in `devicehive-metrics.yml` file. It will launch JMX exporter on tcp port 7071.
+
+Run DeviceHive with the following command:
+
+```
+sudo docker-compose -f docker-compose.yml -f devicehive-metrics.yml
+```
+
+Or add line `COMPOSE_FILE=docker-compose.yml:devicehive-metrics.yml` in `.env` file.
+
+Related Prometheus config for this exporter and link to Grafana Dashboard is in the [Monitoring Kafka with Prometheus](https://www.robustperception.io/monitoring-kafka-with-prometheus/) blog post by Prometheus developer.
 
 ## Logging
 By default DeviceHive writes minimum logs for better performance. You can see default [logback.xml](https://github.com/devicehive/devicehive-java-server/blob/development/src/main/resources/logback.xml).
