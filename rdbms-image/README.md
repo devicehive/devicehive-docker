@@ -15,14 +15,14 @@ These variables are used by Frontend, Backend and PostgreSQL containers.
 
 ### Kafka
 To enable DeviceHive to communicate over Apache Kafka message bus to scale out and interoperate with other componets, such us Apache Spark, or to enable support of Apache Cassandra for fast and scalable storage of device messages define the following environment variables:
-* `${DH_KAFKA_BOOTSTRAP_SERVERS}` -  Comma separated list of Kafka servers, i.e. `host1:9092,host2:9092,host3:9092`. This parameter or `${DH_KAFKA_ADDRESS}` is required to be set.
-* `${DH_KAFKA_ADDRESS}` - Address of Apache Kafka broker node. Mutually exclusive with `${DH_KAFKA_BOOTSTRAP_SERVERS}` parameter.
-* `${DH_KAFKA_PORT}` - Port of Apache Kafka broker node, defaults to `9092` if undefined. Ignored if `${DH_KAFKA_ADDRESS}` is undefined.
-* `${DK_ZH_ADDRESS}` - Comma-separated list of addressed of ZooKeeper instances. Required.
-* `${DK_ZK_PORT}` - Port of ZooKeeper instances, defaults to `2181` if undefined.
-* `${DH_RPC_SERVER_REQ_CONS_THREADS}` - Kafka request consumer threads, defaults to `3` if undefined.
-* `${DH_RPC_SERVER_WORKER_THREADS}` - Server worker threads, defaults to `3` if undefined.
-* `${DH_RPC_CLIENT_RES_CONS_THREADS}` - Kafka response consumer threads, defaults to `3`.
+* `DH_ZH_ADDRESS` - Comma-separated list of addressed of ZooKeeper instances. Defaults to `zookeeper`, which is address of internal Zookeeper container.
+* `DH_ZK_PORT` - Port of ZooKeeper instances, defaults to `2181` if undefined.
+* `DH_KAFKA_BOOTSTRAP_SERVERS` -  Comma separated list of Kafka servers, i.e. `host1:9092,host2:9092,host3:9092`. This parameter or `DH_KAFKA_ADDRESS` is required to be set.
+* `DH_KAFKA_ADDRESS` - Address of Apache Kafka broker node. Mutually exclusive with `DH_KAFKA_BOOTSTRAP_SERVERS` parameter.
+* `DH_KAFKA_PORT` - Port of Apache Kafka broker node, defaults to `9092` if undefined. Ignored if `DH_KAFKA_ADDRESS` is undefined.
+* `DH_RPC_SERVER_REQ_CONS_THREADS` - Kafka request consumer threads, defaults to `3` if undefined.
+* `DH_RPC_SERVER_WORKER_THREADS` - Server worker threads, defaults to `3` if undefined.
+* `DH_RPC_CLIENT_RES_CONS_THREADS` - Kafka response consumer threads, defaults to `3`.
 
 You can find more configurable parameters in [frontend][fe-script-url] and [backend][be-script-url] startup scripts.
 
