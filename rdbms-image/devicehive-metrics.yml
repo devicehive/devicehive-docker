@@ -1,0 +1,10 @@
+version: "3"
+services:
+  kafka:
+    ports:
+      - "7071:7071"
+    environment:
+      KAFKA_OPTS: "${KAFKA_OPTS} -javaagent:/opt/kafka/jmx_prometheus_javaagent-0.10.jar=7071:/opt/kafka/kafka-0-8-2.yml"
+    volumes:
+      - ../lib/jmx_prometheus_javaagent-0.10.jar:/opt/kafka/jmx_prometheus_javaagent-0.10.jar:ro,z
+      - ../lib/kafka-0-8-2.yml:/opt/kafka/kafka-0-8-2.yml:ro,z
