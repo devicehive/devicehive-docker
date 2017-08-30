@@ -1,13 +1,5 @@
-# This example is based on was created using Mozilla SSL Configuration Generator:
+# This example is created using Mozilla SSL Configuration Generator:
 # https://mozilla.github.io/server-side-tls/ssl-config-generator/?server=nginx-1.10.1&openssl=1.0.1e&hsts=yes&profile=intermediate
-
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-
-    # Redirect all HTTP requests to HTTPS with a 301 Moved Permanently response.
-    return 301 https://$host$request_uri;
-}
 
 server {
     listen 443 ssl http2;
@@ -22,7 +14,7 @@ server {
     ssl_session_tickets off;
 
     # Diffie-Hellman parameter for DHE ciphersuites, recommended 2048 bits
-    ssl_dhparam /path/to/dhparam.pem;
+    ssl_dhparam /etc/ssl/dhparam.pem;
 
     # intermediate configuration. tweak to your needs.
     ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
