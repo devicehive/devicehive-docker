@@ -26,9 +26,9 @@ To enable DeviceHive to communicate over Apache Kafka message bus to scale out a
 * `DH_KAFKA_BOOTSTRAP_SERVERS` -  Comma separated list of Kafka servers, i.e. `host1:9092,host2:9092,host3:9092`. This parameter or `DH_KAFKA_ADDRESS` is required to be set.
 * `DH_KAFKA_ADDRESS` - Address of Apache Kafka broker node. Mutually exclusive with `DH_KAFKA_BOOTSTRAP_SERVERS` parameter.
 * `DH_KAFKA_PORT` - Port of Apache Kafka broker node, defaults to `9092` if undefined. Ignored if `DH_KAFKA_ADDRESS` is undefined.
-* `DH_RPC_SERVER_REQ_CONS_THREADS` - Kafka request consumer threads, defaults to `3` if undefined.
-* `DH_RPC_SERVER_WORKER_THREADS` - Server worker threads, defaults to `3` if undefined.
-* `DH_RPC_CLIENT_RES_CONS_THREADS` - Kafka response consumer threads, defaults to `3`.
+* `DH_RPC_SERVER_REQ_CONS_THREADS` - Kafka request consumer threads in the Backend, defaults to `3` if undefined.
+* `DH_RPC_SERVER_WORKER_THREADS` - Server worker threads in the Backend, defaults to `3` if undefined. On machine with many CPU cores and high load this value must be raised. For example on machine with 8 core it must be set to `6`.
+* `DH_RPC_CLIENT_RES_CONS_THREADS` - Kafka response consumer threads in the Frontend, defaults to `3`.
 
 ### JWT secret
 DeviceHive uses JWT tokens for authentication of users and devices. Secret value that is used for signing JWT tokens is generated at first start of DeviceHive and stored in the database.
