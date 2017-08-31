@@ -30,11 +30,6 @@ To enable DeviceHive to communicate over Apache Kafka message bus to scale out a
 * `DH_RPC_SERVER_WORKER_THREADS` - Server worker threads, defaults to `3` if undefined.
 * `DH_RPC_CLIENT_RES_CONS_THREADS` - Kafka response consumer threads, defaults to `3`.
 
-You can find more configurable parameters in [frontend][fe-script-url] and [backend][be-script-url] startup scripts.
-
-[fe-script-url]: https://github.com/devicehive/devicehive-java-server/blob/master/dockerfiles/devicehive-frontend-rdbms/devicehive-start.sh
-[be-script-url]: https://github.com/devicehive/devicehive-java-server/blob/master/dockerfiles/devicehive-backend-rdbms/devicehive-start.sh
-
 ### JWT secret
 DeviceHive uses JWT tokens for authentication of users and devices. Secret value that is used for signing JWT tokens is generated at first start of DeviceHive and stored in the database.
 * `JWT_SECRET` - changes randomly generating JWT signing secret.
@@ -45,6 +40,11 @@ By default DeviceHive writes minimum logs for better performance. Two configurat
 * `ROOT_LOG_LEVEL` - log verbosity for external dependencies. Defaults to `WARN` for devicehive-frontend and `INFO` for devicehive-backend.
 
 Possible values are: `TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`.
+
+You can find more configurable parameters in [frontend][fe-script-url] and [backend][be-script-url] startup scripts.
+
+[fe-script-url]: https://github.com/devicehive/devicehive-java-server/blob/master/dockerfiles/devicehive-frontend-rdbms/devicehive-start.sh
+[be-script-url]: https://github.com/devicehive/devicehive-java-server/blob/master/dockerfiles/devicehive-backend-rdbms/devicehive-start.sh
 
 ## Run
 In order to run DeviceHive stack in Docker containers, define environment variables as per your requirements and run:
