@@ -39,6 +39,13 @@ You can find more configurable parameters in [frontend][fe-script-url] and [back
 DeviceHive uses JWT tokens for authentication of users and devices. Secret value that is used for signing JWT tokens is generated at first start of DeviceHive and stored in the database.
 * `JWT_SECRET` - changes randomly generating JWT signing secret.
 
+### Logging
+By default DeviceHive writes minimum logs for better performance. Two configuration parameters are supported:
+* `DH_LOG_LEVEL` - log verbosity for DeviceHive Java classes. Defaults to `INFO` for both devicehive-frontend and devicehive-backend.
+* `ROOT_LOG_LEVEL` - log verbosity for external dependencies. Defaults to `WARN` for devicehive-frontend and `INFO` for devicehive-backend.
+
+Possible values are: `TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`.
+
 ## Run
 In order to run DeviceHive stack in Docker containers, define environment variables as per your requirements and run:
 ```
@@ -89,12 +96,6 @@ Or add line `COMPOSE_FILE=docker-compose.yml:devicehive-metrics.yml` in `.env` f
 
 Related Prometheus config for this exporter and link to Grafana Dashboard is in the [Monitoring Kafka with Prometheus](https://www.robustperception.io/monitoring-kafka-with-prometheus/) blog post by Prometheus developer.
 
-## Logging
-By default DeviceHive writes minimum logs for better performance. You can see default [logback.xml](https://github.com/devicehive/devicehive-java-server/blob/development/src/main/resources/logback.xml).
-It is possible to override logging without rebuilding jar file or docker file. Given you have log config `config.xml` in the current folder as include parameters as follows:
-```
-docker run -p 80:80 -v ./config.xml:/opt/devicehive/config.xml -e _JAVA_OPTIONS="-Dlogging.config=file:/opt/devicehive/config.xml" devicehive/devicehive
-```
 
 ## Debugging
 DeviceHive Frontend and Backend services can be run with remote JMX connection enabled. TCP ports 9999-10002 must be open on a firewall.
