@@ -31,8 +31,8 @@ To enable DeviceHive to communicate over Apache Kafka message bus to scale out a
 * `DH_RPC_CLIENT_RES_CONS_THREADS` - Kafka response consumer threads in the Frontend, defaults to `3`.
 
 ### JWT secret
-DeviceHive uses JWT tokens for authentication of users and devices. Secret value that is used for signing JWT tokens is generated at first start of DeviceHive and stored in the database.
-* `JWT_SECRET` - changes randomly generating JWT signing secret.
+DeviceHive uses JWT tokens for authentication of users and devices. For security reasons secret value that is used for signing JWT tokens is generated at first start of DeviceHive and stored in the database. If you want to make JWT tokens work across DeviceHive installations, change `JWT_SECRET` parameter.
+* `JWT_SECRET` - changes the randomly generated JWT signing secret.
 
 ### Logging
 By default DeviceHive writes minimum logs for better performance. Two configuration parameters are supported:
