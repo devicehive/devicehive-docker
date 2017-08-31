@@ -36,7 +36,8 @@ You can find more configurable parameters in [frontend][fe-script-url] and [back
 [be-script-url]: https://github.com/devicehive/devicehive-java-server/blob/master/dockerfiles/devicehive-backend-rdbms/devicehive-start.sh
 
 ### JWT secret
-DeviceHive use JWT tokens for authentication of users and devices. Secret value used for signing JWT tokens is generated at first start of DeviceHive and stored in database. You can set it via `JWT_SECRET` environment variable or by adding `JWT_SECRET=<value>` parameter in `.env` file.
+DeviceHive uses JWT tokens for authentication of users and devices. Secret value that is used for signing JWT tokens is generated at first start of DeviceHive and stored in the database.
+* `JWT_SECRET` - changes randomly generating JWT signing secret.
 
 ## Run
 In order to run DeviceHive stack in Docker containers, define environment variables as per your requirements and run:
