@@ -6,6 +6,12 @@ Docker Compose puts all containers together and provides a way to tweak configur
 ## Configuration
 DeviceHive service stack will start without any configuration. All containers are configured via environment variables and Docker Compose can pass variables from its environment to containers and read them from [.env](https://docs.docker.com/compose/compose-file/#env_file) file. To make persistent configuration changes we will add parameters in the `.env` file in current directory.
 
+### DeviceHive image tags
+Released versions of devicehive-docker use stable DeviceHive images from [DeviceHive Docker Hub repository](https://hub.docker.com/u/devicehive/). But if you want follow DeviceHive development add following parameters:
+
+* `DH_TAG` - tag for DeviceHive [Frontend](https://hub.docker.com/r/devicehive/devicehive-frontend-rdbms/), [Backend](https://hub.docker.com/r/devicehive/devicehive-backend-rdbms/) and [Hazelcast](https://hub.docker.com/r/devicehive/devicehive-hazelcast/) images. Can be set to `development` to track development version of DeviceHive.
+* `DH_ADMIN_TAG` - tag for DeviceHive [Admin Console](https://hub.docker.com/r/devicehive/admin-console/) image. Can be set to `development` to track development version of Admin Console.
+
 ### PostgreSQL
 These variables are used by Frontend, Backend and PostgreSQL containers.
 * `DH_POSTGRES_ADDRESS` - Address of PostgreSQL server instance. Defaults to `postgres`, which is address of internal PostgreSQL container.
@@ -28,11 +34,6 @@ You can find more configurable parameters in [frontend][fe-script-url] and [back
 
 [fe-script-url]: https://github.com/devicehive/devicehive-java-server/blob/master/dockerfiles/devicehive-frontend-rdbms/devicehive-start.sh
 [be-script-url]: https://github.com/devicehive/devicehive-java-server/blob/master/dockerfiles/devicehive-backend-rdbms/devicehive-start.sh
-
-### DeviceHive image tags
-By default docker-compose pulls `latest` images for DeviceHive frontend, backend and admin console.
-
-If you want to use in-development version of DeviceHive, export `DH_TAG=development` and `DH_ADMIN_TAG=development` environment variables. Also you can permanently set them in `.env` file in the same directory with docker-compose.yml. Consult with [env_file](https://docs.docker.com/compose/compose-file/#env_file) and [variable substitution](https://docs.docker.com/compose/compose-file/#variable-substitution) documentation for more details.
 
 ### JWT secret
 DeviceHive use JWT tokens for authentication of users and devices. Secret value used for signing JWT tokens is generated at first start of DeviceHive and stored in database. You can set it via `JWT_SECRET` environment variable or by adding `JWT_SECRET=<value>` parameter in `.env` file.
