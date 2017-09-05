@@ -96,8 +96,8 @@ Or add line `COMPOSE_FILE=docker-compose.yml:devicehive-metrics.yml` in `.env` f
 
 Related Prometheus config for this exporter and link to Grafana Dashboard is in the [Monitoring Kafka with Prometheus](https://www.robustperception.io/monitoring-kafka-with-prometheus/) blog post by Prometheus developer.
 
-
-## Debugging
+## Development environment
+### Debugging
 DeviceHive Frontend and Backend services can be run with remote JMX connection enabled. TCP ports 9999-10002 must be open on a firewall.
 
 1. Create `jmxremote.password` and `jmxremote.access` file in the current directory. `jmxremote.password` must be readable by owner only. For example, if you want to grant JMX access for user 'developer' with password 'devpass', create these files like that:
@@ -115,6 +115,17 @@ sudo docker-compose -f docker-compose.yml -f jmx-remote.yml
 ```
 
 Or add line `COMPOSE_FILE=docker-compose.yml:jmx-remote.yml` in `.env` file.
+
+### Hazelcast Management Center
+You can launch Management Center to monitor Hazelcast usage and health. TCP port 9980 must be open on a firewall.
+
+1. Add `hazelcast-management-center.yml` to `COMPOSE_FILE` parameter in `.env` file. If you don't have this parameter in `.env` file, add it like that:
+```
+COMPOSE_FILE=docker-compose.yml:hazelcast-management-center.yml
+```
+
+2. Run DeviceHive as usual.
+3. Open Hazelcast Management Center in browser via http://devicehive-server:9980/mancenter. You'll be required to configure authentication on the first launch.
 
 ## Backup and restore
 ### Backup PostgreSQL database
