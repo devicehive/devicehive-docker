@@ -8,7 +8,7 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
 
-  kafka:
+  kafka1:
     image: wurstmeister/kafka:0.10.2.1
     ports:
       - "9092:9092"
@@ -17,8 +17,8 @@ services:
     restart: unless-stopped
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka1:9092
+      
   postgres:
     image: postgres:9.4
     ports:
@@ -36,19 +36,56 @@ services:
     ports:
       - "${DH_ADMIN_PORT:-80}:8080"
     links:
-      - "dh_frontend"
+      - "haproxy"
     restart: unless-stopped
     environment:
-      DH_HOST: dh_frontend
+      DH_HOST: haproxy
       DH_PORT: 8080
 
-  dh_frontend:
-    image: devicehive/devicehive-frontend-rdbms:${DH_TAG:-development}
+  haproxy:
+    image: haproxy:1.7-alpine
     ports:
-      - "${DH_FRONTEND_PORT:-8080}:8080"
+      - "8080:8080"
+    links:
+      - "dh_frontend"
+      - "dh_frontend2"
+    restart: unless-stopped
+    volumes:
+      - "./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro,Z"
+
+  dh_frontend:
+    image: devicehiveci/devicehive-frontend-rdbms:${DH_TAG:-development}
+    ports:
+      - "8081:8080"
     links:
       - "postgres"
-      - "kafka"
+      - "kafka1"
+      - "zookeeper"
+    restart: unless-stopped
+    environment:
+      DH_ZK_ADDRESS: ${DH_ZK_ADDRESS:-zookeeper}
+      DH_ZK_PORT: ${DH_ZK_PORT:-2181}
+      DH_KAFKA_BOOTSTRAP_SERVERS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
+      DH_POSTGRES_ADDRESS: ${DH_POSTGRES_ADDRESS:-postgres}
+      DH_POSTGRES_PORT: ${DH_POSTGRES_PORT:-5432}
+      DH_POSTGRES_USERNAME: ${DH_POSTGRES_USERNAME:-postgres}
+      DH_POSTGRES_PASSWORD: ${DH_POSTGRES_PASSWORD:-mysecretpassword}
+      DH_POSTGRES_DB: ${DH_POSTGRES_DB:-postgres}
+      DH_RPC_CLIENT_RES_CONS_THREADS: ${DH_RPC_CLIENT_RES_CONS_THREADS:-3}
+      DH_LOG_LEVEL: ${DH_LOG_LEVEL:-INFO}
+      ROOT_LOG_LEVEL: ${ROOT_LOG_LEVEL:-WARN}
+      HC_MEMBERS: hazelcast
+      HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
+      HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
+      JWT_SECRET: ${JWT_SECRET}
+
+  dh_frontend2:
+    image: devicehiveci/devicehive-frontend-rdbms:${DH_TAG:-development}
+    ports:
+      - "8082:8080"
+    links:
+      - "postgres"
+      - "kafka1"
       - "zookeeper"
     restart: unless-stopped
     environment:
@@ -69,18 +106,18 @@ services:
       JWT_SECRET: ${JWT_SECRET}
 
   hazelcast:
-    image: devicehive/devicehive-hazelcast:${DH_TAG:-development}
+    image: devicehiveci/devicehive-hazelcast:${DH_TAG:-development}
     ports:
       - "5701:5701"
     restart: unless-stopped
     environment:
-      MAX_HEAP_SIZE: "512m"
+      MAX_HEAP_SIZE: "2048m"
 
   dh_backend:
-    image: devicehive/devicehive-backend-rdbms:${DH_TAG:-development}
+    image: devicehiveci/devicehive-backend-rdbms:${DH_TAG:-development}
     links:
       - "hazelcast"
-      - "kafka"
+      - "kafka1"
       - "postgres"
       - "zookeeper"
     restart: unless-stopped
