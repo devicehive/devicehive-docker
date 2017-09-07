@@ -1,0 +1,10 @@
+version: "3"
+services:
+  dh_frontend:
+    image: devicehiveci/devicehive-frontend-rdbms:${DH_TAG:-development}
+
+  hazelcast:
+    image: devicehiveci/devicehive-hazelcast:${DH_TAG:-development}
+
+  dh_backend:
+    image: devicehiveci/devicehive-backend-rdbms:${DH_TAG:-development}

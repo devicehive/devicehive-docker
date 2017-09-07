@@ -97,6 +97,13 @@ Or add line `COMPOSE_FILE=docker-compose.yml:devicehive-metrics.yml` in `.env` f
 Related Prometheus config for this exporter and link to Grafana Dashboard is in the [Monitoring Kafka with Prometheus](https://www.robustperception.io/monitoring-kafka-with-prometheus/) blog post by Prometheus developer.
 
 ## Development environment
+### Using CI images
+Continuous Integration system uploads images built from every branch to [devicehiveci](https://hub.docker.com/r/devicehiveci/) repository on Docker Hub.
+To use these images add `development-images.yml` to `COMPOSE_FILE` parameter in `.env` file. If you don't have this parameter in `.env` file, add it like that:
+```
+COMPOSE_FILE=docker-compose.yml:development-images.yml
+```
+
 ### Debugging
 DeviceHive Frontend and Backend services can be run with remote JMX connection enabled. TCP ports 9999-10002 must be open on a firewall.
 
