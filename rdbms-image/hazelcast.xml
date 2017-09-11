@@ -9,30 +9,8 @@
       </portable-factories>
    </serialization>
    <map name="default">
-      <time-to-live-seconds>0</time-to-live-seconds>
+      <time-to-live-seconds>120</time-to-live-seconds>
       <eviction-policy>LRU</eviction-policy>
-      <near-cache>
-         <in-memory-format>OBJECT</in-memory-format>
-         <invalidate-on-change>false</invalidate-on-change>
-         <time-to-live-seconds>600</time-to-live-seconds>
-         <eviction eviction-policy="NONE" max-size-policy="ENTRY_COUNT" size="5000"/>
-         <cache-local-entries>true</cache-local-entries>
-      </near-cache>
-   </map>
-   <map name="NOTIFICATIONS-MAP">
-      <in-memory-format>OBJECT</in-memory-format>
-      <time-to-live-seconds>0</time-to-live-seconds>
-      <max-idle-seconds>0</max-idle-seconds>
-      <eviction-policy>LRU</eviction-policy>
-      <max-size policy="FREE_HEAP_PERCENTAGE">10</max-size>
-   </map>
-
-   <map name="COMMANDS-MAP">
-      <in-memory-format>OBJECT</in-memory-format>
-      <time-to-live-seconds>0</time-to-live-seconds>
-      <max-idle-seconds>0</max-idle-seconds>
-      <eviction-policy>LRU</eviction-policy>
-      <max-size policy="FREE_HEAP_PERCENTAGE">10</max-size>
    </map>
    <management-center enabled="true">
       http://hazelcast-mancenter:8080/mancenter
