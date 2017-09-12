@@ -60,7 +60,7 @@ For Docker Compose installation we will use Compose feature to read configuratio
 
 To configure secured HTTPS access to DeviceHive follow these steps.
 1. Generate key and certificate signing request for your domain, sign CSR with Certificate Authority. Resulting certificate and key files must be in the PEM format.
-2. Create `ssl` directory inside this directory and copy certificate and key files in it.
+2. Create `ssl` directory inside this directory and copy certificate, key and CA certificate chain files to it.
 3. Generate dhparam file for nginx:
 ```
 openssl dhparam -out ssl/dhparam.pem 2048
