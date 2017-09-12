@@ -53,7 +53,7 @@ sudo docker-compose up -d
 ```
 You can now access your DeviceHive API at http://devicehive-host-url/api and Admin Console at http://devicehive-host-url/admin.
 
-## HTTPS configuration
+## HTTPS configuration (SSL/TLS)
 DeviceHive Frontend service doesn't provides connection encryption and relies on external service for that.
 
 For Docker Compose installation we will use Compose feature to read configuration from [multiple Compose files](https://docs.docker.com/compose/extends/#multiple-compose-files). Second Compose file will start nginx reverse proxy with HTTPS support.
@@ -71,7 +71,7 @@ openssl dhparam -out ssl/dhparam.pem 2048
 cp nginx-ssl-proxy.conf.example nginx-ssl-proxy.conf
 vi nginx-ssl-proxy.conf
 ```
-Note that ./ssl directory is mounted to /etc/ssl in container. So you need to edit only last part of path in `ssl_certificate` and `ssl_certificate_key` parameters.
+Note that `./ssl` directory is mounted to /etc/ssl in container. So you need to edit only last part of path in `ssl_certificate`, `ssl_certificate_key`, `ssl_trusted_certificate` parameters.
 
 5. Run DeviceHive with the following command:
 ```
