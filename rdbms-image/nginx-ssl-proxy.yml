@@ -8,6 +8,7 @@ services:
     links:
       - "dh_admin"
       - "dh_frontend"
+      - "dh_auth"
     volumes:
       - "./ssl:/etc/ssl/:ro,Z"
       - "./nginx-ssl-proxy.conf:/etc/nginx/conf.d/default.conf:ro,Z"

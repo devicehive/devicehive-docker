@@ -37,10 +37,13 @@ services:
       - "${DH_ADMIN_PORT:-80}:8080"
     links:
       - "dh_frontend"
+      - "dh_auth"
     restart: unless-stopped
     environment:
       DH_HOST: dh_frontend
       DH_PORT: 8080
+      DH_AUTH_HOST: dh_auth
+      DH_AUTH_PORT: 8090
 
   dh_frontend:
     image: devicehive/devicehive-frontend-rdbms:${DH_TAG:-3.3.4}
@@ -63,10 +66,34 @@ services:
       DH_RPC_CLIENT_RES_CONS_THREADS: ${DH_RPC_CLIENT_RES_CONS_THREADS:-3}
       DH_LOG_LEVEL: ${DH_LOG_LEVEL:-INFO}
       ROOT_LOG_LEVEL: ${ROOT_LOG_LEVEL:-WARN}
+      DH_AUTH_URL: ${DH_AUTH_URL}
       HC_MEMBERS: hazelcast
       HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
       HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
       JWT_SECRET: ${JWT_SECRET}
+
+  dh_auth:
+      image: devicehive/devicehive-auth-rdbms:${DH_TAG:-development}
+      ports:
+        - "${DH_AUTH_PORT:-8090}:8090"
+      links:
+        - "postgres"
+        - "hazelcast"
+        - "kafka"
+        - "zookeeper"
+      restart: unless-stopped
+      environment:
+        DH_POSTGRES_ADDRESS: ${DH_POSTGRES_ADDRESS:-postgres}
+        DH_POSTGRES_PORT: ${DH_POSTGRES_PORT:-5432}
+        DH_POSTGRES_USERNAME: ${DH_POSTGRES_USERNAME:-postgres}
+        DH_POSTGRES_PASSWORD: ${DH_POSTGRES_PASSWORD:-mysecretpassword}
+        DH_POSTGRES_DB: ${DH_POSTGRES_DB:-postgres}
+        DH_LOG_LEVEL: ${DH_LOG_LEVEL:-INFO}
+        ROOT_LOG_LEVEL: ${ROOT_LOG_LEVEL:-WARN}
+        HC_MEMBERS: hazelcast
+        HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
+        HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
+        JWT_SECRET: ${JWT_SECRET}
 
   hazelcast:
     image: devicehive/devicehive-hazelcast:${DH_TAG:-3.3.4}
@@ -74,7 +101,8 @@ services:
       - "5701:5701"
     restart: unless-stopped
     environment:
-      MAX_HEAP_SIZE: "512m"
+      MAX_HEAP_SIZE: "1024m"
+      MIN_HEAP_SIZE: "1024m"
 
   dh_backend:
     image: devicehive/devicehive-backend-rdbms:${DH_TAG:-3.3.4}

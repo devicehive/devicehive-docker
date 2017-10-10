@@ -19,3 +19,13 @@ services:
     volumes:
       - ./jmxremote.password:/opt/devicehive/jmxremote.password:ro,z
       - ./jmxremote.access:/opt/devicehive/jmxremote.access:ro,z
+
+  dh_auth:
+        ports:
+          - "10003:10003"
+          - "10004:10004"
+        environment:
+          _JAVA_OPTIONS: "-Dcom.sun.management.jmxremote.port=10003 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.access.file=/opt/devicehive/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/opt/devicehive/jmxremote.password -Djava.rmi.server.hostname=<external hostname> -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=10004"
+        volumes:
+          - ./jmxremote.password:/opt/devicehive/jmxremote.password:ro,z
+          - ./jmxremote.access:/opt/devicehive/jmxremote.access:ro,z
