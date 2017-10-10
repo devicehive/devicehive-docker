@@ -15,7 +15,7 @@ services:
       - "10001:10001"
       - "10002:10002"
     environment:
-      _JAVA_OPTIONS: "-Dlmax.buffer-size=8192 -Dnum.partitions=6 -Dcom.sun.management.jmxremote.port=10001 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.access.file=/opt/devicehive/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/opt/devicehive/jmxremote.password -Djava.rmi.server.hostname=benchmark3.devicehive.com -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=10002"
+      _JAVA_OPTIONS: "-Dnum.partitions=6 -Dcom.sun.management.jmxremote.port=10001 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.access.file=/opt/devicehive/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/opt/devicehive/jmxremote.password -Djava.rmi.server.hostname=benchmark3.devicehive.com -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=10002"
     volumes:
       - ./jmxremote.password:/opt/devicehive/jmxremote.password:ro,z
       - ./jmxremote.access:/opt/devicehive/jmxremote.access:ro,z
