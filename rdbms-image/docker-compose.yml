@@ -67,7 +67,7 @@ services:
       DH_RPC_CLIENT_RES_CONS_THREADS: ${DH_RPC_CLIENT_RES_CONS_THREADS:-3}
       DH_LOG_LEVEL: ${DH_LOG_LEVEL:-INFO}
       ROOT_LOG_LEVEL: ${ROOT_LOG_LEVEL:-WARN}
-      DH_AUTH_URL: ${DH_AUTH_URL:-http://dh_auth:8090}
+      DH_AUTH_URL: ${DH_AUTH_URL:-http://dh_auth:8090/api/rest}
       HC_MEMBERS: hazelcast
       HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
       HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
