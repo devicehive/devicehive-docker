@@ -102,8 +102,8 @@ services:
       - "5701:5701"
     restart: unless-stopped
     environment:
-      MAX_HEAP_SIZE: "1024m"
-      MIN_HEAP_SIZE: "1024m"
+      MAX_HEAP_SIZE: "512m"
+      MIN_HEAP_SIZE: "512m"
 
   dh_backend:
     image: devicehive/devicehive-backend-rdbms:${DH_TAG:-3.3.4}
