@@ -1,5 +1,8 @@
 version: "3"
 services:
+  dh_auth:
+    image: devicehiveci/devicehive-auth-rdbms:${DH_TAG:-development}
+
   dh_frontend:
     image: devicehiveci/devicehive-frontend-rdbms:${DH_TAG:-development}
 
