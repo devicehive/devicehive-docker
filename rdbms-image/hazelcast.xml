@@ -9,7 +9,6 @@
       </portable-factories>
    </serialization>
    <map name="default">
-      <time-to-live-seconds>120</time-to-live-seconds>
       <eviction-policy>LRU</eviction-policy>
    </map>
    <map name="NOTIFICATIONS-MAP">
