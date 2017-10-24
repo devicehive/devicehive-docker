@@ -8,10 +8,20 @@
            <portable-factory factory-id="1">com.devicehive.model.DevicePortableFactory</portable-factory>
       </portable-factories>
    </serialization>
-   <map name="default">
-      <time-to-live-seconds>120</time-to-live-seconds>
-      <eviction-policy>LRU</eviction-policy>
-   </map>
+    <map name="default">
+        <eviction-policy>LRU</eviction-policy>
+    </map>
+    <map name="NOTIFICATIONS-MAP">
+        <time-to-live-seconds>120</time-to-live-seconds>
+    </map>
+    <map name="COMMANDS-MAP">
+        <time-to-live-seconds>120</time-to-live-seconds>
+    </map>
+    <multimap name="default">
+        <backup-count>0</backup-count>
+        <async-backup-count>1</async-backup-count>
+        <value-collection-type>SET</value-collection-type>
+    </multimap>
    <management-center enabled="true">
       http://hazelcast-mancenter:8080/mancenter
    </management-center>
