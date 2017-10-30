@@ -53,6 +53,7 @@ services:
       - "postgres"
       - "kafka"
       - "zookeeper"
+      - "dh_backend"
       - "dh_auth"
     restart: unless-stopped
     environment:
@@ -72,6 +73,34 @@ services:
       HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
       HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
       JWT_SECRET: ${JWT_SECRET}
+      
+  dh_plugin:
+      image: devicehive/devicehive-plugin-rdbms:${DH_TAG:-development}
+      ports:
+        - "${DH_PLUGIN_PORT:-8110}:8110"
+      links:
+        - "postgres"
+        - "kafka"
+        - "zookeeper"
+        - "dh_frontend"
+        - "dh_auth"
+      restart: unless-stopped
+      environment:
+        DH_ZK_ADDRESS: ${DH_ZK_ADDRESS:-zookeeper}
+        DH_ZK_PORT: ${DH_ZK_PORT:-2181}
+        DH_KAFKA_BOOTSTRAP_SERVERS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
+        DH_POSTGRES_ADDRESS: ${DH_POSTGRES_ADDRESS:-postgres}
+        DH_POSTGRES_PORT: ${DH_POSTGRES_PORT:-5432}
+        DH_POSTGRES_USERNAME: ${DH_POSTGRES_USERNAME:-postgres}
+        DH_POSTGRES_PASSWORD: ${DH_POSTGRES_PASSWORD:-mysecretpassword}
+        DH_POSTGRES_DB: ${DH_POSTGRES_DB:-postgres}
+        DH_RPC_CLIENT_RES_CONS_THREADS: ${DH_RPC_CLIENT_RES_CONS_THREADS:-3}
+        DH_LOG_LEVEL: ${DH_LOG_LEVEL:-INFO}
+        ROOT_LOG_LEVEL: ${ROOT_LOG_LEVEL:-WARN}
+        HC_MEMBERS: hazelcast
+        HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
+        HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
+        JWT_SECRET: ${JWT_SECRET}
 
   dh_auth:
       image: devicehive/devicehive-auth-rdbms:${DH_TAG:-development}

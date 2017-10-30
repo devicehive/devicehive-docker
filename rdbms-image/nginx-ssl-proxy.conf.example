@@ -54,6 +54,16 @@ server {
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "upgrade";
     }
+    
+    location /plugin {
+            proxy_redirect off;
+            proxy_pass  "http://dh_plugin:8110";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_http_version 1.1;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "upgrade";
+    }
 
     location /admin {
             proxy_redirect off;
