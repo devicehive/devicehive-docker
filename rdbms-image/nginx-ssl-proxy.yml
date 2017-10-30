@@ -8,6 +8,7 @@ services:
     links:
       - "dh_admin"
       - "dh_frontend"
+      - "dh_plugin"
       - "dh_auth"
     volumes:
       - "./ssl:/etc/ssl/:ro,Z"
