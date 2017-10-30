@@ -99,9 +99,9 @@ Related Prometheus config for this exporter and link to Grafana Dashboard is in 
 ## Development environment
 ### Using CI images
 Continuous Integration system uploads images built from every branch to [devicehiveci](https://hub.docker.com/r/devicehiveci/) repository on Docker Hub.
-To use these images add `development-images.yml` to `COMPOSE_FILE` parameter in `.env` file. If you don't have this parameter in `.env` file, add it like that:
+To use these images add `ci-images.yml` to `COMPOSE_FILE` parameter in `.env` file. If you don't have this parameter in `.env` file, add it like that:
 ```
-COMPOSE_FILE=docker-compose.yml:development-images.yml
+COMPOSE_FILE=docker-compose.yml:ci-images.yml
 ```
 
 ### Debugging
