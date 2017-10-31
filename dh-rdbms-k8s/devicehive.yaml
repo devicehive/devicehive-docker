@@ -138,6 +138,12 @@ spec:
           value: "devicehivedb"
         - name: JWT_SECRET
           value: "devicehive"
+        - name: HC_MEMBERS
+          value: "dh-hazelcast"
+        - name: HC_GROUP_NAME
+          value: "dev"
+        - name: HC_GROUP_PASSWORD
+          value: "dev-pass"
         ports:
         - name: devicehive-api
           containerPort: 8080
