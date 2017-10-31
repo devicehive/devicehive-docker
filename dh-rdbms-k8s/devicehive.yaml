@@ -28,6 +28,8 @@ spec:
         image: devicehive/devicehive-hazelcast:development
         imagePullPolicy: Always
         env:
+        - name: MIN_HEAP_SIZE
+          value: "512m"
         - name: MAX_HEAP_SIZE
           value: "512m"
         ports:
