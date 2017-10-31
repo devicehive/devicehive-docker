@@ -37,6 +37,62 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
+  name: dh-auth
+spec:
+  selector:
+    app: devicehive-auth-rdbms
+  ports:
+    - protocol: TCP
+      port: 8090
+      targetPort: devicehive-auth
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: dh-auth
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: devicehive-auth-rdbms
+    spec:
+      containers:
+      - name: devicehive-auth-rdbms
+        image: devicehive/devicehive-auth-rdbms:development
+        imagePullPolicy: Always
+        env:
+        - name: DH_ZK_ADDRESS
+          value: dh-bus-zookeeper
+        - name: DH_ZK_PORT
+          value: "2181"
+        - name: DH_KAFKA_BOOTSTRAP_SERVERS
+          value: dh-bus-kafka:9092
+        - name: DH_POSTGRES_ADDRESS
+          value: dh-db-postgresql
+        - name: DH_POSTGRES_PORT
+          value: "5432"
+        - name: DH_POSTGRES_USERNAME
+          value: "devicehive"
+        - name: DH_POSTGRES_PASSWORD
+          value: "devicehivepassword"
+        - name: DH_POSTGRES_DB
+          value: "devicehivedb"
+        - name: JWT_SECRET
+          value: "devicehive"
+        - name: HC_MEMBERS
+          value: "dh-hazelcast"
+        - name: HC_GROUP_NAME
+          value: "dev"
+        - name: HC_GROUP_PASSWORD
+          value: "dev-pass"
+        ports:
+        - name: devicehive-auth
+          containerPort: 8090
+---
+kind: Service
+apiVersion: v1
+metadata:
   name: dh-frontend
 spec:
   selector:
@@ -62,6 +118,8 @@ spec:
         image: devicehive/devicehive-frontend-rdbms:development
         imagePullPolicy: Always
         env:
+        - name: DH_AUTH_URL
+          value: "http://dh-auth:8090/api/rest"
         - name: DH_ZK_ADDRESS
           value: dh-bus-zookeeper
         - name: DH_ZK_PORT
