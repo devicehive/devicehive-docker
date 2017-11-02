@@ -80,8 +80,6 @@ services:
       links:
         - "postgres"
         - "hazelcast"
-        - "kafka"
-        - "zookeeper"
       restart: unless-stopped
       environment:
         DH_POSTGRES_ADDRESS: ${DH_POSTGRES_ADDRESS:-postgres}
