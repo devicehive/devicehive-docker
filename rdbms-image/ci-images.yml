@@ -17,3 +17,6 @@ services:
 
   kafkaproxy:
     image: devicehiveci/devicehive-ws-kafka-proxy:${DH_WS_KAFKA_PROXY_TAG:-development}
+
+  dh_proxy:
+    image: devicehiveci/devicehive-proxy:${DH_PROXY_TAG:-development}
