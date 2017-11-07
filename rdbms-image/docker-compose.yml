@@ -31,18 +31,6 @@ services:
     volumes:
       - devicehive-db:/var/lib/postgresql/data
 
-  dh_admin:
-    image: devicehive/admin-console:${DH_ADMIN_TAG:-development}
-    links:
-      - "dh_frontend"
-      - "dh_auth"
-    restart: unless-stopped
-    environment:
-      DH_HOST: dh_frontend
-      DH_PORT: 8080
-      DH_AUTH_HOST: dh_auth
-      DH_AUTH_PORT: 8090
-
   kafkaproxy:
     image: devicehive/devicehive-ws-kafka-proxy:${DH_WS_KAFKA_PROXY_TAG:-development}
     links:
@@ -139,7 +127,6 @@ services:
   dh_proxy:
     image: devicehive/devicehive-proxy:${DH_PROXY_TAG:-development}
     links:
-      - "dh_admin"
       - "dh_auth"
       - "dh_frontend"
     ports:
