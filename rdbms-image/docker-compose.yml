@@ -20,7 +20,7 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
 
   postgres:
-    image: postgres:9.4
+    image: postgres:10
     ports:
       - "5432:5432"
     restart: unless-stopped
