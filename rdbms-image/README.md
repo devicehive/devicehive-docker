@@ -138,7 +138,7 @@ COMPOSE_FILE=docker-compose.yml:hazelcast-management-center.yml
 ### Backup PostgreSQL database
 To backup database use following command:
 ```
-sudo docker-compose exec postgres pg_dump --no-owner -c -U ${DH_POSTGRES_USERNAME:-postgres} ${DH_POSTGRES_DB:-postgres} > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
+sudo docker-compose exec postgres sh -c 'pg_dump --no-owner -c -U ${POSTGRES_USER} ${POSTGRES_DB}' > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
 ```
 This will create dump\_\*.sql file in the current directory.
 
@@ -148,7 +148,7 @@ To restore database from SQL dump file delete existing database (if any), start 
 sudo docker-compose down
 sudo docker volume ls -q|grep devicehive-db| xargs sudo docker volume rm
 sudo docker-compose up -d postgres
-cat dump_*.sql | sudo docker exec -i rdbmsimage_postgres_1 psql -U ${DH_POSTGRES_USERNAME:-postgres} ${DH_POSTGRES_DB:-postgres}
+cat dump_*.sql | sudo docker exec -i rdbmsimage_postgres_1 sh -c 'psql -U ${POSTGRES_USER} ${POSTGRES_DB}'
 sudo docker-compose up -d
 ```
 
