@@ -213,6 +213,10 @@ spec:
           value: dh-frontend
         - name: DH_PORT
           value: "8080"
+        - name: DH_AUTH_HOST
+          value: dh-auth
+        - name: DH_AUTH_PORT
+          value: "8090"
         ports:
         - name: http
           containerPort: 8080
