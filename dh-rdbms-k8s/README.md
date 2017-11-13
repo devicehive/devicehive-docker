@@ -78,15 +78,16 @@ gcloud container clusters create "devicehive-cluster-1" \
 2. Install Kafka to cluster:
 ```
 helm init
-helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
+helm repo update
+helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com
 helm install \
   --name dh-bus \
-  --version 0.1.4 \
-  --set Cpu=500m \
-  --set MaxCpu=4 \
+  --version 0.2.2 \
   --set Storage=20Gi \
-  --set Memory=1024Mi \
-  --set MaxMemory=1536Mi \
+  --set resources.requests.cpu=200m \
+  --set resources.requests.memory=1024Mi \
+  --set resources.limits.cpu=500m \
+  --set resources.limits.memory=1536Mi \
   incubator/kafka
 ```
 
@@ -94,8 +95,8 @@ helm install \
 ```
 helm install \
   --name dh-db \
-  --version 0.8.0 \
-  --set imageTag=9.6 \
+  --version 0.8.3 \
+  --set imageTag=10 \
   --set postgresUser=devicehive \
   --set postgresPassword=devicehivepassword \
   --set postgresDatabase=devicehivedb \
