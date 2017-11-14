@@ -1,0 +1,20 @@
+---
+# 'dh-proxy-svc-nodeport.yaml' defines configuration for Minicube
+kind: Service
+apiVersion: v1
+metadata:
+  name: dh-proxy
+spec:
+  selector:
+    app: devicehive-proxy
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 8443
+  type: NodePort
+...

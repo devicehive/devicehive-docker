@@ -189,41 +189,57 @@ spec:
         - name: HC_GROUP_PASSWORD
           value: "dev-pass"
 ---
-# dh-admin service configuration depends on backing platform and stored in separate files.
-# 'admin-console-svc-loadbalancer.yaml' defines configuration for GKE
-# 'admin-console-svc-nodeport.yaml' defines configuration for Minicube
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: api-gateway-upstream-conf
+data:
+  api-gateway.conf: |-
+    upstream api_upstream {
+        server dh-frontend:8080;
+    }
+    upstream auth_upstream {
+        server dh-auth:8090;
+    }
+---
+# dh-proxy service configuration depends on backing platform and stored in separate files.
+# 'dh-proxy-svc-loadbalancer.yaml' defines configuration for GKE
+# 'dh-proxy-svc-nodeport.yaml' defines configuration for Minicube
 #---
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: dh-admin
+  name: dh-proxy
 spec:
   replicas: 1
   template:
     metadata:
       labels:
-        app: devicehive-admin-console
+        app: devicehive-proxy
     spec:
       containers:
-      - name: admin-console
-        image: devicehive/admin-console:development
+      - name: devicehive-proxy
+        image: devicehive/devicehive-proxy:latest
         imagePullPolicy: Always
-        env:
-        - name: DH_HOST
-          value: dh-frontend
-        - name: DH_PORT
-          value: "8080"
-        - name: DH_AUTH_HOST
-          value: dh-auth
-        - name: DH_AUTH_PORT
-          value: "8090"
         ports:
         - name: http
           containerPort: 8080
+        - name: https
+          containerPort: 8443
         livenessProbe:
           httpGet:
             path: /admin/
             port: http
-          initialDelaySeconds: 3
+          initialDelaySeconds: 60
           periodSeconds: 3
+        volumeMounts:
+        - name: api-gateway-upstream-conf
+          mountPath: /etc/nginx/upstream.d
+      volumes:
+        - name: api-gateway-upstream-conf
+          configMap:
+            name: api-gateway-upstream-conf
+            items:
+            - key: api-gateway.conf
+              path: api-gateway.conf
 ...
