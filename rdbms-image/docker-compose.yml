@@ -95,6 +95,7 @@ services:
         - "zookeeper"
         - "dh_frontend"
         - "dh_auth"
+        - "kafkaproxy"
       restart: unless-stopped
       environment:
         DH_ZK_ADDRESS: ${DH_ZK_ADDRESS:-zookeeper}
@@ -107,6 +108,7 @@ services:
         DH_POSTGRES_DB: ${DH_POSTGRES_DB:-postgres}
         DH_RPC_CLIENT_RES_CONS_THREADS: ${DH_RPC_CLIENT_RES_CONS_THREADS:-3}
         DH_LOG_LEVEL: ${DH_LOG_LEVEL:-INFO}
+        DH_WS_KAFKA_PROXY: kafkaproxy:3000
         ROOT_LOG_LEVEL: ${ROOT_LOG_LEVEL:-WARN}
         DH_AUTH_URL: ${DH_AUTH_URL:-http://dh_auth:8090/api/rest}
         HC_MEMBERS: hazelcast
