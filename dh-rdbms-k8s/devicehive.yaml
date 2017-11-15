@@ -189,6 +189,64 @@ spec:
         - name: HC_GROUP_PASSWORD
           value: "dev-pass"
 ---
+kind: Service
+apiVersion: v1
+metadata:
+  name: dh-plugin
+spec:
+  selector:
+    app: devicehive-plugin
+  ports:
+    - protocol: TCP
+      port: 8110
+      targetPort: dh-plugin
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: dh-plugin
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: devicehive-plugin
+    spec:
+      containers:
+      - name: devicehive-plugin
+        image: devicehive/devicehive-plugin-rdbms:development
+        imagePullPolicy: Always
+        env:
+        - name: DH_AUTH_URL
+          value: "http://dh-auth:8090/api/rest"
+        - name: DH_KAFKA_BOOTSTRAP_SERVERS
+          value: dh-bus-kafka:9092
+        - name: DH_POSTGRES_ADDRESS
+          value: dh-db-postgresql
+        - name: DH_POSTGRES_PORT
+          value: "5432"
+        - name: DH_POSTGRES_USERNAME
+          value: "devicehive"
+        - name: DH_POSTGRES_PASSWORD
+          value: "devicehivepassword"
+        - name: DH_POSTGRES_DB
+          value: "devicehivedb"
+        - name: DH_RPC_CLIENT_RES_CONS_THREADS
+          value: "3"
+        - name: DH_ZK_ADDRESS
+          value: dh-bus-zookeeper
+        - name: DH_ZK_PORT
+          value: "2181"
+        - name: HC_MEMBERS
+          value: "dh-hazelcast"
+        - name: HC_GROUP_NAME
+          value: "dev"
+        - name: HC_GROUP_PASSWORD
+          value: "dev-pass"
+        ports:
+        - name: dh-plugin
+          containerPort: 8110
+---
 kind: ConfigMap
 apiVersion: v1
 metadata:
@@ -200,6 +258,9 @@ data:
     }
     upstream auth_upstream {
         server dh-auth:8090;
+    }
+    upstream plugin_upstream {
+        server dh-plugin:8110;
     }
 ---
 # dh-proxy service configuration depends on backing platform and stored in separate files.
