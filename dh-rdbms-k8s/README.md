@@ -43,13 +43,13 @@ kubectl apply -f devicehive.yaml
 4. Create service for Admin console:
 In Minikube service can be exposed to outer world only be NodePort.
 ```
-kubectl apply -f admin-console-svc-nodeport.yaml
+kubectl apply -f dh-proxy-svc-nodeport.yaml
 ```
 
 ### Accessing DeviceHive
-1. Get Minikube address for `dh-admin` service:
+1. Get Minikube address for `dh-proxy` service:
 ```
-$ minikube service dh-admin --url
+$ minikube service dh-proxy --url
 http://192.168.99.106:31360
 ```
 
@@ -111,7 +111,7 @@ kubectl apply -f devicehive.yaml
 5. Create service for Admin console:
 In GKE we export service using load balancer:
 ```
-kubectl apply -f admin-console-svc-loadbalancer.yaml
+kubectl apply -f dh-proxy-svc-loadbalancer.yaml
 ```
 
 ### Verifying installation
@@ -119,17 +119,17 @@ To verify if all services are started, check that current number of replicas in 
 ```
 kubectl get deploy
 NAME                  DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
-dh-admin              1         1         1            1           37m
+dh-proxy              1         1         1            1           37m
 dh-backend            1         1         1            1           37m
 dh-frontend           1         1         1            1           37m
 ```
 
 ### Accessing DeviceHive
-1. Get external IP for `dh-admin` service:
+1. Get external IP for `dh-proxy` service:
 ```
-kubectl get svc dh-admin
+kubectl get svc dh-proxy
 NAME       CLUSTER-IP      EXTERNAL-IP      PORT(S)        AGE
-dh-admin   10.79.242.246   104.155.147.92   80:32211/TCP   32m
+dh-proxy   10.79.242.246   104.155.147.92   80:32211/TCP   32m
 ```
 
 2. Open it in browser:
