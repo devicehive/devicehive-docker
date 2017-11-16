@@ -5,7 +5,7 @@ services:
       - "9999:9999"
       - "10000:10000"
     environment:
-      _JAVA_OPTIONS: "-Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.access.file=/opt/devicehive/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/opt/devicehive/jmxremote.password -Djava.rmi.server.hostname=<external hostname> -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=10000"
+      _JAVA_OPTIONS: "-Dcom.sun.management.jmxremote.port=9999 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.access.file=/opt/devicehive/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/opt/devicehive/jmxremote.password -Djava.rmi.server.hostname=benchmark3.devicehive.com -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=10000"
     volumes:
       - ./jmxremote.password:/opt/devicehive/jmxremote.password:ro,z
       - ./jmxremote.access:/opt/devicehive/jmxremote.access:ro,z
@@ -15,7 +15,7 @@ services:
       - "10001:10001"
       - "10002:10002"
     environment:
-      _JAVA_OPTIONS: "-Dcom.sun.management.jmxremote.port=10001 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.access.file=/opt/devicehive/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/opt/devicehive/jmxremote.password -Djava.rmi.server.hostname=<external hostname> -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=10002"
+      _JAVA_OPTIONS: "-Dcom.sun.management.jmxremote.port=10001 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.access.file=/opt/devicehive/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/opt/devicehive/jmxremote.password -Djava.rmi.server.hostname=benchmark3.devicehive.com -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=10002"
     volumes:
       - ./jmxremote.password:/opt/devicehive/jmxremote.password:ro,z
       - ./jmxremote.access:/opt/devicehive/jmxremote.access:ro,z
@@ -25,7 +25,7 @@ services:
           - "10003:10003"
           - "10004:10004"
         environment:
-          _JAVA_OPTIONS: "-Dcom.sun.management.jmxremote.port=10003 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.access.file=/opt/devicehive/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/opt/devicehive/jmxremote.password -Djava.rmi.server.hostname=<external hostname> -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=10004"
+          _JAVA_OPTIONS: "-Dcom.sun.management.jmxremote.port=10003 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.access.file=/opt/devicehive/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/opt/devicehive/jmxremote.password -Djava.rmi.server.hostname=benchmark3.devicehive.com -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=10004"
         volumes:
           - ./jmxremote.password:/opt/devicehive/jmxremote.password:ro,z
           - ./jmxremote.access:/opt/devicehive/jmxremote.access:ro,z
@@ -35,7 +35,27 @@ services:
         - "10005:10005"
         - "10006:10006"
       environment:
-        _JAVA_OPTIONS: "-Dcom.sun.management.jmxremote.port=10005 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.access.file=/opt/devicehive/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/opt/devicehive/jmxremote.password -Djava.rmi.server.hostname=<external hostname> -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=10006"
+        _JAVA_OPTIONS: "-Dcom.sun.management.jmxremote.port=10005 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.access.file=/opt/devicehive/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/opt/devicehive/jmxremote.password -Djava.rmi.server.hostname=benchmark3.devicehive.com -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=10006"
+      volumes:
+        - ./jmxremote.password:/opt/devicehive/jmxremote.password:ro,z
+        - ./jmxremote.access:/opt/devicehive/jmxremote.access:ro,z
+        
+  kafka:
+      ports:
+        - "10007:10007"
+        - "10008:10008"
+      environment:
+        _JAVA_OPTIONS: "-Dcom.sun.management.jmxremote.port=10007 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.access.file=/opt/devicehive/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/opt/devicehive/jmxremote.password -Djava.rmi.server.hostname=benchmark3.devicehive.com -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=10008"
+      volumes:
+        - ./jmxremote.password:/opt/devicehive/jmxremote.password:ro,z
+        - ./jmxremote.access:/opt/devicehive/jmxremote.access:ro,z
+        
+  hazelcast:
+      ports:
+        - "10009:10009"
+        - "10010:10010"
+      environment:
+        _JAVA_OPTIONS: "-Dcom.sun.management.jmxremote.port=10009 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.access.file=/opt/devicehive/jmxremote.access -Dcom.sun.management.jmxremote.password.file=/opt/devicehive/jmxremote.password -Djava.rmi.server.hostname=benchmark3.devicehive.com -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.rmi.port=10010"
       volumes:
         - ./jmxremote.password:/opt/devicehive/jmxremote.password:ro,z
         - ./jmxremote.access:/opt/devicehive/jmxremote.access:ro,z
