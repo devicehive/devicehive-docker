@@ -82,6 +82,13 @@ Or add line `COMPOSE_FILE=docker-compose.yml:nginx-ssl-proxy.yml` in `.env` file
 
 You can now access your DeviceHive API at https://devicehive-host-url/api and Admin Console at https://devicehive-host-url/admin.
 
+## DeviceHive Plugin service
+To enable optional DeviceHive Plugin service run DeviceHive with the following command:
+```
+sudo docker-compose -f docker-compose.yml -f dh_plugin.yml up -d
+```
+Or add line `COMPOSE_FILE=docker-compose.yml:dh_plugin.yml` in `.env` file.
+
 ## Monitoring
 ### Kafka metrics
 You can start Kafka service with additional Prometheus metrics exporter. Necessary parameters for Kafka container are already configured in `devicehive-metrics.yml` file. It will launch JMX exporter on tcp port 7071.
