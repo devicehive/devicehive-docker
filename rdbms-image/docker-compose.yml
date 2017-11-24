@@ -32,7 +32,7 @@ services:
       - devicehive-db:/var/lib/postgresql/data
 
   kafkaproxy:
-    image: devicehive/devicehive-ws-kafka-proxy:${DH_WS_KAFKA_PROXY_TAG:-development}
+    image: devicehive/devicehive-ws-kafka-proxy:${DH_WS_KAFKA_PROXY_TAG:-latest}
     links:
       - "kafka"
     restart: unless-stopped
