@@ -1,0 +1,4 @@
+version: "3"
+services:
+  dh_plugin:
+    image: devicehiveci/devicehive-plugin-rdbms:${DH_TAG:-development}
