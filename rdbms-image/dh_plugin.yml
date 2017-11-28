@@ -30,3 +30,4 @@ services:
       HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
       HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
       JWT_SECRET: ${JWT_SECRET}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-ws-kafka-proxy}
