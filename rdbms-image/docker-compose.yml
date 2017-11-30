@@ -63,7 +63,7 @@ services:
       DH_LOG_LEVEL: ${DH_LOG_LEVEL:-INFO}
       DH_WS_KAFKA_PROXY: kafkaproxy:3000
       ROOT_LOG_LEVEL: ${ROOT_LOG_LEVEL:-WARN}
-      DH_AUTH_URL: ${DH_AUTH_URL:-http://dh_auth:8090/api/rest}
+      DH_AUTH_URL: ${DH_AUTH_URL:-http://dh_auth:8090/auth/rest}
       HC_MEMBERS: hazelcast
       HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
       HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
