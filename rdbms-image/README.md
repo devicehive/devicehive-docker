@@ -29,6 +29,7 @@ To enable DeviceHive to communicate over Apache Kafka message bus to scale out a
 * `DH_RPC_SERVER_REQ_CONS_THREADS` - Kafka request consumer threads in the Backend, defaults to `3` if undefined.
 * `DH_RPC_SERVER_WORKER_THREADS` - Server worker threads in the Backend, defaults to `3` if undefined. On machine with many CPU cores and high load this value must be raised. For example on machine with 8 core it must be set to `6`.
 * `DH_RPC_CLIENT_RES_CONS_THREADS` - Kafka response consumer threads in the Frontend, defaults to `3`.
+* `DH_FE_SPRING_PROFILES_ACTIVE` and `DH_BE_SPRING_PROFILES_ACTIVE` - Changes which Spring profile use for Frontend and backend respectively. Defaults to `rpc-client` for Frontend and `rpc-server` for backend. Can be changed to `ws-kafka-proxy-frontend` and `ws-kafka-proxy-backend` to use WS-Kafka-proxy service instead of direct connection to Kafka.
 
 ### JWT secret
 DeviceHive uses JWT tokens for authentication of users and devices. For security reasons secret value that is used for signing JWT tokens is generated at first start of DeviceHive and stored in the database. If you want to make JWT tokens work across DeviceHive installations, change `JWT_SECRET` parameter.
