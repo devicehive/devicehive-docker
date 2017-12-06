@@ -82,8 +82,8 @@ helm repo update
 helm repo add incubator https://kubernetes-charts-incubator.storage.googleapis.com
 helm install \
   --name dh-bus \
-  --version 0.2.2 \
-  --set Storage=20Gi \
+  --version 0.2.5 \
+  --set storage=20Gi \
   --set resources.requests.cpu=200m \
   --set resources.requests.memory=1024Mi \
   --set resources.limits.cpu=500m \
@@ -95,11 +95,12 @@ helm install \
 ```
 helm install \
   --name dh-db \
-  --version 0.8.3 \
+  --version 0.8.4 \
   --set imageTag=10 \
   --set postgresUser=devicehive \
   --set postgresPassword=devicehivepassword \
   --set postgresDatabase=devicehivedb \
+  --set persistence.size=1Gi \
   stable/postgresql
 ```
 
