@@ -121,7 +121,7 @@ spec:
         imagePullPolicy: Always
         env:
         - name: DH_AUTH_URL
-          value: "http://dh-auth:8090/api/rest"
+          value: "http://dh-auth:8090/auth/rest"
         - name: DH_ZK_ADDRESS
           value: dh-bus-zookeeper
         - name: DH_ZK_PORT
