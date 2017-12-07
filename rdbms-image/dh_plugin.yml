@@ -1,7 +1,7 @@
 version: "3"
 services:
   dh_plugin:
-    image: devicehive/devicehive-plugin-rdbms:${DH_TAG:-3.4.1}
+    image: devicehive/devicehive-plugin:${DH_TAG:-development}
     ports:
       - "${DH_PLUGIN_PORT:-8110}:8110"
     links:

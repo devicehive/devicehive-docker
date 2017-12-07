@@ -1,16 +1,16 @@
 version: "3"
 services:
   dh_auth:
-    image: devicehiveci/devicehive-auth-rdbms:${DH_TAG:-development}
+    image: devicehiveci/devicehive-auth:${DH_TAG:-development}
 
   dh_frontend:
-    image: devicehiveci/devicehive-frontend-rdbms:${DH_TAG:-development}
+    image: devicehiveci/devicehive-frontend:${DH_TAG:-development}
 
   hazelcast:
     image: devicehiveci/devicehive-hazelcast:${DH_TAG:-development}
 
   dh_backend:
-    image: devicehiveci/devicehive-backend-rdbms:${DH_TAG:-development}
+    image: devicehiveci/devicehive-backend:${DH_TAG:-development}
 
   kafkaproxy:
     image: devicehiveci/devicehive-ws-kafka-proxy:${DH_WS_KAFKA_PROXY_TAG:-master}

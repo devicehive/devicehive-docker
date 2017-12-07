@@ -9,7 +9,7 @@ DeviceHive service stack will start without any configuration. All containers ar
 ### DeviceHive image tags
 Released versions of devicehive-docker use stable DeviceHive images from [DeviceHive Docker Hub repository](https://hub.docker.com/u/devicehive/). But if you want follow DeviceHive development add following parameters:
 
-* `DH_TAG` - tag for DeviceHive [Frontend](https://hub.docker.com/r/devicehive/devicehive-frontend-rdbms/), [Backend](https://hub.docker.com/r/devicehive/devicehive-backend-rdbms/) and [Hazelcast](https://hub.docker.com/r/devicehive/devicehive-hazelcast/) images. Can be set to `development` to track development version of DeviceHive.
+* `DH_TAG` - tag for DeviceHive [Frontend](https://hub.docker.com/r/devicehive/devicehive-frontend/), [Backend](https://hub.docker.com/r/devicehive/devicehive-backend/) and [Hazelcast](https://hub.docker.com/r/devicehive/devicehive-hazelcast/) images. Can be set to `development` to track development version of DeviceHive.
 * `DH_ADMIN_TAG` - tag for DeviceHive [Admin Console](https://hub.docker.com/r/devicehive/admin-console/) image. Can be set to `development` to track development version of Admin Console.
 
 ### PostgreSQL
@@ -44,8 +44,8 @@ Possible values are: `TRACE`, `DEBUG`, `INFO`, `WARN`, `ERROR`.
 
 You can find more configurable parameters in [frontend][fe-script-url] and [backend][be-script-url] startup scripts.
 
-[fe-script-url]: https://github.com/devicehive/devicehive-java-server/blob/master/dockerfiles/devicehive-frontend-rdbms/devicehive-start.sh
-[be-script-url]: https://github.com/devicehive/devicehive-java-server/blob/master/dockerfiles/devicehive-backend-rdbms/devicehive-start.sh
+[fe-script-url]: https://github.com/devicehive/devicehive-java-server/blob/master/dockerfiles/devicehive-frontend/devicehive-start.sh
+[be-script-url]: https://github.com/devicehive/devicehive-java-server/blob/master/dockerfiles/devicehive-backend/devicehive-start.sh
 
 ## Run
 In order to run DeviceHive stack in Docker containers, define environment variables as per your requirements and run:
