@@ -41,7 +41,7 @@ services:
       WSS_PORT: 3000
 
   dh_frontend:
-    image: devicehive/devicehive-frontend-rdbms:${DH_TAG:-development}
+    image: devicehive/devicehive-frontend:${DH_TAG:-development}
     links:
       - "postgres"
       - "kafka"
@@ -71,7 +71,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${DH_FE_SPRING_PROFILES_ACTIVE:-rpc-client}
 
   dh_auth:
-      image: devicehive/devicehive-auth-rdbms:${DH_TAG:-development}
+      image: devicehive/devicehive-auth:${DH_TAG:-development}
       links:
         - "postgres"
         - "hazelcast"
@@ -99,7 +99,7 @@ services:
       MIN_HEAP_SIZE: "512m"
 
   dh_backend:
-    image: devicehive/devicehive-backend-rdbms:${DH_TAG:-development}
+    image: devicehive/devicehive-backend:${DH_TAG:-development}
     links:
       - "hazelcast"
       - "kafka"

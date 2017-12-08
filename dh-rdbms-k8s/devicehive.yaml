@@ -42,7 +42,7 @@ metadata:
   name: dh-auth
 spec:
   selector:
-    app: devicehive-auth-rdbms
+    app: devicehive-auth
   ports:
     - protocol: TCP
       port: 8090
@@ -57,11 +57,11 @@ spec:
   template:
     metadata:
       labels:
-        app: devicehive-auth-rdbms
+        app: devicehive-auth
     spec:
       containers:
-      - name: devicehive-auth-rdbms
-        image: devicehive/devicehive-auth-rdbms:development
+      - name: devicehive-auth
+        image: devicehive/devicehive-auth:development
         imagePullPolicy: Always
         env:
         - name: DH_ZK_ADDRESS
@@ -98,7 +98,7 @@ metadata:
   name: dh-frontend
 spec:
   selector:
-    app: devicehive-frontend-rdbms
+    app: devicehive-frontend
   ports:
     - protocol: TCP
       port: 8080
@@ -113,11 +113,11 @@ spec:
   template:
     metadata:
       labels:
-        app: devicehive-frontend-rdbms
+        app: devicehive-frontend
     spec:
       containers:
-      - name: devicehive-frontend-rdbms
-        image: devicehive/devicehive-frontend-rdbms:development
+      - name: devicehive-frontend
+        image: devicehive/devicehive-frontend:development
         imagePullPolicy: Always
         env:
         - name: DH_AUTH_URL
@@ -159,11 +159,11 @@ spec:
   template:
     metadata:
       labels:
-        app: devicehive-backend-rdbms
+        app: devicehive-backend
     spec:
       containers:
-      - name: devicehive-backend-rdbms
-        image: devicehive/devicehive-backend-rdbms:development
+      - name: devicehive-backend
+        image: devicehive/devicehive-backend:development
         imagePullPolicy: Always
         env:
         - name: DH_ZK_ADDRESS
@@ -214,7 +214,7 @@ spec:
     spec:
       containers:
       - name: devicehive-plugin
-        image: devicehive/devicehive-plugin-rdbms:development
+        image: devicehive/devicehive-plugin:development
         imagePullPolicy: Always
         env:
         - name: DH_AUTH_URL
