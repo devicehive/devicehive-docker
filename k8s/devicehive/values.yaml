@@ -1,0 +1,27 @@
+devicehive:
+  repository: devicehive
+  tag: 3.4.2
+  pullPolicy: IfNotPresent
+  auth:
+    replicaCount: 1
+  backend:
+    replicaCount: 1
+  frontend:
+    replicaCount: 1
+  hazelcast:
+    replicaCount: 1
+  plugin:
+    replicaCount: 1
+
+  ## JWT secret used to sign and verify tokens
+  ## If not set, a random 16 characters secret will be used
+  jwtsecret: ""
+  kafka:
+    name: devicehive-bus
+  db:
+    name: devicehive-db
+
+devicehiveProxy:
+  repository: devicehive
+  tag: 3.4.2
+  pullPolicy: IfNotPresent
