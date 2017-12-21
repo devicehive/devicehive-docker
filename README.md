@@ -28,4 +28,4 @@ More details in the [rdbms-image](rdbms-image/) subdirectory.
 Installation was tested on machine with CentOS 7 distribution.
 
 ## Kubernetes installation
-DeviceHive also has experimental support for [installation on Kubernetes cluster](dh-rdbms-k8s/) with PostgreSQL storage.
+DeviceHive also has experimental support for [installation on Kubernetes cluster](k8s/) with PostgreSQL storage.
