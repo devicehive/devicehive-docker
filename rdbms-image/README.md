@@ -54,6 +54,13 @@ sudo docker-compose up -d
 ```
 You can now access your DeviceHive API at http://devicehive-host-url/api and Admin Console at http://devicehive-host-url/admin.
 
+## Development
+In order to run only DeviceHive 3d-party dependencies in Docker containers, simply run:
+```
+sudo docker-compose -f docker-compose-dev.yml up -d
+```
+Then you'd be able to start all DeviceHive java services (backend, frontend, auth, plugin manager) by running ```java -jar devicehive-...-boot.jar```
+
 ## HTTPS configuration (SSL/TLS)
 DeviceHive Frontend service doesn't provides connection encryption and relies on external service for that.
 
