@@ -4,14 +4,19 @@ devicehive:
   pullPolicy: IfNotPresent
   auth:
     replicaCount: 1
+    resources: {}
   backend:
     replicaCount: 1
+    resources: {}
   frontend:
     replicaCount: 1
+    resources: {}
   hazelcast:
     replicaCount: 1
+    resources: {}
   plugin:
     replicaCount: 1
+    resources: {}
 
   ## JWT secret used to sign and verify tokens
   ## If not set, a random 16 characters secret will be used

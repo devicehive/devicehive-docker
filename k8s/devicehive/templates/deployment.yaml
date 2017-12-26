@@ -27,6 +27,8 @@ spec:
         ports:
         - name: hazelcast
           containerPort: 5701
+        resources:
+{{ toYaml .Values.devicehive.hazelcast.resources | indent 10 }}
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -79,6 +81,8 @@ spec:
         ports:
         - name: dh-auth
           containerPort: 8090
+        resources:
+{{ toYaml .Values.devicehive.auth.resources | indent 10 }}
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -133,6 +137,8 @@ spec:
         ports:
         - name: dh-api
           containerPort: 8080
+        resources:
+{{ toYaml .Values.devicehive.frontend.resources | indent 10 }}
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -177,6 +183,8 @@ spec:
           value: "dev-pass"
         - name: HC_MEMBERS
           value: "{{ .Release.Name }}-devicehive-hazelcast"
+        resources:
+{{ toYaml .Values.devicehive.backend.resources | indent 10 }}
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -228,6 +236,8 @@ spec:
         ports:
         - name: dh-plugin
           containerPort: 8110
+        resources:
+{{ toYaml .Values.devicehive.plugin.resources | indent 10 }}
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
