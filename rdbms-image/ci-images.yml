@@ -12,8 +12,8 @@ services:
   dh_backend:
     image: devicehiveci/devicehive-backend:${DH_TAG:-development}
 
-  kafkaproxy:
-    image: devicehiveci/devicehive-ws-kafka-proxy:${DH_WS_KAFKA_PROXY_TAG:-master}
+  wsproxy:
+    image: devicehiveci/devicehive-ws-proxy:${DH_WS_PROXY_TAG:-development}
 
   dh_proxy:
     image: devicehiveci/devicehive-proxy:${DH_PROXY_TAG:-development}

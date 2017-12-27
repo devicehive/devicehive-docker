@@ -32,16 +32,16 @@ services:
     volumes:
       - devicehive-db-dev:/var/lib/postgresql/data
 
-  kafkaproxy:
-    image: devicehive/devicehive-ws-kafka-proxy:${DH_WS_KAFKA_PROXY_TAG:-latest}
+  wsproxy:
+    image: devicehive/devicehive-ws-proxy:${DH_WS_PROXY_TAG:-development}
     ports:
       - "3000:3000"
     links:
       - "kafka"
     restart: unless-stopped
     environment:
-      KAFKA_MBR: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
-      WSS_PORT: 3000
+      KAFKA.KAFKA_HOSTS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
+      PROXY.WEB_SOCKET_SERVER_HOST: 'wsproxy'
 
   hazelcast:
     image: devicehive/devicehive-hazelcast:${DH_TAG:-development}

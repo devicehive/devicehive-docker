@@ -31,14 +31,14 @@ services:
     volumes:
       - devicehive-db:/var/lib/postgresql/data
 
-  kafkaproxy:
-    image: devicehive/devicehive-ws-kafka-proxy:${DH_WS_KAFKA_PROXY_TAG:-latest}
+  wsproxy:
+    image: devicehive/devicehive-ws-proxy:${DH_WS_PROXY_TAG:-development}
     links:
       - "kafka"
     restart: unless-stopped
     environment:
-      KAFKA_MBR: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
-      WSS_PORT: 3000
+      KAFKA.KAFKA_HOSTS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
+      PROXY.WEB_SOCKET_SERVER_HOST: 'wsproxy'
 
   dh_frontend:
     image: devicehive/devicehive-frontend:${DH_TAG:-development}
@@ -48,7 +48,7 @@ services:
       - "zookeeper"
       - "dh_backend"
       - "dh_auth"
-      - "kafkaproxy"
+      - "wsproxy"
     restart: unless-stopped
     environment:
       DH_ZK_ADDRESS: ${DH_ZK_ADDRESS:-zookeeper}
@@ -61,7 +61,7 @@ services:
       DH_POSTGRES_DB: ${DH_POSTGRES_DB:-postgres}
       DH_RPC_CLIENT_RES_CONS_THREADS: ${DH_RPC_CLIENT_RES_CONS_THREADS:-3}
       DH_LOG_LEVEL: ${DH_LOG_LEVEL:-INFO}
-      DH_WS_KAFKA_PROXY: kafkaproxy:3000
+      DH_WS_PROXY: wsproxy:3000
       ROOT_LOG_LEVEL: ${ROOT_LOG_LEVEL:-WARN}
       DH_AUTH_URL: ${DH_AUTH_URL:-http://dh_auth:8090/auth/rest}
       HC_MEMBERS: hazelcast
@@ -105,7 +105,7 @@ services:
       - "kafka"
       - "postgres"
       - "zookeeper"
-      - "kafkaproxy"
+      - "wsproxy"
     restart: unless-stopped
     environment:
       DH_ZK_ADDRESS: ${DH_ZK_ADDRESS:-zookeeper}
@@ -119,7 +119,7 @@ services:
       DH_RPC_SERVER_REQ_CONS_THREADS: ${DH_RPC_SERVER_REQ_CONS_THREADS:-3}
       DH_RPC_SERVER_WORKER_THREADS: ${DH_RPC_SERVER_WORKER_THREADS:-3}
       DH_LOG_LEVEL: ${DH_LOG_LEVEL:-INFO}
-      DH_WS_KAFKA_PROXY: kafkaproxy:3000
+      DH_WS_PROXY: wsproxy:3000
       ROOT_LOG_LEVEL: ${ROOT_LOG_LEVEL:-INFO}
       HC_MEMBERS: hazelcast
       HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
