@@ -12,6 +12,7 @@ services:
 
   mqtt_broker1:
     image: devicehive/devicehive-mqtt:development
+    restart: unless-stopped
     environment:
       - WS_SERVER_URL=ws://playground-dev.devicehive.com/api/websocket
       - REDIS_SERVER_HOST=redis
@@ -20,6 +21,7 @@ services:
 
   mqtt_broker2:
     image: devicehive/devicehive-mqtt:development
+    restart: unless-stopped
     environment:
       - WS_SERVER_URL=ws://playground-dev.devicehive.com/api/websocket
       - REDIS_SERVER_HOST=redis
@@ -28,3 +30,4 @@ services:
 
   redis:
     image: redis:alpine
+    restart: unless-stopped
