@@ -29,3 +29,11 @@ Installation was tested on machine with CentOS 7 distribution.
 
 ## Kubernetes installation
 DeviceHive also has experimental support for [installation on Kubernetes cluster](k8s/) with PostgreSQL storage.
+
+## Installation on Docker for Windows or Docker for Mac
+If you like to try DeviceHive using Docker for Windows or Docker for Mac, please note that this software runs Docker in special Virtual Machine (that got automaticaly created for you by installer). By default these Virtual Machines with much lower parameters that required for DeviceHive, 2GB of RAM and 2 vCPU. Here is example of how to change parameters in Docker for Windows, on Macs this should be similar:
+
+1. Right-click on Docker icon in system tray and choose 'Settings...'.
+2. Open 'Advanced' settings and increase CPUs and Memory parameters to recommended values.
+3. Click 'Apply' button. VM will be restarted with new parameters.
+
