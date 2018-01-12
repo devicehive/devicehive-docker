@@ -31,9 +31,16 @@ services:
       HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
       JWT_SECRET: ${JWT_SECRET}
 
-  wsproxy:
+  wsproxyext:
+    image: devicehive/devicehive-ws-proxy:${DH_WS_PROXY_TAG:-development}
     links:
       - "dh_auth"
+      - "dh_plugin"
+      - "kafka"
+    restart: unless-stopped
     environment:
-      PROXY.ENABLE_PLUGIN_MANAGER: 'true'
+      KAFKA.KAFKA_HOSTS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
       PLUGIN_MANAGER.AUTH_SERVICE_ENDPOINT: http://dh_auth:8090/auth/rest
+      PLUGIN_MANAGER.PLUGIN_MANAGEMENT_SERVICE_ENDPOINT: http://dh_plugin:8110/plugin/rest
+      PROXY.ENABLE_PLUGIN_MANAGER: 'true'
+      PROXY.WEB_SOCKET_SERVER_HOST: 'wsproxyext'
