@@ -54,15 +54,15 @@ spec:
         - name: DH_KAFKA_BOOTSTRAP_SERVERS
           value: "{{ .Values.devicehive.kafka.name }}-kafka:9092"
         - name: DH_POSTGRES_ADDRESS
-          value: "{{ .Values.devicehive.db.name }}-postgresql"
+          value: {{ template "postgresql.fullname" . }}
         - name: DH_POSTGRES_DB
-          value: "devicehivedb"
+          value: "{{ .Values.postgresql.postgresDatabase }}"
         - name: DH_POSTGRES_PORT
           value: "5432"
         - name: DH_POSTGRES_USERNAME
-          value: "devicehive"
+          value: "{{ .Values.postgresql.postgresUser }}"
         - name: DH_POSTGRES_PASSWORD
-          value: "devicehivepassword"
+          value: "{{ .Values.postgresql.postgresPassword }}"
         - name: DH_ZK_ADDRESS
           value: "{{ .Values.devicehive.kafka.name }}-zookeeper"
         - name: DH_ZK_PORT
@@ -110,15 +110,15 @@ spec:
         - name: DH_KAFKA_BOOTSTRAP_SERVERS
           value: "{{ .Values.devicehive.kafka.name }}-kafka:9092"
         - name: DH_POSTGRES_ADDRESS
-          value: "{{ .Values.devicehive.db.name }}-postgresql"
+          value: {{ template "postgresql.fullname" . }}
         - name: DH_POSTGRES_DB
-          value: "devicehivedb"
+          value: "{{ .Values.postgresql.postgresDatabase }}"
         - name: DH_POSTGRES_PORT
           value: "5432"
         - name: DH_POSTGRES_USERNAME
-          value: "devicehive"
+          value: "{{ .Values.postgresql.postgresUser }}"
         - name: DH_POSTGRES_PASSWORD
-          value: "devicehivepassword"
+          value: "{{ .Values.postgresql.postgresPassword }}"
         - name: DH_ZK_ADDRESS
           value: "{{ .Values.devicehive.kafka.name }}-zookeeper"
         - name: DH_ZK_PORT
@@ -164,15 +164,15 @@ spec:
         - name: DH_KAFKA_BOOTSTRAP_SERVERS
           value: "{{ .Values.devicehive.kafka.name }}-kafka:9092"
         - name: DH_POSTGRES_ADDRESS
-          value: "{{ .Values.devicehive.db.name }}-postgresql"
+          value: {{ template "postgresql.fullname" . }}
         - name: DH_POSTGRES_DB
-          value: "devicehivedb"
+          value: "{{ .Values.postgresql.postgresDatabase }}"
         - name: DH_POSTGRES_PORT
           value: "5432"
         - name: DH_POSTGRES_USERNAME
-          value: "devicehive"
+          value: "{{ .Values.postgresql.postgresUser }}"
         - name: DH_POSTGRES_PASSWORD
-          value: "devicehivepassword"
+          value: "{{ .Values.postgresql.postgresPassword }}"
         - name: DH_ZK_ADDRESS
           value: "{{ .Values.devicehive.kafka.name }}-zookeeper"
         - name: DH_ZK_PORT
@@ -212,15 +212,15 @@ spec:
         - name: DH_KAFKA_BOOTSTRAP_SERVERS
           value: "{{ .Values.devicehive.kafka.name }}-kafka:9092"
         - name: DH_POSTGRES_ADDRESS
-          value: "{{ .Values.devicehive.db.name }}-postgresql"
+          value: {{ template "postgresql.fullname" . }}
+        - name: DH_POSTGRES_DB
+          value: "{{ .Values.postgresql.postgresDatabase }}"
         - name: DH_POSTGRES_PORT
           value: "5432"
         - name: DH_POSTGRES_USERNAME
-          value: "devicehive"
+          value: "{{ .Values.postgresql.postgresUser }}"
         - name: DH_POSTGRES_PASSWORD
-          value: "devicehivepassword"
-        - name: DH_POSTGRES_DB
-          value: "devicehivedb"
+          value: "{{ .Values.postgresql.postgresPassword }}"
         - name: DH_RPC_CLIENT_RES_CONS_THREADS
           value: "3"
         - name: DH_ZK_ADDRESS

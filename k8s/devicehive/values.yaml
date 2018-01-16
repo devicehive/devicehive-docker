@@ -24,8 +24,15 @@ devicehive:
 
   kafka:
     name: devicehive-bus
-  db:
-    name: devicehive-db
+
+postgresql:
+  postgresDatabase: devicehivedb
+  postgresUser: devicehive
+  postgresPassword: devicehivepassword
+  persistence:
+    enabled: true
+    size: 1Gi
+  imageTag: 10
 
 devicehiveProxy:
   repository: devicehive
