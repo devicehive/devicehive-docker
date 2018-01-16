@@ -1,4 +1,4 @@
----
+{{- if .Values.devicehive.plugin.enabled -}}
 kind: Service
 apiVersion: v1
 metadata:
@@ -10,4 +10,4 @@ spec:
     - protocol: TCP
       port: 8110
       targetPort: dh-plugin
-...
+{{- end -}}

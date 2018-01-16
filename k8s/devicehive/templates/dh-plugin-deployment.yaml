@@ -1,4 +1,4 @@
----
+{{- if .Values.devicehive.plugin.enabled -}}
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
@@ -51,4 +51,4 @@ spec:
           containerPort: 8110
         resources:
 {{ toYaml .Values.devicehive.plugin.resources | indent 10 }}
-...
+{{- end -}}

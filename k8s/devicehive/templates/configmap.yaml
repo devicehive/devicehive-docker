@@ -10,6 +10,8 @@ data:
     upstream auth_upstream {
         server {{ .Release.Name }}-devicehive-auth:8090;
     }
+{{- if .Values.devicehive.plugin.enabled -}}
     upstream plugin_upstream {
         server {{ .Release.Name }}-devicehive-plugin:8110;
     }
+{{- end -}}

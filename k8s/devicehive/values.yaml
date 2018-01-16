@@ -15,6 +15,7 @@ devicehive:
     replicaCount: 1
     resources: {}
   plugin:
+    enabled: false
     replicaCount: 1
     resources: {}
 
