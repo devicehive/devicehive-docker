@@ -238,46 +238,4 @@ spec:
           containerPort: 8110
         resources:
 {{ toYaml .Values.devicehive.plugin.resources | indent 10 }}
----
-apiVersion: apps/v1beta1
-kind: Deployment
-metadata:
-  name: {{ .Release.Name }}-devicehive-proxy
-  labels:
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "devicehive-proxy"
-    heritage: "{{ .Release.Service }}"
-    release: "{{ .Release.Name }}"
-spec:
-  replicas: {{ .Values.devicehiveProxy.replicas }}
-  template:
-    metadata:
-      labels:
-        app: {{ .Release.Name }}-devicehive-proxy
-    spec:
-      containers:
-      - name: devicehive-proxy
-        image: {{ .Values.devicehiveProxy.repository }}/devicehive-proxy:{{ .Values.devicehiveProxy.tag }}
-        imagePullPolicy: Always
-        ports:
-        - name: http
-          containerPort: 8080
-        - name: https
-          containerPort: 8443
-        livenessProbe:
-          httpGet:
-            path: /admin/
-            port: http
-          initialDelaySeconds: 60
-          periodSeconds: 3
-        volumeMounts:
-        - name: api-gateway-upstream-conf
-          mountPath: /etc/nginx/upstream.d
-      volumes:
-        - name: api-gateway-upstream-conf
-          configMap:
-            name: {{ .Release.Name }}-api-gateway-upstream-conf
-            items:
-            - key: api-gateway.conf
-              path: api-gateway.conf
 ...
