@@ -5,7 +5,7 @@ metadata:
   name: {{ .Release.Name }}-devicehive-hazelcast
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Release.Name }}-devicehive-hazelcast"
+    component: "devicehive-hazelcast"
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
 spec:
@@ -36,7 +36,7 @@ metadata:
   name: {{ .Release.Name }}-devicehive-auth
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Release.Name }}-devicehive-auth"
+    component: "devicehive-auth"
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
 spec:
@@ -90,7 +90,7 @@ metadata:
   name: {{ .Release.Name }}-devicehive-frontend
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Release.Name }}-devicehive-frontend"
+    component: "devicehive-frontend"
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
 spec:
@@ -146,7 +146,7 @@ metadata:
   name: {{ .Release.Name }}-devicehive-backend
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Release.Name }}-devicehive-backend"
+    component: "devicehive-backend"
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
 spec:
@@ -192,7 +192,7 @@ metadata:
   name: {{ .Release.Name }}-devicehive-plugin
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Release.Name }}-devicehive-plugin"
+    component: "devicehive-plugin"
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
 spec:
@@ -245,7 +245,7 @@ metadata:
   name: {{ .Release.Name }}-devicehive-proxy
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "{{ .Release.Name }}-devicehive-proxy"
+    component: "devicehive-proxy"
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
 spec:
