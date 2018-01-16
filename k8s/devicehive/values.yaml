@@ -18,9 +18,10 @@ devicehive:
     replicaCount: 1
     resources: {}
 
-  ## JWT secret used to sign and verify tokens
+  ## JWT secret is used to sign and verify tokens
   ## If not set, a random 16 characters secret will be used
   jwtsecret: ""
+
   kafka:
     name: devicehive-bus
   db:
