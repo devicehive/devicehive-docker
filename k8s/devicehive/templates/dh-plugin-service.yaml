@@ -1,0 +1,13 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-devicehive-plugin
+spec:
+  selector:
+    app: {{ .Release.Name }}-devicehive-plugin
+  ports:
+    - protocol: TCP
+      port: 8110
+      targetPort: dh-plugin
+...
