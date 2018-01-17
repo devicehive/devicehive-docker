@@ -26,6 +26,19 @@ devicehive:
   kafka:
     name: devicehive-bus
 
+wsproxy:
+  repository: devicehive
+  tag: development
+  pullPolicy: IfNotPresent
+  internal:
+    enabled: false
+    replicaCount: 1
+    resources: {}
+  external:
+    enabled: false
+    replicaCount: 1
+    resources: {}
+
 postgresql:
   postgresDatabase: devicehivedb
   postgresUser: devicehive

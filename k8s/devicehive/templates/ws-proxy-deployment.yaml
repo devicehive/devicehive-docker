@@ -1,0 +1,79 @@
+{{- if .Values.wsproxy.internal.enabled }}
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-devicehive-ws-proxy-internal
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "devicehive-ws-proxy"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+spec:
+  replicas: {{ .Values.wsproxy.internal.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-devicehive-ws-proxy-internal
+    spec:
+      containers:
+      - name: devicehive-ws-proxy-internal
+        image: {{ .Values.wsproxy.repository }}/devicehive-ws-proxy:{{ .Values.wsproxy.tag }}
+        imagePullPolicy: {{ .Values.wsproxy.PullPolicy }}
+        env:
+        - name: ENVSEPARATOR
+          value: '_'
+        - name: KAFKA_KAFKA_HOSTS
+          value: "{{ .Values.devicehive.kafka.name }}-kafka:9092"
+        - name: PROXY_WEB_SOCKET_SERVER_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        ports:
+        - name: ws-proxy
+          containerPort: 3000
+        resources:
+{{ toYaml .Values.wsproxy.resources | indent 10 }}
+{{- end }}
+---
+{{- if .Values.wsproxy.external.enabled }}
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-devicehive-ws-proxy-external
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "devicehive-ws-proxy"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+spec:
+  replicas: {{ .Values.wsproxy.internal.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-devicehive-ws-proxy-external
+    spec:
+      containers:
+      - name: devicehive-ws-proxy-external
+        image: {{ .Values.wsproxy.repository }}/devicehive-ws-proxy:{{ .Values.wsproxy.tag }}
+        imagePullPolicy: {{ .Values.wsproxy.PullPolicy }}
+        env:
+        - name: ENVSEPARATOR
+          value: '_'
+        - name: KAFKA_KAFKA_HOSTS
+          value: "{{ .Values.devicehive.kafka.name }}-kafka:9092"
+        - name: PLUGIN_MANAGER_AUTH_SERVICE_ENDPOINT
+          value: http://dh_auth:8090/auth/rest
+        - name: PLUGIN_MANAGER_PLUGIN_MANAGEMENT_SERVICE_ENDPOINT
+          value: http://dh_plugin:8110/plugin/rest
+        - name: PROXY_ENABLE_PLUGIN_MANAGER
+          value: 'true'
+        - name: PROXY_WEB_SOCKET_SERVER_HOST
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        ports:
+        - name: ws-proxy
+          containerPort: 3000
+        resources:
+{{ toYaml .Values.wsproxy.resources | indent 10 }}
+{{- end }}
