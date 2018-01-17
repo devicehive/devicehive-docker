@@ -56,8 +56,13 @@ You can now access your DeviceHive API at http://devicehive-host-url/api and Adm
 
 ## Development
 In order to run only DeviceHive 3d-party dependencies in Docker containers, simply run:
+# For PROXY version of Devicehive services:
 ```
-sudo docker-compose -f docker-compose-dev.yml up -d
+sudo docker-compose -f dev-proxy.yml up -d
+```
+# For RPC version of Devicehive services:
+```
+sudo docker-compose -f dev-rpc.yml up -d
 ```
 Then you'd be able to start all DeviceHive java services (backend, frontend, auth, plugin manager) by running ```java -jar devicehive-...-boot.jar```
 
