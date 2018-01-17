@@ -1,0 +1,46 @@
+version: "3"
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+    restart: unless-stopped
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+
+  kafka:
+    image: wurstmeister/kafka:1.0.0
+    ports:
+      - "9092:9092"
+    links:
+      - "zookeeper"
+    restart: unless-stopped
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+
+  postgres:
+    image: postgres:10
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DH_POSTGRES_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DH_POSTGRES_PASSWORD:-12345}
+      POSTGRES_DB: ${DH_POSTGRES_DB:-devicehive}
+    volumes:
+      - devicehive-db-dev:/var/lib/postgresql/data
+
+  hazelcast:
+    image: devicehive/devicehive-hazelcast:${DH_TAG:-development}
+    ports:
+      - "5701:5701"
+    restart: unless-stopped
+    environment:
+      MAX_HEAP_SIZE: "512m"
+      MIN_HEAP_SIZE: "512m"
+
+volumes:
+  devicehive-db-dev:
+  dh-proxy-ssl:

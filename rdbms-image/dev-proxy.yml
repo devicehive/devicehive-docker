@@ -17,8 +17,7 @@ services:
     restart: unless-stopped
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://127.0.0.1:9092
-      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
 
   postgres:
     image: postgres:10
@@ -42,6 +41,7 @@ services:
     environment:
       KAFKA.KAFKA_HOSTS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
       PROXY.WEB_SOCKET_SERVER_HOST: 'wsproxy'
+      KAFKA.LOGGER_LEVEL:  5
 
   hazelcast:
     image: devicehive/devicehive-hazelcast:${DH_TAG:-development}
