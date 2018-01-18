@@ -30,6 +30,7 @@ services:
       HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
       HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
       JWT_SECRET: ${JWT_SECRET}
+      SPRING_PROFILES_ACTIVE: ${DH_PLUGIN_SPRING_PROFILES_ACTIVE:-ws-kafka-proxy}
 
   wsproxyext:
     image: devicehive/devicehive-ws-proxy:${DH_WS_PROXY_TAG:-development}
