@@ -2,6 +2,6 @@ version: "3"
 services:
   dh_proxy:
     volumes:
-      -  "../../ssl/dhparam.pem:/etc/ssl/dhparam.pem:ro,Z"
-      -  "../../ssl/ssl_certificate:/etc/ssl/ssl_certificate:ro,Z"
-      -  "../../ssl/ssl_certificate_key:/etc/ssl/ssl_certificate_key:ro,Z"
+      - "../../ssl/dhparam.pem:/etc/ssl/dhparam.pem:ro,Z"
+      - "../../ssl/ssl_certificate:/etc/ssl/ssl_certificate:ro,Z"
+      - "../../ssl/ssl_certificate_key:/etc/ssl/ssl_certificate_key:ro,Z"
