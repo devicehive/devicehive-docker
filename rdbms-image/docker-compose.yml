@@ -32,7 +32,7 @@ services:
       - devicehive-db:/var/lib/postgresql/data
 
   wsproxy:
-    image: devicehive/devicehive-ws-proxy:${DH_WS_PROXY_TAG:-1.0.0}
+    image: devicehive/devicehive-ws-proxy:${DH_WS_PROXY_TAG:-development}
     links:
       - "kafka"
     restart: unless-stopped
@@ -41,7 +41,7 @@ services:
       PROXY.WEB_SOCKET_SERVER_HOST: 'wsproxy'
 
   dh_frontend:
-    image: devicehive/devicehive-frontend:${DH_TAG:-3.4.3}
+    image: devicehive/devicehive-frontend:${DH_TAG:-development}
     links:
       - "postgres"
       - "kafka"
@@ -71,7 +71,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${DH_FE_SPRING_PROFILES_ACTIVE:-ws-kafka-proxy-frontend}
 
   dh_auth:
-      image: devicehive/devicehive-auth:${DH_TAG:-3.4.3}
+      image: devicehive/devicehive-auth:${DH_TAG:-development}
       links:
         - "postgres"
         - "hazelcast"
@@ -90,7 +90,7 @@ services:
         JWT_SECRET: ${JWT_SECRET}
 
   hazelcast:
-    image: devicehive/devicehive-hazelcast:${DH_TAG:-3.4.3}
+    image: devicehive/devicehive-hazelcast:${DH_TAG:-development}
     ports:
       - "5701:5701"
     restart: unless-stopped
@@ -99,7 +99,7 @@ services:
       MIN_HEAP_SIZE: "512m"
 
   dh_backend:
-    image: devicehive/devicehive-backend:${DH_TAG:-3.4.3}
+    image: devicehive/devicehive-backend:${DH_TAG:-development}
     links:
       - "hazelcast"
       - "kafka"
@@ -127,7 +127,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${DH_BE_SPRING_PROFILES_ACTIVE:-ws-kafka-proxy-backend}
 
   dh_proxy:
-    image: devicehive/devicehive-proxy:${DH_PROXY_TAG:-3.4.3}
+    image: devicehive/devicehive-proxy:${DH_PROXY_TAG:-development}
     links:
       - "dh_auth"
       - "dh_frontend"
