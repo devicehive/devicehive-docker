@@ -66,32 +66,26 @@ sudo docker-compose -f dev-rpc.yml up -d
 ```
 Then you'd be able to start all DeviceHive java services (backend, frontend, auth, plugin manager) by running ```java -jar devicehive-...-boot.jar```
 
-## HTTPS configuration (SSL/TLS)
-DeviceHive Frontend service doesn't provides connection encryption and relies on external service for that.
+## HTTPS configuration (TLS)
+DeviceHive Proxy provides TLS support by default. If custom certificate is not configured it generates self-signed certificate and stores them in `dh-proxy-ssl` Docker volume.
 
-For Docker Compose installation we will use Compose feature to read configuration from [multiple Compose files](https://docs.docker.com/compose/extends/#multiple-compose-files). Second Compose file will start nginx reverse proxy with HTTPS support.
-
-To configure secured HTTPS access to DeviceHive follow these steps.
+### Using custom certificate
+For Docker Compose installation we will use Compose feature to read configuration from [multiple Compose files](https://docs.docker.com/compose/extends/#multiple-compose-files). Second Compose file will start devicehive-proxy container with custom certificate.
+To configure DeviceHive Proxy to use your own certificate follow next steps:
 1. Generate key and certificate signing request for your domain, sign CSR with Certificate Authority. Resulting certificate and key files must be in the PEM format.
-2. Create `ssl` directory inside this directory and copy certificate, key and CA certificate chain files to it.
+2. Create `ssl` directory outside of `devicehive-docker` directory, on the same level.
 3. Generate dhparam file for nginx:
 ```
 openssl dhparam -out ssl/dhparam.pem 2048
 ```
-
-4. Create nginx config file named `nginx-ssl-proxy.conf`. You can use provided example and edit certificate and key filenames:
+4. Copy SSL certificate to `ssl` directory. File must be named `ssl_certificate`.
+5. Copy SSL certificate key to `ssl` directory. File must be named `ssl_certificate_key`.
+6. Run DeviceHive with the following command:
 ```
-cp nginx-ssl-proxy.conf.example nginx-ssl-proxy.conf
-vi nginx-ssl-proxy.conf
-```
-Note that `./ssl` directory is mounted to /etc/ssl in container. So you need to edit only last part of path in `ssl_certificate`, `ssl_certificate_key`, `ssl_trusted_certificate` parameters.
-
-5. Run DeviceHive with the following command:
-```
-sudo docker-compose -f docker-compose.yml -f nginx-ssl-proxy.yml up -d
+sudo docker-compose -f docker-compose.yml -f dh_proxy_custom_certificate.yml up -d
 ```
 
-Or add line `COMPOSE_FILE=docker-compose.yml:nginx-ssl-proxy.yml` in `.env` file.
+Or add line `COMPOSE_FILE=docker-compose.yml:dh_proxy_custom_certificate.yml` in `.env` file.
 
 You can now access your DeviceHive API at https://devicehive-host-url/api and Admin Console at https://devicehive-host-url/admin.
 
