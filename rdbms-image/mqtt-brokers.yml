@@ -14,19 +14,19 @@ services:
     image: devicehive/devicehive-mqtt:development
     restart: unless-stopped
     environment:
-      - WS_SERVER_URL=ws://playground-dev.devicehive.com/api/websocket
-      - REDIS_SERVER_HOST=redis
-      - REDIS_SERVER_PORT=6379
-      - ENABLE_PM=false
+      - BROKER.WS_SERVER_URL=ws://playground-dev.devicehive.com/api/websocket
+      - BROKER.REDIS_SERVER_HOST=redis
+      - BROKER.REDIS_SERVER_PORT=6379
+      - BROKER.ENABLE_PM=false
 
   mqtt_broker2:
     image: devicehive/devicehive-mqtt:development
     restart: unless-stopped
     environment:
-      - WS_SERVER_URL=ws://playground-dev.devicehive.com/api/websocket
-      - REDIS_SERVER_HOST=redis
-      - REDIS_SERVER_PORT=6379
-      - ENABLE_PM=false
+      - BROKER.WS_SERVER_URL=ws://playground-dev.devicehive.com/api/websocket
+      - BROKER.REDIS_SERVER_HOST=redis
+      - BROKER.REDIS_SERVER_PORT=6379
+      - BROKER.ENABLE_PM=false
 
   redis:
     image: redis:alpine
