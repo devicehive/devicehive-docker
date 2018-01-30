@@ -100,6 +100,17 @@ sudo docker-compose -f docker-compose.yml -f dh_plugin.yml up -d
 Or add line `COMPOSE_FILE=docker-compose.yml:dh_plugin.yml` in `.env` file.
 
 ## Monitoring
+### cAdvisor metrics
+We provide Compose file with cAdvisor service which exports various container-related metrics. It's exposed on port 9395.
+
+Run DeviceHive with the following command:
+
+```
+sudo docker-compose -f docker-compose.yml -f cadvisor.yml
+```
+
+Or add line `COMPOSE_FILE=docker-compose.yml:cadvisor.yml` in `.env` file.
+
 ### Kafka metrics
 You can start Kafka service with additional Prometheus metrics exporter. Necessary parameters for Kafka container are already configured in `devicehive-metrics.yml` file. It will launch JMX exporter on tcp port 7071.
 
