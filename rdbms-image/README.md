@@ -64,7 +64,7 @@ sudo docker-compose -f dev-rpc.yml up -d
 Then you'd be able to start all DeviceHive java services (backend, frontend, auth, plugin manager) by running ```java -jar devicehive-...-boot.jar```
 
 ## Configuration
-All containers are configured via environment variables and Docker Compose can pass variables from its environment to containers and read them from [.env](https://docs.docker.com/compose/compose-file/#env_file) file. To make persistent configuration changes we will add parameters in the `.env` file in the current directory.
+All containers are configured via environment variables and Docker Compose can pass variables from its environment to containers or read them from [.env](https://docs.docker.com/compose/compose-file/#env_file) file. To make persistent configuration changes we will add parameters in the `.env` file in the current directory.
 
 ### JWT secret
 * `JWT_SECRET` - changes the randomly generated JWT signing secret.
