@@ -42,6 +42,13 @@ Table below lists endpoints where you can find various DeviceHive services. Repl
 | 9092    | Kafka            |                                                                     |
 | 9395    | cAdvisor         | If enabled, see [cAdvisor metrics](#cadvisor-metrics) section below |
 
+### Run with DeviceHive Plugin service
+To enable optional DeviceHive Plugin service run DeviceHive with the following command:
+```
+sudo docker-compose -f docker-compose.yml -f dh_plugin.yml up -d
+```
+Or add line `COMPOSE_FILE=docker-compose.yml:dh_plugin.yml` in `.env` file.
+
 ## Development run
 In order to run only DeviceHive 3d-party dependencies in Docker containers, simply run:
 
@@ -134,13 +141,6 @@ sudo docker-compose -f docker-compose.yml -f dh_proxy_custom_certificate.yml up 
 Or add line `COMPOSE_FILE=docker-compose.yml:dh_proxy_custom_certificate.yml` in `.env` file.
 
 You can now access your DeviceHive API at https://devicehive-host-url/api and Admin Console at https://devicehive-host-url/admin.
-
-## DeviceHive Plugin service
-To enable optional DeviceHive Plugin service run DeviceHive with the following command:
-```
-sudo docker-compose -f docker-compose.yml -f dh_plugin.yml up -d
-```
-Or add line `COMPOSE_FILE=docker-compose.yml:dh_plugin.yml` in `.env` file.
 
 ## Monitoring
 ### cAdvisor metrics
