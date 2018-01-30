@@ -7,6 +7,55 @@ Docker Compose puts all containers together and provides a way to tweak configur
 DeviceHive can be started without any configuration, docker-compose.yml file has all neccesary parameters set to safe defaults. But there is one parameter that can be changed security-wise - JWT secret.
 DeviceHive uses JWT tokens for authentication of users and devices. For security reasons secret value that is used for signing JWT tokens is generated at first start of DeviceHive and stored in the database. You can set it by yourself exporting the JWT_SECRET environment variable or by adding `JWT_SECRET=<your value>` line in the `.env` file in this directory.
 
+## Run
+In order to run DeviceHive stack in Docker containers, define environment variables as per your requirements and run:
+```
+sudo docker-compose up -d
+```
+You can now access your DeviceHive instance via endpoints decribed in next section.
+
+### Service endpoints
+Table below lists endpoints where you can find various DeviceHive services. Replace `localhost` with actual hostname of the machine where DeviceHive is running.
+
+| Service              | URL                             |
+|----------------------|---------------------------------|
+| Admin Console        | http://localhost/admin          |
+| Frontend service API | http://localhost/api/rest       |
+| Auth service API     | http://localhost/auth/rest      |
+| Plugin service API   | http://localhost/plugin/rest    |
+| Frontend Swagger     | http://localhost/api/swagger    |
+| Auth Swagger         | http://localhost/auth/swagger   |
+| Plugin Swagger       | http://localhost/plugin/swagger |
+
+### Exposed ports
+| Port    | Service          | Notes                                                               |
+|---------|------------------|---------------------------------------------------------------------|
+| 80, 443 | Nginx proxy      | Primary port for all services                                       |
+| 1883    | MQTT brokers     | If enabled, see [MQTT brokers](#mqtt-brokers) section below        |
+| 2181    | Zookeeper        |                                                                     |
+| 5432    | PostgreSQL DB    |                                                                     |
+| 5701    | Hazelcast        |                                                                     |
+| 7071    | Kafka metrics    | If enabled, see [Kafka metrics](#kafka-metrics) section below       |
+| 8080    | Frontend service |                                                                     |
+| 8090    | Auth service     |                                                                     |
+| 8110    | Plugin service   | If enabled, see subsection below                                    |
+| 9092    | Kafka            |                                                                     |
+| 9395    | cAdvisor         | If enabled, see [cAdvisor metrics](#cadvisor-metrics) section below |
+
+## Development run
+In order to run only DeviceHive 3d-party dependencies in Docker containers, simply run:
+
+### For PROXY version of Devicehive services:
+```
+sudo docker-compose -f dev-proxy.yml up -d
+```
+
+### For RPC version of Devicehive services:
+```
+sudo docker-compose -f dev-rpc.yml up -d
+```
+Then you'd be able to start all DeviceHive java services (backend, frontend, auth, plugin manager) by running ```java -jar devicehive-...-boot.jar```
+
 ## Configuration
 All containers are configured via environment variables and Docker Compose can pass variables from its environment to containers and read them from [.env](https://docs.docker.com/compose/compose-file/#env_file) file. To make persistent configuration changes we will add parameters in the `.env` file in the current directory.
 
@@ -62,25 +111,6 @@ You can find more configurable parameters in [frontend][fe-script-url] and [back
 
 [fe-script-url]: https://github.com/devicehive/devicehive-java-server/blob/master/dockerfiles/devicehive-frontend/devicehive-start.sh
 [be-script-url]: https://github.com/devicehive/devicehive-java-server/blob/master/dockerfiles/devicehive-backend/devicehive-start.sh
-
-## Run
-In order to run DeviceHive stack in Docker containers, define environment variables as per your requirements and run:
-```
-sudo docker-compose up -d
-```
-You can now access your DeviceHive API at http://devicehive-host-url/api and Admin Console at http://devicehive-host-url/admin.
-
-## Development
-In order to run only DeviceHive 3d-party dependencies in Docker containers, simply run:
-### For PROXY version of Devicehive services:
-```
-sudo docker-compose -f dev-proxy.yml up -d
-```
-### For RPC version of Devicehive services:
-```
-sudo docker-compose -f dev-rpc.yml up -d
-```
-Then you'd be able to start all DeviceHive java services (backend, frontend, auth, plugin manager) by running ```java -jar devicehive-...-boot.jar```
 
 ## HTTPS configuration (TLS)
 DeviceHive Proxy provides TLS support by default. If custom certificate is not configured it generates self-signed certificate and stores them in `dh-proxy-ssl` Docker volume.
