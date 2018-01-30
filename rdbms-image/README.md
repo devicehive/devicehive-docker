@@ -3,8 +3,15 @@
 
 Docker Compose puts all containers together and provides a way to tweak configuration for your environment.
 
+## Before you start
+DeviceHive can be started without any configuration, docker-compose.yml file has all neccesary parameters set to safe defaults. But there is one parameter that can be changed security-wise - JWT secret.
+DeviceHive uses JWT tokens for authentication of users and devices. For security reasons secret value that is used for signing JWT tokens is generated at first start of DeviceHive and stored in the database. You can set it by yourself exporting the JWT_SECRET environment variable or by adding `JWT_SECRET=<your value>` line in the `.env` file in this directory.
+
 ## Configuration
-DeviceHive service stack will start without any configuration. All containers are configured via environment variables and Docker Compose can pass variables from its environment to containers and read them from [.env](https://docs.docker.com/compose/compose-file/#env_file) file. To make persistent configuration changes we will add parameters in the `.env` file in current directory.
+All containers are configured via environment variables and Docker Compose can pass variables from its environment to containers and read them from [.env](https://docs.docker.com/compose/compose-file/#env_file) file. To make persistent configuration changes we will add parameters in the `.env` file in the current directory.
+
+### JWT secret
+* `JWT_SECRET` - changes the randomly generated JWT signing secret.
 
 ### DeviceHive image tags
 Released versions of devicehive-docker use stable DeviceHive images from [DeviceHive Docker Hub repository](https://hub.docker.com/u/devicehive/). But if you want follow DeviceHive development add following parameters:
@@ -30,10 +37,6 @@ To enable DeviceHive to communicate over Apache Kafka message bus to scale out a
 * `DH_RPC_SERVER_WORKER_THREADS` - Server worker threads in the Backend, defaults to `3` if undefined. On machine with many CPU cores and high load this value must be raised. For example on machine with 8 core it must be set to `6`.
 * `DH_RPC_CLIENT_RES_CONS_THREADS` - Kafka response consumer threads in the Frontend, defaults to `3`.
 * `DH_FE_SPRING_PROFILES_ACTIVE`, `DH_BE_SPRING_PROFILES_ACTIVE` and `DH_PLUGIN_SPRING_PROFILES_ACTIVE` - Changes which Spring profile use for Frontend, Backend and Plugin sevices respectively. Defaults to `ws-kafka-proxy-frontend` for Frontend, `ws-kafka-proxy-backend` for Backend and `ws-kafka-proxy` for Plugin. Can be changed to `rpc-client` for Frontend/Plugin and `rpc-server` for Backend to use direct connection to Kafka instead of devicehive-ws-proxy service.
-
-### JWT secret
-DeviceHive uses JWT tokens for authentication of users and devices. For security reasons secret value that is used for signing JWT tokens is generated at first start of DeviceHive and stored in the database. If you want to make JWT tokens work across DeviceHive installations, change `JWT_SECRET` parameter.
-* `JWT_SECRET` - changes the randomly generated JWT signing secret.
 
 ### Logging
 By default DeviceHive writes minimum logs for better performance. Two configuration parameters are supported:
