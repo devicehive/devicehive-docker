@@ -38,6 +38,19 @@ To enable DeviceHive to communicate over Apache Kafka message bus to scale out a
 * `DH_RPC_CLIENT_RES_CONS_THREADS` - Kafka response consumer threads in the Frontend, defaults to `3`.
 * `DH_FE_SPRING_PROFILES_ACTIVE`, `DH_BE_SPRING_PROFILES_ACTIVE` and `DH_PLUGIN_SPRING_PROFILES_ACTIVE` - Changes which Spring profile use for Frontend, Backend and Plugin sevices respectively. Defaults to `ws-kafka-proxy-frontend` for Frontend, `ws-kafka-proxy-backend` for Backend and `ws-kafka-proxy` for Plugin. Can be changed to `rpc-client` for Frontend/Plugin and `rpc-server` for Backend to use direct connection to Kafka instead of devicehive-ws-proxy service.
 
+### MQTT brokers
+The [devicehive-mqtt plugin][dh-mqtt-url] is a MQTT transport layer between MQTT clients and DeviceHive server. The broker uses WebSocket sessions to communicate with DeviceHive Server and Redis server for persistence functionality.
+
+To enable optional DeviceHive MQTT brokers run DeviceHive with the following command. This will start MQTT brokers on port 1883 and internal Redis container:
+
+```
+sudo docker-compose -f docker-compose.yml -f mqtt-brokers.yml
+```
+
+Or add line `COMPOSE_FILE=docker-compose.yml:mqtt-brokers.yml` in `.env` file.
+
+[dh-mqtt-url]: https://github.com/devicehive/devicehive-mqtt
+
 ### Logging
 By default DeviceHive writes minimum logs for better performance. Two configuration parameters are supported:
 * `DH_LOG_LEVEL` - log verbosity for DeviceHive Java classes. Defaults to `INFO` for both devicehive-frontend and devicehive-backend.
