@@ -25,6 +25,7 @@ services:
       DH_LOG_LEVEL: ${DH_LOG_LEVEL:-INFO}
       ROOT_LOG_LEVEL: ${ROOT_LOG_LEVEL:-WARN}
       DH_WS_PROXY: wsproxy:3000
+      DH_PROXY_PLUGIN_CONNECT: ${DH_PROXY_PLUGIN_CONNECT:-ws://localhost/plugin/proxy}
       DH_AUTH_URL: http://dh_auth:8090/auth/rest
       HC_MEMBERS: hazelcast
       HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
