@@ -4,7 +4,7 @@
 Docker Compose puts all containers together and provides a way to tweak configuration for your environment.
 
 ## Before you start
-DeviceHive can be started without any additional configuration, 'docker-compose.yml' file contains all neccesary parameters set to safe defaults. Though there is one parameter that could and should be changed due to security reasons - JWT secret.
+DeviceHive can be started without any additional configuration, `docker-compose.yml` file contains all neccesary parameters set to safe defaults. Though there is one parameter that could and should be changed due to security reasons - JWT secret.
 DeviceHive ecosystem uses JWT tokens for authentication. JWT secret is used for signing JWT tokens and is generated at startup of DeviceHive and stored in the database. You can change it by exporting the JWT_SECRET environment variable or by adding `JWT_SECRET=<your value>` line in the `.env` file inside current directory.
 
 ## Run
