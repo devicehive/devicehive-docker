@@ -4,18 +4,18 @@
 Docker Compose puts all containers together and provides a way to tweak configuration for your environment.
 
 ## Before you start
-DeviceHive can be started without any configuration, docker-compose.yml file has all neccesary parameters set to safe defaults. But there is one parameter that can be changed security-wise - JWT secret.
-DeviceHive uses JWT tokens for authentication of users and devices. For security reasons secret value that is used for signing JWT tokens is generated at first start of DeviceHive and stored in the database. You can set it by yourself exporting the JWT_SECRET environment variable or by adding `JWT_SECRET=<your value>` line in the `.env` file in this directory.
+DeviceHive can be started without any additional configuration, 'docker-compose.yml' file contains all neccesary parameters set to safe defaults. Though there is one parameter that could and should be changed due to security reasons - JWT secret.
+DeviceHive ecosystem uses JWT tokens for authentication. JWT secret is used for signing JWT tokens and is generated at startup of DeviceHive and stored in the database. You can change it by exporting the JWT_SECRET environment variable or by adding `JWT_SECRET=<your value>` line in the `.env` file inside current directory.
 
 ## Run
-In order to run DeviceHive stack in Docker containers, define environment variables as per your requirements and run:
+In order to run DeviceHive stack on top of Docker containers, define environment variables as per your requirements and run:
 ```
 sudo docker-compose up -d
 ```
-You can now access your DeviceHive instance via endpoints decribed in next section.
+You can now access your DeviceHive microservices via endpoints decribed in the next section.
 
 ### Service endpoints
-Table below lists endpoints where you can find various DeviceHive services. Replace `localhost` with actual hostname of the machine where DeviceHive is running.
+Table below lists endpoints where you can find various DeviceHive services. Replace `localhost` with actual hostname of the docker daemon and start observing DeviceHive capabilities.
 
 | Service              | URL                             |
 |----------------------|---------------------------------|
