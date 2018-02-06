@@ -1,5 +1,5 @@
 # DeviceHive installation with Docker-compose
-[DeviceHive](https://github.com/devicehive/devicehive-java-server) Docker containers accept many environment variables which configure persistent storage in PostgreSQL, message bus support through Apache Kafka and scalable storage of device messages using Apache Cassandra.
+[DeviceHive](https://github.com/devicehive/devicehive-java-server) Docker containers accept many environment variables which configure persistent storage in PostgreSQL and message bus support through Apache Kafka.
 
 Docker Compose puts all containers together and provides a way to tweak configuration for your environment.
 
