@@ -46,3 +46,8 @@ services:
       PLUGIN_MANAGER.PLUGIN_MANAGEMENT_SERVICE_ENDPOINT: http://dh_plugin:8110/plugin/rest
       PROXY.ENABLE_PLUGIN_MANAGER: 'true'
       PROXY.WEB_SOCKET_SERVER_HOST: 'wsproxyext'
+
+  dh_proxy:
+    links:
+      - "dh_plugin"
+      - "wsproxyext"
