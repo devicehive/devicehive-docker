@@ -15,34 +15,34 @@ sudo docker-compose up -d
 You can now access your DeviceHive microservices via endpoints decribed in the next section.
 
 ### Service endpoints
-Table below lists endpoints where you can find various DeviceHive services. Replace `localhost` with actual hostname of the docker daemon and start observing DeviceHive capabilities.
+Table below lists endpoints where you can find various DeviceHive services. Replace *localhost* with actual hostname of the docker daemon and start observing DeviceHive capabilities.
 
-| Service              | URL                             | Notes                                  |
-|----------------------|---------------------------------|----------------------------------------|
-| Admin Console        | http://localhost/admin          |                                        |
-| Frontend service API | http://localhost/api/rest       |                                        |
-| Auth service API     | http://localhost/auth/rest      |                                        |
-| Plugin service API   | http://localhost/plugin/rest    | If Plugin service is enabled           |
-| Frontend Swagger     | http://localhost/api/swagger    |                                        |
-| Auth Swagger         | http://localhost/auth/swagger   |                                        |
-| Plugin Swagger       | http://localhost/plugin/swagger | If Plugin service is enabled           |
-| Grafana              | http://localhost/grafana        | If Grafana is enabled. Demo of DeviceHive Grafana datasource |
-| MQTT brokers         | localhost:1883                  | If MQTT brokers are enabled            |
+| Service              | URL                               | Notes                                  |
+|----------------------|-----------------------------------|----------------------------------------|
+| Admin Console        | http://*localhost*/admin          |                                        |
+| Frontend service API | http://*localhost*/api/rest       |                                        |
+| Auth service API     | http://*localhost*/auth/rest      |                                        |
+| Plugin service API   | http://*localhost*/plugin/rest    | If Plugin service is enabled           |
+| Frontend Swagger     | http://*localhost*/api/swagger    |                                        |
+| Auth Swagger         | http://*localhost*/auth/swagger   |                                        |
+| Plugin Swagger       | http://*localhost*/plugin/swagger | If Plugin service is enabled           |
+| Grafana              | http://*localhost*/grafana        | If Grafana is enabled. Demo of DeviceHive Grafana datasource |
+| MQTT brokers         | *localhost*:1883                  | If MQTT brokers are enabled            |
 
 ### Exposed ports
 | Port    | Service          | Notes                                                               |
-|---------|------------------|---------------------------------------------------------------------|
+|    ---: |------------------|---------------------------------------------------------------------|
 | 80, 443 | Nginx proxy      | Primary port for all services                                       |
-| 1883    | MQTT brokers     | If enabled, see [MQTT brokers](#mqtt-brokers) section below         |
-| 2181    | Zookeeper        |                                                                     |
-| 5432    | PostgreSQL DB    |                                                                     |
-| 5701    | Hazelcast        |                                                                     |
-| 7071    | Kafka metrics    | If enabled, see [Kafka metrics](#kafka-metrics) section below       |
-| 8080    | Frontend service |                                                                     |
-| 8090    | Auth service     |                                                                     |
-| 8110    | Plugin service   | If enabled, see subsection below                                    |
-| 9092    | Kafka            |                                                                     |
-| 9395    | cAdvisor         | If enabled, see [cAdvisor metrics](#cadvisor-metrics) section below |
+|    1883 | MQTT brokers     | If enabled, see [MQTT brokers](#mqtt-brokers) section below         |
+|    2181 | Zookeeper        |                                                                     |
+|    5432 | PostgreSQL DB    |                                                                     |
+|    5701 | Hazelcast        |                                                                     |
+|    7071 | Kafka metrics    | If enabled, see [Kafka metrics](#kafka-metrics) section below       |
+|    8080 | Frontend service |                                                                     |
+|    8090 | Auth service     |                                                                     |
+|    8110 | Plugin service   | If enabled, see subsection below                                    |
+|    9092 | Kafka            |                                                                     |
+|    9395 | cAdvisor         | If enabled, see [cAdvisor metrics](#cadvisor-metrics) section below |
 
 ### Run with DeviceHive Plugin service
 To enable optional DeviceHive Plugin service run DeviceHive with the following command:
