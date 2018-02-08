@@ -168,6 +168,10 @@ Or add line `COMPOSE_FILE=docker-compose.yml:devicehive-metrics.yml` in `.env` f
 Related Prometheus config for this exporter and link to Grafana Dashboard is in the [Monitoring Kafka with Prometheus](https://www.robustperception.io/monitoring-kafka-with-prometheus/) blog post by Prometheus developer.
 
 ### DeviceHive Grafana Datasource
+DeviceHive project provides official [datasource plugin for Grafana][datasource-github-repo] which is also published in [Grafana plugin registry][datasource-in-plugin-registry]. For the means of testing DeviceHive datasource plugin we provide Docker image with only this datasource enabled.
+
+> Please note that this image is for testing purposes only. If you want to use datasource plugin in production environment, install plugin in separately managed Grafana instance. We don't provide support for this image.
+
 To enable optional Grafana service with DeviceHive datasource run DeviceHive with the following command:
 ```
 sudo docker-compose -f docker-compose.yml -f grafana.yml up -d
@@ -181,7 +185,11 @@ sudo docker-compose down
 sudo docker-compose up
 ```
 
-Grafana will be available at `http://<devicehive-host>/grafana` with default Grafana credentials. 
+Grafana will be available at `http://<devicehive-host>/grafana` with [default Grafana credentials][grafana-conf-security].
+
+[datasource-github-repo]: https://github.com/devicehive/devicehive-grafana-datasource
+[datasource-in-plugin-registry]: https://grafana.com/plugins/devicehive-devicehive-datasource
+[grafana-conf-security]: http://docs.grafana.org/installation/configuration/#security
 
 ## Development environment
 ### Using CI images
