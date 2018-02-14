@@ -23,7 +23,7 @@ spec:
         - name: DH_AUTH_URL
           value: "http://{{ .Release.Name }}-devicehive-auth:8090/api/rest"
         - name: DH_KAFKA_BOOTSTRAP_SERVERS
-          value: "{{ .Values.devicehive.kafka.name }}-kafka:9092"
+          value: {{ template "kafka.fullname" . }}:9092
         - name: DH_POSTGRES_ADDRESS
           value: {{ template "postgresql.fullname" . }}
         - name: DH_POSTGRES_DB
@@ -43,7 +43,7 @@ spec:
           value: "ws://localhost/plugin/proxy"
 {{- end -}}
         - name: DH_ZK_ADDRESS
-          value: "{{ .Values.devicehive.kafka.name }}-zookeeper"
+          value: {{ template "zookeeper.fullname" . }}
         - name: DH_ZK_PORT
           value: "2181"
         - name: HC_MEMBERS

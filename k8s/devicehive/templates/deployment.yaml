@@ -51,8 +51,6 @@ spec:
         image: {{ .Values.devicehive.repository}}/devicehive-auth:{{ .Values.devicehive.tag }}
         imagePullPolicy: {{ .Values.devicehive.PullPolicy }}
         env:
-        - name: DH_KAFKA_BOOTSTRAP_SERVERS
-          value: "{{ .Values.devicehive.kafka.name }}-kafka:9092"
         - name: DH_POSTGRES_ADDRESS
           value: {{ template "postgresql.fullname" . }}
         - name: DH_POSTGRES_DB
@@ -63,10 +61,6 @@ spec:
           value: "{{ .Values.postgresql.postgresUser }}"
         - name: DH_POSTGRES_PASSWORD
           value: "{{ .Values.postgresql.postgresPassword }}"
-        - name: DH_ZK_ADDRESS
-          value: "{{ .Values.devicehive.kafka.name }}-zookeeper"
-        - name: DH_ZK_PORT
-          value: "2181"
         - name: JWT_SECRET
           valueFrom:
             secretKeyRef:
@@ -108,7 +102,7 @@ spec:
         - name: DH_AUTH_URL
           value: "http://{{ .Release.Name }}-devicehive-auth:8090/auth/rest"
         - name: DH_KAFKA_BOOTSTRAP_SERVERS
-          value: "{{ .Values.devicehive.kafka.name }}-kafka:9092"
+          value: {{ template "kafka.fullname" . }}:9092
         - name: DH_POSTGRES_ADDRESS
           value: {{ template "postgresql.fullname" . }}
         - name: DH_POSTGRES_DB
@@ -120,7 +114,7 @@ spec:
         - name: DH_POSTGRES_PASSWORD
           value: "{{ .Values.postgresql.postgresPassword }}"
         - name: DH_ZK_ADDRESS
-          value: "{{ .Values.devicehive.kafka.name }}-zookeeper"
+          value: {{ template "zookeeper.fullname" . }}
         - name: DH_ZK_PORT
           value: "2181"
         {{- if .Values.wsproxy.internal.enabled }}
@@ -168,7 +162,7 @@ spec:
         imagePullPolicy: {{ .Values.devicehive.PullPolicy }}
         env:
         - name: DH_KAFKA_BOOTSTRAP_SERVERS
-          value: "{{ .Values.devicehive.kafka.name }}-kafka:9092"
+          value: {{ template "kafka.fullname" . }}:9092
         - name: DH_POSTGRES_ADDRESS
           value: {{ template "postgresql.fullname" . }}
         - name: DH_POSTGRES_DB
@@ -180,7 +174,7 @@ spec:
         - name: DH_POSTGRES_PASSWORD
           value: "{{ .Values.postgresql.postgresPassword }}"
         - name: DH_ZK_ADDRESS
-          value: "{{ .Values.devicehive.kafka.name }}-zookeeper"
+          value: {{ template "zookeeper.fullname" . }}
         - name: DH_ZK_PORT
           value: "2181"
         {{- if .Values.wsproxy.internal.enabled }}

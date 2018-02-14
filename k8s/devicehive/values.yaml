@@ -60,3 +60,7 @@ postgresql:
     enabled: true
     size: 1Gi
   imageTag: 10
+
+# Apache Kafka
+kafka:
+  enabled: true

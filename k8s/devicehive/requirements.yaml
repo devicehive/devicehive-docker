@@ -5,3 +5,8 @@ dependencies:
   condition: postgresql.enabled
   tags:
     - devicehive-database
+
+- name: kafka
+  version: ~0.2.13
+  repository: https://kubernetes-charts-incubator.storage.googleapis.com/
+  condition: kafka.enabled
