@@ -39,15 +39,6 @@ wsproxy:
     replicaCount: 1
     resources: {}
 
-postgresql:
-  postgresDatabase: devicehivedb
-  postgresUser: devicehive
-  postgresPassword: devicehivepassword
-  persistence:
-    enabled: true
-    size: 1Gi
-  imageTag: 10
-
 devicehiveProxy:
   repository: devicehive
   tag: 3.4.2
@@ -57,3 +48,15 @@ devicehiveProxy:
     annotations: {}
     #  kubernetes.io/ingress.class: nginx
     hosts: []
+
+# External dependencies
+# PostgreSQL
+postgresql:
+  enabled: true
+  postgresDatabase: devicehivedb
+  postgresUser: devicehive
+  postgresPassword: devicehivepassword
+  persistence:
+    enabled: true
+    size: 1Gi
+  imageTag: 10
