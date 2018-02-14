@@ -36,6 +36,12 @@ spec:
           value: "{{ .Values.postgresql.postgresPassword }}"
         - name: DH_RPC_CLIENT_RES_CONS_THREADS
           value: "3"
+        - name: DH_WS_PROXY
+          value: "{{ .Release.Name }}-devicehive-ws-proxy-internal:3000"
+{{- if .Values.wsproxy.external.enabled }}
+        - name: DH_PROXY_PLUGIN_CONNECT
+          value: "ws://localhost/plugin/proxy"
+{{- end -}}
         - name: DH_ZK_ADDRESS
           value: "{{ .Values.devicehive.kafka.name }}-zookeeper"
         - name: DH_ZK_PORT
