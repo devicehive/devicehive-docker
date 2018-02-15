@@ -2,37 +2,6 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-devicehive-hazelcast
-  labels:
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
-    component: "devicehive-hazelcast"
-    heritage: "{{ .Release.Service }}"
-    release: "{{ .Release.Name }}"
-spec:
-  replicas: {{ .Values.devicehive.hazelcast.replicas }}
-  template:
-    metadata:
-      labels:
-        app: {{ .Release.Name }}-devicehive-hazelcast
-    spec:
-      containers:
-      - name: devicehive-hazelcast
-        image: {{ .Values.devicehive.repository }}/devicehive-hazelcast:{{ .Values.devicehive.tag }}
-        imagePullPolicy: {{ .Values.devicehive.PullPolicy }}
-        env:
-        - name: MIN_HEAP_SIZE
-          value: "512m"
-        - name: MAX_HEAP_SIZE
-          value: "512m"
-        ports:
-        - name: hazelcast
-          containerPort: 5701
-        resources:
-{{ toYaml .Values.devicehive.hazelcast.resources | indent 10 }}
----
-apiVersion: apps/v1beta1
-kind: Deployment
-metadata:
   name: {{ .Release.Name }}-devicehive-backend
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
