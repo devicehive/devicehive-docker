@@ -31,13 +31,17 @@ spec:
           initialDelaySeconds: 60
           periodSeconds: 3
         volumeMounts:
-        - name: api-gateway-upstream-conf
-          mountPath: /etc/nginx/upstream.d
+        - name: api-gateway-locations-conf
+          mountPath: /etc/nginx/location.d/api-gateway.conf
+          subPath: api-gateway.conf
+        - name: api-gateway-upstreams-conf
+          mountPath: /etc/nginx/upstream.d/api-gateway.conf
+          subPath: api-gateway.conf
       volumes:
-        - name: api-gateway-upstream-conf
+        - name: api-gateway-locations-conf
           configMap:
-            name: {{ .Release.Name }}-api-gateway-upstream-conf
-            items:
-            - key: api-gateway.conf
-              path: api-gateway.conf
+            name: {{ .Release.Name }}-api-gateway-locations-conf
+        - name: api-gateway-upstreams-conf
+          configMap:
+            name: {{ .Release.Name }}-api-gateway-upstreams-conf
 ...

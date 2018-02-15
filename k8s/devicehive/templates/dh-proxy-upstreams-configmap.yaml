@@ -1,7 +1,7 @@
 kind: ConfigMap
 apiVersion: v1
 metadata:
-  name: {{ .Release.Name }}-api-gateway-upstream-conf
+  name: {{ .Release.Name }}-api-gateway-upstreams-conf
 data:
   api-gateway.conf: |-
     upstream api_upstream {
@@ -10,8 +10,8 @@ data:
     upstream auth_upstream {
         server {{ .Release.Name }}-devicehive-auth:8090;
     }
-{{- if .Values.devicehive.plugin.enabled -}}
+{{- if .Values.devicehive.plugin.enabled }}
     upstream plugin_upstream {
         server {{ .Release.Name }}-devicehive-plugin:8110;
     }
-{{- end -}}
+{{- end }}
