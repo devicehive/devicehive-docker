@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-devicehive-frontend
+spec:
+  selector:
+    app: {{ .Release.Name }}-devicehive-frontend
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: dh-api
+

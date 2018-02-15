@@ -1,0 +1,61 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-devicehive-frontend
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "devicehive-frontend"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+spec:
+  replicas: {{ .Values.devicehive.frontend.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-devicehive-frontend
+    spec:
+      containers:
+      - name: devicehive-frontend
+        image: {{ .Values.devicehive.repository }}/devicehive-frontend:{{ .Values.devicehive.tag }}
+        imagePullPolicy: {{ .Values.devicehive.PullPolicy }}
+        env:
+        - name: DH_AUTH_URL
+          value: "http://{{ .Release.Name }}-devicehive-auth:8090/auth/rest"
+        - name: DH_KAFKA_BOOTSTRAP_SERVERS
+          value: {{ template "kafka.fullname" . }}:9092
+        - name: DH_POSTGRES_ADDRESS
+          value: {{ template "postgresql.fullname" . }}
+        - name: DH_POSTGRES_DB
+          value: "{{ .Values.postgresql.postgresDatabase }}"
+        - name: DH_POSTGRES_PORT
+          value: "5432"
+        - name: DH_POSTGRES_USERNAME
+          value: "{{ .Values.postgresql.postgresUser }}"
+        - name: DH_POSTGRES_PASSWORD
+          value: "{{ .Values.postgresql.postgresPassword }}"
+        - name: DH_ZK_ADDRESS
+          value: {{ template "zookeeper.fullname" . }}
+        - name: DH_ZK_PORT
+          value: "2181"
+        {{- if .Values.wsproxy.internal.enabled }}
+        - name: DH_WS_PROXY
+          value: "{{ .Release.Name }}-devicehive-ws-proxy-internal:3000"
+        - name: SPRING_PROFILES_ACTIVE
+          value: "ws-kafka-proxy-frontend"
+        {{- end }}
+        - name: HC_GROUP_NAME
+          value: "dev"
+        - name: HC_GROUP_PASSWORD
+          value: "dev-pass"
+        - name: HC_MEMBERS
+          value: "{{ .Release.Name }}-devicehive-hazelcast"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-jwtsecret
+              key: jwtsecret
+        ports:
+        - name: dh-api
+          containerPort: 8080
+        resources:
+{{ toYaml .Values.devicehive.frontend.resources | indent 10 }}
