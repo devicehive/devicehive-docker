@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-devicehive-auth
+spec:
+  selector:
+    app: {{ .Release.Name }}-devicehive-auth
+  ports:
+    - protocol: TCP
+      port: 8090
+      targetPort: dh-auth

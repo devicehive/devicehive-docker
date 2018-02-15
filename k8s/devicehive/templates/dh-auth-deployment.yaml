@@ -1,0 +1,47 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-devicehive-auth
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "devicehive-auth"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+spec:
+  replicas: {{ .Values.devicehive.auth.replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-devicehive-auth
+    spec:
+      containers:
+      - name: devicehive-auth
+        image: {{ .Values.devicehive.repository}}/devicehive-auth:{{ .Values.devicehive.tag }}
+        imagePullPolicy: {{ .Values.devicehive.PullPolicy }}
+        env:
+        - name: DH_POSTGRES_ADDRESS
+          value: {{ template "postgresql.fullname" . }}
+        - name: DH_POSTGRES_DB
+          value: "{{ .Values.postgresql.postgresDatabase }}"
+        - name: DH_POSTGRES_PORT
+          value: "5432"
+        - name: DH_POSTGRES_USERNAME
+          value: "{{ .Values.postgresql.postgresUser }}"
+        - name: DH_POSTGRES_PASSWORD
+          value: "{{ .Values.postgresql.postgresPassword }}"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-jwtsecret
+              key: jwtsecret
+        - name: HC_MEMBERS
+          value: "{{ .Release.Name }}-devicehive-hazelcast"
+        - name: HC_GROUP_NAME
+          value: "dev"
+        - name: HC_GROUP_PASSWORD
+          value: "dev-pass"
+        ports:
+        - name: dh-auth
+          containerPort: 8090
+        resources:
+{{ toYaml .Values.devicehive.auth.resources | indent 10 }}
