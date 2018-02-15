@@ -21,7 +21,7 @@ devicehive:
 
   ## JWT secret is used to sign and verify tokens
   ## If not set, a random 16 characters secret will be used
-  jwtsecret: ""
+  jwtSecret: ""
 
   kafka:
     name: devicehive-bus

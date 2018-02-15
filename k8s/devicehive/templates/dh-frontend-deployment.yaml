@@ -53,7 +53,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-jwtsecret
-              key: jwtsecret
+              key: jwtSecret
         ports:
         - name: dh-api
           containerPort: 8080

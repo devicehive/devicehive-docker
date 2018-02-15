@@ -33,7 +33,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: {{ .Release.Name }}-jwtsecret
-              key: jwtsecret
+              key: jwtSecret
         - name: HC_MEMBERS
           value: "{{ .Release.Name }}-devicehive-hazelcast"
         - name: HC_GROUP_NAME

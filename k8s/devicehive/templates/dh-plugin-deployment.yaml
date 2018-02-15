@@ -46,6 +46,11 @@ spec:
           value: {{ template "zookeeper.fullname" . }}
         - name: DH_ZK_PORT
           value: "2181"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-jwtsecret
+              key: jwtSecret
         - name: HC_MEMBERS
           value: "{{ .Release.Name }}-devicehive-hazelcast"
         - name: HC_GROUP_NAME
