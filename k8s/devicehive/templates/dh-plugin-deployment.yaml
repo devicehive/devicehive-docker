@@ -41,7 +41,7 @@ spec:
 {{- if .Values.wsproxy.external.enabled }}
         - name: DH_PROXY_PLUGIN_CONNECT
           value: "ws://localhost/plugin/proxy"
-{{- end -}}
+{{- end }}
         - name: DH_ZK_ADDRESS
           value: {{ template "zookeeper.fullname" . }}
         - name: DH_ZK_PORT
