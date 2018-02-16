@@ -1,0 +1,13 @@
+{{- if .Values.wsproxy.external.enabled }}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-devicehive-ws-proxy-external
+spec:
+  selector:
+    app: {{ .Release.Name }}-devicehive-ws-proxy-external
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: ws-proxy
+{{- end }}

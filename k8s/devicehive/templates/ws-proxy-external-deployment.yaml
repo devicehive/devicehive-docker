@@ -1,8 +1,8 @@
-{{- if .Values.wsproxy.internal.enabled }}
+{{- if .Values.wsproxy.external.enabled }}
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-devicehive-ws-proxy-internal
+  name: {{ .Release.Name }}-devicehive-ws-proxy-external
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
     component: "devicehive-ws-proxy"
@@ -13,10 +13,10 @@ spec:
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-devicehive-ws-proxy-internal
+        app: {{ .Release.Name }}-devicehive-ws-proxy-external
     spec:
       containers:
-      - name: devicehive-ws-proxy-internal
+      - name: devicehive-ws-proxy-external
         image: {{ .Values.wsproxy.repository }}/devicehive-ws-proxy:{{ .Values.wsproxy.tag }}
         imagePullPolicy: {{ .Values.wsproxy.PullPolicy }}
         env:
@@ -24,6 +24,12 @@ spec:
           value: '_'
         - name: KAFKA_KAFKA_HOSTS
           value: {{ template "kafka.fullname" . }}:9092
+        - name: PLUGIN_MANAGER_AUTH_SERVICE_ENDPOINT
+          value: http://dh_auth:8090/auth/rest
+        - name: PLUGIN_MANAGER_PLUGIN_MANAGEMENT_SERVICE_ENDPOINT
+          value: http://dh_plugin:8110/plugin/rest
+        - name: PROXY_ENABLE_PLUGIN_MANAGER
+          value: 'true'
         - name: PROXY_WEB_SOCKET_SERVER_HOST
           valueFrom:
             fieldRef:
