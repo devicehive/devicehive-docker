@@ -35,7 +35,7 @@ spec:
           value: {{ template "zookeeper.fullname" . }}
         - name: DH_ZK_PORT
           value: "2181"
-        {{- if .Values.wsproxy.internal.enabled }}
+        {{- if .Values.wsProxy.internal.enabled }}
         - name: DH_WS_PROXY
           value: "{{ .Release.Name }}-devicehive-ws-proxy-internal:3000"
         - name: SPRING_PROFILES_ACTIVE

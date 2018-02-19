@@ -1,4 +1,4 @@
-{{- if .Values.wsproxy.external.enabled }}
+{{- if .Values.wsProxy.external.enabled }}
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
@@ -9,7 +9,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
 spec:
-  replicas: {{ .Values.wsproxy.internal.replicas }}
+  replicas: {{ .Values.wsProxy.internal.replicas }}
   template:
     metadata:
       labels:
@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
       - name: devicehive-ws-proxy-external
-        image: {{ .Values.wsproxy.repository }}/devicehive-ws-proxy:{{ .Values.wsproxy.tag }}
-        imagePullPolicy: {{ .Values.wsproxy.PullPolicy }}
+        image: {{ .Values.wsProxy.repository }}/devicehive-ws-proxy:{{ .Values.wsProxy.tag }}
+        imagePullPolicy: {{ .Values.wsProxy.PullPolicy }}
         env:
         - name: ENVSEPARATOR
           value: '_'
@@ -38,5 +38,5 @@ spec:
         - name: ws-proxy
           containerPort: 3000
         resources:
-{{ toYaml .Values.wsproxy.resources | indent 10 }}
+{{ toYaml .Values.wsProxy.resources | indent 10 }}
 {{- end }}

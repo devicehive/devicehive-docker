@@ -1,4 +1,4 @@
-{{- if .Values.wsproxy.external.enabled }}
+{{- if .Values.wsProxy.external.enabled }}
 kind: Service
 apiVersion: v1
 metadata:
