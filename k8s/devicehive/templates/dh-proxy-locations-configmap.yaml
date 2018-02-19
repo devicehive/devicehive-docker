@@ -63,3 +63,12 @@ data:
         proxy_set_header X-Real-IP $remote_addr;
     }
 {{- end }}
+{{- if .Values.wsProxy.external.enabled }}
+    location /plugin/proxy {
+        proxy_redirect off;
+        proxy_pass http://wsproxyext/;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+    }
+{{- end }}
