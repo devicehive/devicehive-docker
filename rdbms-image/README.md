@@ -51,6 +51,8 @@ sudo docker-compose -f docker-compose.yml -f dh_plugin.yml up -d
 ```
 Or add line `COMPOSE_FILE=docker-compose.yml:dh_plugin.yml` in `.env` file.
 
+This also starts *devicehive-ws-proxy* instance for external connections from plugins. It's available at http://*localhost*/plugin/proxy.
+
 ## Development run
 In order to run only DeviceHive 3d-party dependencies in Docker containers, simply run:
 
