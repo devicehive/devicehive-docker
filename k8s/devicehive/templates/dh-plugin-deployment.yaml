@@ -21,7 +21,7 @@ spec:
         imagePullPolicy: {{ .Values.devicehive.PullPolicy }}
         env:
         - name: DH_AUTH_URL
-          value: "http://{{ .Release.Name }}-devicehive-auth:8090/api/rest"
+          value: "http://{{ .Release.Name }}-devicehive-auth:8090/auth/rest"
         - name: DH_KAFKA_BOOTSTRAP_SERVERS
           value: {{ template "kafka.fullname" . }}:9092
         - name: DH_POSTGRES_ADDRESS
