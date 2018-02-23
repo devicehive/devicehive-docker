@@ -80,6 +80,9 @@ services:
     links:
       - "postgres"
       - "hazelcast"
+      - "kafka"
+      - "zookeeper"
+      - "wsproxy"
     restart: unless-stopped
     environment:
       DH_POSTGRES_ADDRESS: ${DH_POSTGRES_ADDRESS:-postgres}
@@ -93,6 +96,8 @@ services:
       HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
       HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
       JWT_SECRET: ${JWT_SECRET}
+      SPRING_PROFILES_ACTIVE: ${DH_PLUGIN_SPRING_PROFILES_ACTIVE:-ws-kafka-proxy}
+      DH_WS_PROXY: wsproxy:3000
 
   hazelcast:
     image: devicehive/devicehive-hazelcast:${DH_TAG:-development}
