@@ -40,7 +40,7 @@ spec:
           value: "{{ .Release.Name }}-devicehive-ws-proxy-internal:3000"
 {{- if .Values.wsProxy.external.enabled }}
         - name: DH_PROXY_PLUGIN_CONNECT
-          value: "ws://localhost/plugin/proxy"
+          value: {{ .Values.javaServer.plugin.pluginConnectUrl | default "ws://localhost/plugin/proxy" | quote }}
 {{- end }}
         - name: DH_ZK_ADDRESS
           value: {{ template "zookeeper.fullname" . }}

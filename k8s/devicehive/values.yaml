@@ -16,6 +16,7 @@ javaServer:
     resources: {}
   plugin:
     enabled: false
+    pluginConnectUrl: ""
     replicaCount: 1
     resources: {}
   # Connection method to Kafka
