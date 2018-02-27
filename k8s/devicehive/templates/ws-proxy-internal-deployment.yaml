@@ -1,4 +1,4 @@
-{{- if .Values.wsProxy.internal.enabled }}
+{{- if or .Values.devicehive.plugin.enabled (eq .Values.devicehive.bus "wsproxy") }}
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:

@@ -18,6 +18,10 @@ devicehive:
     enabled: false
     replicaCount: 1
     resources: {}
+  # Connection method to Kafka
+  # wsproxy: connect to Kafka via devicehive-ws-proxy, default
+  # rpc: direct connection to Kafka
+  bus: wsproxy
 
   ## JWT secret is used to sign and verify tokens
   ## If not set, a random 16 characters secret will be used
@@ -31,7 +35,6 @@ wsProxy:
   tag: 1.0.0
   pullPolicy: IfNotPresent
   internal:
-    enabled: false
     replicaCount: 1
     resources: {}
   external:
