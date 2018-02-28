@@ -80,8 +80,6 @@ services:
     links:
       - "postgres"
       - "hazelcast"
-      - "kafka"
-      - "zookeeper"
       - "wsproxy"
     restart: unless-stopped
     environment:
