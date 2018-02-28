@@ -2,3 +2,5 @@ version: "3"
 services:
   dh_plugin:
     image: devicehiveci/devicehive-plugin:${DH_TAG:-development}
+  wsproxyext:
+    image: devicehiveci/devicehive-ws-proxy:${DH_WS_PROXY_TAG:-development}
