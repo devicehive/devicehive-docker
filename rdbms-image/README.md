@@ -81,7 +81,8 @@ All containers are configured via environment variables and Docker Compose can p
 Released versions of devicehive-docker use stable DeviceHive images from [DeviceHive Docker Hub repository](https://hub.docker.com/u/devicehive/). But if you want follow DeviceHive development add following parameters:
 
 * `DH_TAG` - tag for DeviceHive [Frontend](https://hub.docker.com/r/devicehive/devicehive-frontend/), [Backend](https://hub.docker.com/r/devicehive/devicehive-backend/) and [Hazelcast](https://hub.docker.com/r/devicehive/devicehive-hazelcast/) images. Can be set to `development` to track development version of DeviceHive.
-* `DH_ADMIN_TAG` - tag for DeviceHive [Admin Console](https://hub.docker.com/r/devicehive/admin-console/) image. Can be set to `development` to track development version of Admin Console.
+* `DH_PROXY_TAG` - tag for [DeviceHive Proxy](https://hub.docker.com/r/devicehive/devicehive-proxy/) image, which serves as API gateway for services and hosts Admin console application. Can be set to `development` to track development version of DeviceHive Proxy.
+* `DH_WS_PROXY_TAG` - tag for [DeviceHive WS Proxy](https://hub.docker.com/r/devicehive/devicehive-ws-proxy/) image. This is a WebSocket proxy to message broker (Kafka). Can be set to `development` to track development version of DeviceHive WS Proxy.
 
 ### PostgreSQL
 These variables are used by Frontend, Backend and PostgreSQL containers.
