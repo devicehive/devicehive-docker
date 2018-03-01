@@ -35,10 +35,9 @@ spec:
           value: {{ template "zookeeper.fullname" . }}
         - name: DH_ZK_PORT
           value: "2181"
-        {{- if eq .Values.devicehive.bus "wsproxy" }}
         - name: DH_WS_PROXY
           value: "{{ .Release.Name }}-devicehive-ws-proxy-internal:3000"
-        {{- else if eq .Values.devicehive.bus "rpc" }}
+        {{- if eq .Values.devicehive.bus "rpc" }}
         - name: SPRING_PROFILES_ACTIVE
           value: "rpc-server"
         {{- end }}

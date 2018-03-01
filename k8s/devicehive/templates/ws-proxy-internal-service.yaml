@@ -1,4 +1,3 @@
-{{- if or .Values.devicehive.plugin.enabled (eq .Values.devicehive.bus "wsproxy") }}
 kind: Service
 apiVersion: v1
 metadata:
@@ -10,4 +9,3 @@ spec:
     - protocol: TCP
       port: 3000
       targetPort: ws-proxy
-{{- end }}
