@@ -11,7 +11,7 @@ services:
       - "./nginx-mqtt-brokers.conf:/etc/nginx/stream.d/nginx-mqtt-brokers.conf:ro,Z"
 
   mqtt_broker1:
-    image: devicehive/devicehive-mqtt:development
+    image: devicehive/devicehive-mqtt:1.1.0
     restart: unless-stopped
     environment:
       - BROKER.WS_SERVER_URL=ws://playground-dev.devicehive.com/api/websocket
@@ -20,7 +20,7 @@ services:
       - BROKER.ENABLE_PM=false
 
   mqtt_broker2:
-    image: devicehive/devicehive-mqtt:development
+    image: devicehive/devicehive-mqtt:1.1.0
     restart: unless-stopped
     environment:
       - BROKER.WS_SERVER_URL=ws://playground-dev.devicehive.com/api/websocket

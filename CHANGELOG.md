@@ -1,7 +1,7 @@
-## Development version
+## 3.4.4 / 2018-03-06
 
 * Use DeviceHive Java Server 3.4.4, DeviceHive WS Proxy 1.1.0, DeviceHive Proxy 3.4.4, DeviceHive MQTT 1.1.0 images
-* Improve Kubernetes installation via Helm
+* First public release of DeviceHive Helm chart for Kubernetes installation
 * Documentation updates
 
 ## 3.4.3 / 2018-01-22
