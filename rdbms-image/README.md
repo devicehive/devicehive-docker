@@ -14,6 +14,10 @@ sudo docker-compose up -d
 ```
 You can now access your DeviceHive microservices via endpoints decribed in the next section.
 
+### Security credentials
+
+Default DeviceHive admin user has name `dhadmin` and password `dhadmin_#911`.
+
 ### Service endpoints
 Table below lists endpoints where you can find various DeviceHive services. Replace *localhost* with actual hostname of the docker daemon and start observing DeviceHive capabilities.
 
