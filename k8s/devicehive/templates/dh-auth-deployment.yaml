@@ -47,5 +47,16 @@ spec:
         ports:
         - name: dh-auth
           containerPort: 8090
+        readinessProbe:
+          httpGet:
+            path: /auth/rest/info
+            port: dh-auth
+          initialDelaySeconds: 50
+        livenessProbe:
+          httpGet:
+            path: /auth/rest/info
+            port: dh-auth
+          initialDelaySeconds: 75
+          periodSeconds: 15
         resources:
 {{ toYaml .Values.devicehive.auth.resources | indent 10 }}

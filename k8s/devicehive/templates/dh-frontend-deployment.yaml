@@ -57,5 +57,16 @@ spec:
         ports:
         - name: dh-api
           containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /api/rest/info
+            port: dh-api
+          initialDelaySeconds: 60
+        livenessProbe:
+          httpGet:
+            path: /api/rest/info
+            port: dh-api
+          initialDelaySeconds: 90
+          periodSeconds: 15
         resources:
 {{ toYaml .Values.devicehive.frontend.resources | indent 10 }}

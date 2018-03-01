@@ -60,6 +60,17 @@ spec:
         ports:
         - name: dh-plugin
           containerPort: 8110
+        readinessProbe:
+          httpGet:
+            path: /plugin/rest/info
+            port: dh-plugin
+          initialDelaySeconds: 50
+        livenessProbe:
+          httpGet:
+            path: /plugin/rest/info
+            port: dh-plugin
+          initialDelaySeconds: 75
+          periodSeconds: 15
         resources:
 {{ toYaml .Values.devicehive.plugin.resources | indent 10 }}
 {{- end -}}
