@@ -29,17 +29,21 @@ spec:
           value: "{{ .Values.postgresql.postgresUser }}"
         - name: DH_POSTGRES_PASSWORD
           value: "{{ .Values.postgresql.postgresPassword }}"
-        - name: JWT_SECRET
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Release.Name }}-jwtsecret
-              key: jwtSecret
+        - name: DH_WS_PROXY
+          value: "{{ .Release.Name }}-devicehive-ws-proxy-internal:3000"
         - name: HC_MEMBERS
           value: "{{ .Release.Name }}-devicehive-hazelcast"
         - name: HC_GROUP_NAME
           value: "dev"
         - name: HC_GROUP_PASSWORD
           value: "dev-pass"
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Release.Name }}-jwtsecret
+              key: jwtSecret
+        - name: SPRING_PROFILES_ACTIVE
+          value: "ws-kafka-proxy"
         ports:
         - name: dh-auth
           containerPort: 8090
