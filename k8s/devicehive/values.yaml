@@ -28,9 +28,6 @@ javaServer:
   ## If not set, a random 16 characters secret will be used
   jwtSecret: ""
 
-  kafka:
-    name: devicehive-bus
-
 wsProxy:
   image: devicehive/devicehive-ws-proxy:1.1.0
   pullPolicy: IfNotPresent
