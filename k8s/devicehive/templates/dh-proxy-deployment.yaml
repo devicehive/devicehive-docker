@@ -9,7 +9,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
 spec:
-  replicas: {{ .Values.devicehiveProxy.replicas }}
+  replicas: {{ .Values.proxy.replicaCount }}
   template:
     metadata:
       labels:
@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
       - name: devicehive-proxy
-        image: {{ .Values.devicehiveProxy.repository }}/devicehive-proxy:{{ .Values.devicehiveProxy.tag }}
-        imagePullPolicy: Always
+        image: {{ .Values.proxy.image | quote }}
+        imagePullPolicy: {{ .Values.proxy.PullPolicy }}
         ports:
         - name: http
           containerPort: 8080
@@ -30,6 +30,8 @@ spec:
             port: http
           initialDelaySeconds: 60
           periodSeconds: 3
+        resources:
+{{ toYaml .Values.proxy.resources | indent 10 }}
         volumeMounts:
         - name: api-gateway-locations-conf
           mountPath: /etc/nginx/location.d/api-gateway.conf

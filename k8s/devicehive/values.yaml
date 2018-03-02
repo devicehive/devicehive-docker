@@ -42,10 +42,11 @@ wsProxy:
     replicaCount: 1
     resources: {}
 
-devicehiveProxy:
-  repository: devicehive
-  tag: 3.4.4
+proxy:
+  image: devicehive/devicehive-proxy:3.4.4
   pullPolicy: IfNotPresent
+  replicaCount: 1
+  resources: {}
   ingress:
     enabled: false
     annotations: {}
