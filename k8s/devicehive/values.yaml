@@ -1,6 +1,6 @@
 devicehive:
   repository: devicehive
-  tag: 3.4.3
+  tag: 3.4.4
   pullPolicy: IfNotPresent
   auth:
     replicaCount: 1
@@ -32,7 +32,7 @@ devicehive:
 
 wsProxy:
   repository: devicehive
-  tag: 1.0.0
+  tag: 1.1.0
   pullPolicy: IfNotPresent
   internal:
     replicaCount: 1
@@ -44,7 +44,7 @@ wsProxy:
 
 devicehiveProxy:
   repository: devicehive
-  tag: 3.4.3
+  tag: 3.4.4
   pullPolicy: IfNotPresent
   ingress:
     enabled: false
