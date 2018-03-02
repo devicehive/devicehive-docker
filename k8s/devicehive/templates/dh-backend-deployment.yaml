@@ -8,7 +8,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
 spec:
-  replicas: {{ .Values.devicehive.backend.replicas }}
+  replicas: {{ .Values.javaServer.backend.replicaCount }}
   template:
     metadata:
       labels:
@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
       - name: devicehive-backend
-        image: {{ .Values.devicehive.repository }}/devicehive-backend:{{ .Values.devicehive.tag }}
-        imagePullPolicy: {{ .Values.devicehive.PullPolicy }}
+        image: "{{ .Values.javaServer.repository }}/devicehive-backend:{{ .Values.javaServer.tag }}"
+        imagePullPolicy: {{ .Values.javaServer.PullPolicy }}
         env:
         - name: DH_KAFKA_BOOTSTRAP_SERVERS
           value: {{ template "kafka.fullname" . }}:9092
@@ -37,7 +37,7 @@ spec:
           value: "2181"
         - name: DH_WS_PROXY
           value: "{{ .Release.Name }}-devicehive-ws-proxy-internal:3000"
-        {{- if eq .Values.devicehive.bus "rpc" }}
+        {{- if eq .Values.javaServer.bus "rpc" }}
         - name: SPRING_PROFILES_ACTIVE
           value: "rpc-server"
         {{- end }}
@@ -48,4 +48,4 @@ spec:
         - name: HC_MEMBERS
           value: "{{ .Release.Name }}-devicehive-hazelcast"
         resources:
-{{ toYaml .Values.devicehive.backend.resources | indent 10 }}
+{{ toYaml .Values.javaServer.backend.resources | indent 10 }}

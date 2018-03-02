@@ -1,4 +1,4 @@
-devicehive:
+javaServer:
   repository: devicehive
   tag: 3.4.4
   pullPolicy: IfNotPresent
@@ -31,8 +31,7 @@ devicehive:
     name: devicehive-bus
 
 wsProxy:
-  repository: devicehive
-  tag: 1.1.0
+  image: devicehive/devicehive-ws-proxy:1.1.0
   pullPolicy: IfNotPresent
   internal:
     replicaCount: 1

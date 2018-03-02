@@ -8,7 +8,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
 spec:
-  replicas: {{ .Values.wsProxy.internal.replicas }}
+  replicas: {{ .Values.wsProxy.internal.replicaCount }}
   template:
     metadata:
       labels:
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: devicehive-ws-proxy-internal
-        image: {{ .Values.wsProxy.repository }}/devicehive-ws-proxy:{{ .Values.wsProxy.tag }}
+        image: {{ .Values.wsProxy.image | quote }}
         imagePullPolicy: {{ .Values.wsProxy.PullPolicy }}
         env:
         - name: ENVSEPARATOR
@@ -31,4 +31,4 @@ spec:
         - name: ws-proxy
           containerPort: 3000
         resources:
-{{ toYaml .Values.wsProxy.resources | indent 10 }}
+{{ toYaml .Values.wsProxy.internal.resources | indent 10 }}

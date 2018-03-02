@@ -8,7 +8,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
 spec:
-  replicas: {{ .Values.devicehive.frontend.replicas }}
+  replicas: {{ .Values.javaServer.frontend.replicaCount }}
   template:
     metadata:
       labels:
@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
       - name: devicehive-frontend
-        image: {{ .Values.devicehive.repository }}/devicehive-frontend:{{ .Values.devicehive.tag }}
-        imagePullPolicy: {{ .Values.devicehive.PullPolicy }}
+        image: "{{ .Values.javaServer.repository }}/devicehive-frontend:{{ .Values.javaServer.tag }}"
+        imagePullPolicy: {{ .Values.javaServer.PullPolicy }}
         env:
         - name: DH_AUTH_URL
           value: "http://{{ .Release.Name }}-devicehive-auth:8090/auth/rest"
@@ -39,7 +39,7 @@ spec:
           value: "2181"
         - name: DH_WS_PROXY
           value: "{{ .Release.Name }}-devicehive-ws-proxy-internal:3000"
-        {{- if eq .Values.devicehive.bus "rpc" }}
+        {{- if eq .Values.javaServer.bus "rpc" }}
         - name: SPRING_PROFILES_ACTIVE
           value: "rpc-client"
         {{- end }}
@@ -69,4 +69,4 @@ spec:
           initialDelaySeconds: 90
           periodSeconds: 15
         resources:
-{{ toYaml .Values.devicehive.frontend.resources | indent 10 }}
+{{ toYaml .Values.javaServer.frontend.resources | indent 10 }}

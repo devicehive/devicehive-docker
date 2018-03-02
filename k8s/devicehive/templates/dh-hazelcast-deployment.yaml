@@ -8,7 +8,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
 spec:
-  replicas: {{ .Values.devicehive.hazelcast.replicas }}
+  replicas: {{ .Values.javaServer.hazelcast.replicaCount }}
   template:
     metadata:
       labels:
@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
       - name: devicehive-hazelcast
-        image: {{ .Values.devicehive.repository }}/devicehive-hazelcast:{{ .Values.devicehive.tag }}
-        imagePullPolicy: {{ .Values.devicehive.PullPolicy }}
+        image: "{{ .Values.javaServer.repository }}/devicehive-hazelcast:{{ .Values.javaServer.tag }}"
+        imagePullPolicy: {{ .Values.javaServer.PullPolicy }}
         env:
         - name: MIN_HEAP_SIZE
           value: "512m"
@@ -27,4 +27,4 @@ spec:
         - name: hazelcast
           containerPort: 5701
         resources:
-{{ toYaml .Values.devicehive.hazelcast.resources | indent 10 }}
+{{ toYaml .Values.javaServer.hazelcast.resources | indent 10 }}

@@ -1,4 +1,4 @@
-{{- if .Values.devicehive.plugin.enabled -}}
+{{- if .Values.javaServer.plugin.enabled -}}
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
@@ -9,7 +9,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
 spec:
-  replicas: {{ .Values.devicehive.plugin.replicas }}
+  replicas: {{ .Values.javaServer.plugin.replicaCount }}
   template:
     metadata:
       labels:
@@ -17,8 +17,8 @@ spec:
     spec:
       containers:
       - name: devicehive-plugin
-        image: {{ .Values.devicehive.repository }}/devicehive-plugin:{{ .Values.devicehive.tag }}
-        imagePullPolicy: {{ .Values.devicehive.PullPolicy }}
+        image: "{{ .Values.javaServer.repository }}/devicehive-plugin:{{ .Values.javaServer.tag }}"
+        imagePullPolicy: {{ .Values.javaServer.PullPolicy }}
         env:
         - name: DH_AUTH_URL
           value: "http://{{ .Release.Name }}-devicehive-auth:8090/auth/rest"
@@ -72,5 +72,5 @@ spec:
           initialDelaySeconds: 75
           periodSeconds: 15
         resources:
-{{ toYaml .Values.devicehive.plugin.resources | indent 10 }}
+{{ toYaml .Values.javaServer.plugin.resources | indent 10 }}
 {{- end -}}

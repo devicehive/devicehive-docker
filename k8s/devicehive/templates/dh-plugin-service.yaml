@@ -1,4 +1,4 @@
-{{- if .Values.devicehive.plugin.enabled -}}
+{{- if .Values.javaServer.plugin.enabled -}}
 kind: Service
 apiVersion: v1
 metadata:

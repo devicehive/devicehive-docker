@@ -8,7 +8,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
 spec:
-  replicas: {{ .Values.devicehive.auth.replicas }}
+  replicas: {{ .Values.javaServer.auth.replicaCount }}
   template:
     metadata:
       labels:
@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
       - name: devicehive-auth
-        image: {{ .Values.devicehive.repository}}/devicehive-auth:{{ .Values.devicehive.tag }}
-        imagePullPolicy: {{ .Values.devicehive.PullPolicy }}
+        image: "{{ .Values.javaServer.repository }}/devicehive-auth:{{ .Values.javaServer.tag }}"
+        imagePullPolicy: {{ .Values.javaServer.PullPolicy }}
         env:
         - name: DH_POSTGRES_ADDRESS
           value: {{ template "postgresql.fullname" . }}
@@ -59,4 +59,4 @@ spec:
           initialDelaySeconds: 75
           periodSeconds: 15
         resources:
-{{ toYaml .Values.devicehive.auth.resources | indent 10 }}
+{{ toYaml .Values.javaServer.auth.resources | indent 10 }}

@@ -39,7 +39,7 @@ data:
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Real-IP $remote_addr;
     }
-{{- if .Values.devicehive.plugin.enabled }}
+{{- if .Values.javaServer.plugin.enabled }}
     location /api/rest/plugin {
         proxy_redirect off;
         proxy_pass http://plugin_upstream/plugin/rest/plugin;
