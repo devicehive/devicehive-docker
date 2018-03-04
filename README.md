@@ -28,7 +28,9 @@ More details in the [rdbms-image](rdbms-image/) subdirectory.
 Installation was tested on machine with CentOS 7 distribution.
 
 ## Kubernetes installation
-DeviceHive also has experimental support for [installation on Kubernetes cluster](k8s/) with PostgreSQL storage.
+DeviceHive can be installed on Kubernetes with provided [Helm chart](k8s/). This chart also installs PostgreSQL chart and Kafka chart from [Kubeapps](https://kubeapps.com) repositories. External installations of PostgreSQL and Kafka are also supported, check provided [README](k8s/README.md) for required parameters.
+
+Previous installation method on Kubernetes using a `kubectl` utility and a plain YAML files are deprecated now. Please [issue a ticket](https://github.com/devicehive/devicehive-docker/issues/new) in our [GitHub repository](https://github.com/devicehive/devicehive-docker/) if you have questions about mirgating such environment to the one deployed with Helm chart.
 
 ## Installation on Docker for Windows or Docker for Mac
 If you like to try DeviceHive using Docker for Windows or Docker for Mac, please note that this software runs Docker in special Virtual Machine (that got automaticaly created for you by installer). By default these Virtual Machines with much lower parameters that required for DeviceHive, 2GB of RAM and 2 vCPU. Here is example of how to change parameters in Docker for Windows, on Macs this should be similar:
