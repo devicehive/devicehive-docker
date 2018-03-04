@@ -99,7 +99,7 @@ Alternatively, a YAML file that specifies the values for the above parameters ca
 $ helm install ./devicehive --name my-release -f values.yaml
 ```
 
-> **Tip**: You can use the default [values.yaml](values.yaml)
+> **Tip**: You can use the default [values.yaml](devicehive/values.yaml)
 
 ### RBAC Configuration
 RBAC doesn't supported yet by this Helm chart.
