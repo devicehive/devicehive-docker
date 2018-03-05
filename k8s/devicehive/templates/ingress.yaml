@@ -1,12 +1,12 @@
-{{- if .Values.devicehiveProxy.ingress.enabled -}}
+{{- if .Values.proxy.ingress.enabled -}}
 {{- $releaseName := .Release.Name -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ template "devicehive.fullname" . }}
-{{- if .Values.devicehiveProxy.ingress.annotations }}
+{{- if .Values.proxy.ingress.annotations }}
   annotations:
-{{ toYaml .Values.devicehiveProxy.ingress.annotations | indent 4 }}
+{{ toYaml .Values.proxy.ingress.annotations | indent 4 }}
 {{- end}}
   labels:
     app: {{ template "devicehive.name" . }}
@@ -16,7 +16,7 @@ metadata:
     release: "{{ .Release.Name }}"
 spec:
   rules:
-  {{- range .Values.devicehiveProxy.ingress.hosts }}
+  {{- range .Values.proxy.ingress.hosts }}
     - host: {{ . }}
       http:
         paths:
