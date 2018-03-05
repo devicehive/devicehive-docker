@@ -20,7 +20,7 @@ spec:
         imagePullPolicy: {{ .Values.javaServer.PullPolicy }}
         env:
         - name: DH_POSTGRES_ADDRESS
-          value: {{ template "postgresql.fullname" . }}
+          value: "{{ .Release.Name }}-postgresql"
         - name: DH_POSTGRES_DB
           value: "{{ .Values.postgresql.postgresDatabase }}"
         - name: DH_POSTGRES_PORT

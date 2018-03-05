@@ -22,7 +22,7 @@ spec:
         - name: ENVSEPARATOR
           value: '_'
         - name: KAFKA_KAFKA_HOSTS
-          value: {{ template "kafka.fullname" . }}:9092
+          value: "{{ .Release.Name }}-kafka:9092"
         - name: PROXY_WEB_SOCKET_SERVER_HOST
           valueFrom:
             fieldRef:

@@ -23,7 +23,7 @@ spec:
         - name: ENVSEPARATOR
           value: '_'
         - name: KAFKA_KAFKA_HOSTS
-          value: {{ template "kafka.fullname" . }}:9092
+          value: "{{ .Release.Name }}-kafka:9092"
         - name: PLUGIN_MANAGER_AUTH_SERVICE_ENDPOINT
           value: "http://{{ .Release.Name }}-devicehive-auth:8090/auth/rest"
         - name: PLUGIN_MANAGER_PLUGIN_MANAGEMENT_SERVICE_ENDPOINT

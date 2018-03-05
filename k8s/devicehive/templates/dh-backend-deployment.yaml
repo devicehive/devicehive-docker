@@ -20,9 +20,9 @@ spec:
         imagePullPolicy: {{ .Values.javaServer.PullPolicy }}
         env:
         - name: DH_KAFKA_BOOTSTRAP_SERVERS
-          value: {{ template "kafka.fullname" . }}:9092
+          value: "{{ .Release.Name }}-kafka:9092"
         - name: DH_POSTGRES_ADDRESS
-          value: {{ template "postgresql.fullname" . }}
+          value: "{{ .Release.Name }}-postgresql"
         - name: DH_POSTGRES_DB
           value: "{{ .Values.postgresql.postgresDatabase }}"
         - name: DH_POSTGRES_PORT
@@ -32,7 +32,7 @@ spec:
         - name: DH_POSTGRES_PASSWORD
           value: "{{ .Values.postgresql.postgresPassword }}"
         - name: DH_ZK_ADDRESS
-          value: {{ template "zookeeper.fullname" . }}
+          value: "{{ .Release.Name }}-zookeeper"
         - name: DH_ZK_PORT
           value: "2181"
         - name: DH_WS_PROXY
