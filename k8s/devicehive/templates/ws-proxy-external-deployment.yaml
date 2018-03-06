@@ -9,7 +9,7 @@ metadata:
     heritage: "{{ .Release.Service }}"
     release: "{{ .Release.Name }}"
 spec:
-  replicas: {{ .Values.wsProxy.internal.replicaCount }}
+  replicas: {{ .Values.wsProxy.external.replicaCount }}
   template:
     metadata:
       labels:

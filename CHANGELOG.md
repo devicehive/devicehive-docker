@@ -1,3 +1,7 @@
+## Development
+
+* k8s: fix external WS Proxy deployment replicaCount value
+
 ## 3.4.4 / 2018-03-06
 
 * Use DeviceHive Java Server 3.4.4, DeviceHive WS Proxy 1.1.0, DeviceHive Proxy 3.4.4, DeviceHive MQTT 1.1.0 images
