@@ -14,6 +14,7 @@ spec:
       labels:
         app: {{ .Release.Name }}-devicehive-ws-proxy-internal
     spec:
+      serviceAccountName: {{ if .Values.rbac.create }}{{ template "devicehive.fullname" . }}{{ else }}"{{ .Values.rbac.serviceAccountName }}"{{ end}}
       containers:
       - name: devicehive-ws-proxy-internal
         image: {{ .Values.wsProxy.image | quote }}
