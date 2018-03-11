@@ -65,3 +65,7 @@ postgresql:
 # Apache Kafka
 kafka:
   enabled: true
+
+rbac:
+  create: true
+  serviceAccountName: default
