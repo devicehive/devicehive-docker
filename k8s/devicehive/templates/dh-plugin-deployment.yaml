@@ -15,6 +15,7 @@ spec:
       labels:
         app: {{ .Release.Name }}-devicehive-plugin
     spec:
+      serviceAccountName: {{ if .Values.rbac.create }}{{ template "devicehive.fullname" . }}{{ else }}"{{ .Values.rbac.serviceAccountName }}"{{ end}}
       containers:
       - name: devicehive-plugin
         image: "{{ .Values.javaServer.repository }}/devicehive-plugin:{{ .Values.javaServer.tag }}"

@@ -14,6 +14,7 @@ spec:
       labels:
         app: {{ .Release.Name }}-devicehive-hazelcast
     spec:
+      serviceAccountName: {{ if .Values.rbac.create }}{{ template "devicehive.fullname" . }}{{ else }}"{{ .Values.rbac.serviceAccountName }}"{{ end}}
       containers:
       - name: devicehive-hazelcast
         image: "{{ .Values.javaServer.repository }}/devicehive-hazelcast:{{ .Values.javaServer.tag }}"
