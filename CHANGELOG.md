@@ -1,6 +1,7 @@
 ## Development
 
 * k8s: fix external WS Proxy deployment replicaCount value
+* Add service to cleanup Kafka topics left by unregistered plugins
 
 ## 3.4.4 / 2018-03-06
 

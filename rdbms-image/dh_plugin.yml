@@ -51,3 +51,16 @@ services:
     links:
       - "dh_plugin"
       - "wsproxyext"
+
+# This service once a day cleanups topics created by Devicehive Plugin service.
+# Kafka 1.0.0 doesn't have API call for removing unneeded topics when user plugin unregisters, so we do it there.
+# Topics are created automatically when accessed so if plugin still running he will have his topic back.
+  kafka-cleanup:
+    image: wurstmeister/kafka:1.0.0
+    links:
+      - "zookeeper"
+      - "kafka"
+    restart: unless-stopped
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    command: bash -c 'while true; do kafka-run-class.sh kafka.admin.TopicCommand --zookeeper $${KAFKA_ZOOKEEPER_CONNECT} --list | grep plugin_topic_ | sort -R | xargs -r -n1 kafka-run-class.sh kafka.admin.TopicCommand --zookeeper $${KAFKA_ZOOKEEPER_CONNECT} --delete --topic; sleep 1d; done'
