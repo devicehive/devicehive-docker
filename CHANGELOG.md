@@ -2,6 +2,7 @@
 
 * k8s: fix external WS Proxy deployment replicaCount value
 * Add service to cleanup Kafka topics left by unregistered plugins
+* k8s: add RBAC support
 
 ## 3.4.4 / 2018-03-06
 

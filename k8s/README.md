@@ -16,7 +16,6 @@ This chart installs [DeviceHive](https://devicehive.com/) on a [Kubernetes](http
 - Kubernetes 1.7+
 
 This chart probably will work on Kubernetes older that 1.7, but it wasn't tested in such environment.
-Kubernets 1.8 enables RBAC by default when running on Google Compute platform. Chart doesn't support RBAC yet, so to deploy DeviceHive you need to create cluster with 'Legacy Authorisation" option enabled.
 
 ## Installing the Chart
 
@@ -104,6 +103,8 @@ Parameter | Description | Default
 `postgresql.persistence.size` | Size of data volume | `1Gi`
 `postgresql.imageTag` | `postgresql` chart image tag, if `postgresql.enabled` is `true` | `10`
 `kafka.enabled` | If true, installs Kafka chart. Required | `true`
+`rbac.create` | If true, create & use RBAC resources | `true`
+`rbac.serviceAccountName` | Service account name to use (ignored if rbac.create=true) | `default`
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
@@ -121,7 +122,9 @@ $ helm install ./devicehive --name my-release -f values.yaml
 > **Tip**: You can use the default [values.yaml](devicehive/values.yaml)
 
 ### RBAC Configuration
-RBAC doesn't supported yet by this Helm chart.
+Roles and RoleBindings resources will be created automatically for each service
+
+To manually setup RBAC you need to set the parameter rbac.create=false and specify the service account to be used in rbac.serviceAccountName.
 
 ### Ingress TLS
 Ingress TLS doesn't supported yet by this Helm chart.
