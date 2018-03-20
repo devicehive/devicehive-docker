@@ -65,7 +65,7 @@ The following tables lists the configurable parameters of the DeviceHive chart a
 Parameter | Description | Default
 --------- | ----------- | -------
 `javaServer.repository` | DockerHub user or organization with all devicehive-java-server images | `devicehive`
-`javaServer.tag` | Common image tag of devicehive-java-server images | `3.4.4`
+`javaServer.tag` | Common image tag of devicehive-java-server images | `3.4.5`
 `javaServer.pullPolicy` | Common image pull policy for devicehive-java-server images | `IfNotPresent`
 `javaServer.auth.replicaCount` | Desired number of Auth service pods | `1`
 `javaServer.auth.resources` | Auth service resource requests and limits | `{}`
@@ -88,7 +88,7 @@ Parameter | Description | Default
 `wsProxy.external.enabled` | If true, External WS Proxy deployment will be created. Requires `javaServer.plugin.enabled` set to `true` | `false`
 `wsProxy.external.replicaCount` | Desired number of external WS Proxy service pods | `1`
 `wsProxy.external.resources` | External WS Proxy service resource requests and limits | `{}`
-`proxy.image` | DH Proxy image name and tag | `devicehive/devicehive-proxy:3.4.4`
+`proxy.image` | DH Proxy image name and tag | `devicehive/devicehive-proxy:3.4.5`
 `proxy.pullPolicy` | DH Proxy image pull policy | `IfNotPresent`
 `proxy.replicaCount` | Desired number DH Proxy pods | `1`
 `proxy.resources` | DH Proxy service resource requests and limits | `{}`

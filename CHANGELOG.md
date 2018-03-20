@@ -1,5 +1,6 @@
 ## Development
 
+* Update images to DeviceHive Java Server 3.4.5, DeviceHive Proxy 3.4.5
 * k8s: fix external WS Proxy deployment replicaCount value
 * Add service to cleanup Kafka topics left by unregistered plugins
 * k8s: add RBAC support

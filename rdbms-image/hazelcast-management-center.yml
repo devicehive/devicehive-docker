@@ -7,7 +7,7 @@ services:
       - ./hazelcast.xml:/opt/hazelcast/hazelcast.xml:ro,z
 
   hazelcast-mancenter:
-    image: hazelcast/management-center:3.8.3
+    image: hazelcast/management-center:3.8.5
     ports:
       - "9980:8080"
     restart: unless-stopped
