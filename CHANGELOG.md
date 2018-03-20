@@ -1,4 +1,4 @@
-## Development
+## 3.4.5 / 2018-03-20
 
 * Update images to DeviceHive Java Server 3.4.5, DeviceHive Proxy 3.4.5
 * k8s: fix external WS Proxy deployment replicaCount value
