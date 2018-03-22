@@ -89,13 +89,12 @@ Parameter | Description | Default
 `javaServer.plugin.rootLogLevel` | Log verbosity for external dependencies | `WARN`
 `javaServer.bus` | Message bus access method, WS Proxy by default. Other option is `rpc` | `wsproxy`
 `javaServer.jwtSecret` | JWT secret for signing JWT tokens. If empty (default) Helm generates random 16 characters string | `""`
-`wsProxy.image` | DH WS Proxy image name and tag | `devicehive/devicehive-ws-proxy:1.1.0`
-`wsProxy.pullPolicy` | DH WS Proxy image pull policy | `IfNotPresent`
-`wsProxy.internal.replicaCount` | Desired number of internal WS Proxy service pods | `1`
-`wsProxy.internal.resources` | Internal WS Proxy service resource requests and limits  | `{}`
-`wsProxy.external.enabled` | If true, External WS Proxy deployment will be created. Requires `javaServer.plugin.enabled` set to `true` | `false`
-`wsProxy.external.replicaCount` | Desired number of external WS Proxy service pods | `1`
-`wsProxy.external.resources` | External WS Proxy service resource requests and limits | `{}`
+`mqttBroker.enabled` | If true, DH MQTT broker will be deployed | `false`
+`mqttBroker.image` | MQTT broker image and tag | `devicehive/devicehive-mqtt:1.1.0`
+`mqttBroker.pullPolicy`| MQTT broker image pull policy | `IfNotPresent`
+`mqttBroker.service.type` | Type of MQTT broker service to create | `ClusterIP`
+`mqttBroker.service.port` | MQTT broker service port | `1883`
+`mqttBroker.wsServerUrl` | | URL of Frontend Web Socket server. Defaults to "ws://localhost:8080/api/websocket" if empty | `""`
 `proxy.image` | DH Proxy image name and tag | `devicehive/devicehive-proxy:3.4.5`
 `proxy.pullPolicy` | DH Proxy image pull policy | `IfNotPresent`
 `proxy.replicaCount` | Desired number DH Proxy pods | `1`
@@ -103,6 +102,16 @@ Parameter | Description | Default
 `proxy.ingress.enabled` |If true, DH Proxy Ingress will be created | `false`
 `proxy.ingress.annotations` | DH Proxy Ingress annotations | `{}` ###  kubernetes.io/ingress.class: nginx
 `proxy.ingress.hosts` | DH Proxy server Ingress hostnames | `[]`
+`wsProxy.image` | DH WS Proxy image name and tag | `devicehive/devicehive-ws-proxy:1.1.0`
+`wsProxy.pullPolicy` | DH WS Proxy image pull policy | `IfNotPresent`
+`wsProxy.internal.replicaCount` | Desired number of internal WS Proxy service pods | `1`
+`wsProxy.internal.resources` | Internal WS Proxy service resource requests and limits  | `{}`
+`wsProxy.external.enabled` | If true, External WS Proxy deployment will be created. Requires `javaServer.plugin.enabled` set to `true` | `false`
+`wsProxy.external.replicaCount` | Desired number of external WS Proxy service pods | `1`
+`wsProxy.external.resources` | External WS Proxy service resource requests and limits | `{}`
+`rbac.create` | If true, create & use RBAC resources | `true`
+`rbac.serviceAccountName` | Service account name to use (ignored if rbac.create=true) | `default`
+`kafka.enabled` | If true, installs Kafka chart. Required | `true`
 `postgresql.enabled` | If true, installs PostgreSQL chart. Required | `true`
 `postgresql.postgresDatabase` | Database name. Used by both PostgreSQL and DeviceHive charts | `devicehivedb`
 `postgresql.postgresUser` | Database user. Used by both PostgreSQL and DeviceHive charts | `devicehive`
@@ -110,9 +119,7 @@ Parameter | Description | Default
 `postgresql.persistence.enabled` | Use a PVC to persist database | `true`
 `postgresql.persistence.size` | Size of data volume | `1Gi`
 `postgresql.imageTag` | `postgresql` chart image tag, if `postgresql.enabled` is `true` | `10`
-`kafka.enabled` | If true, installs Kafka chart. Required | `true`
-`rbac.create` | If true, create & use RBAC resources | `true`
-`rbac.serviceAccountName` | Service account name to use (ignored if rbac.create=true) | `default`
+`redis.enabled` | If true, installs Redis chart, which is requred by MQTT broker. Requires `mqttBroker.enabled` set to `true` | `true`
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 

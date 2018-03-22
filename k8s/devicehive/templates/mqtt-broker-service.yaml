@@ -1,0 +1,14 @@
+{{- if .Values.mqttBroker.enabled }}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-devicehive-mqtt-broker
+spec:
+  selector:
+    app: {{ .Release.Name }}-devicehive-mqtt-broker
+  type: {{ .Values.mqttBroker.service.type }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.mqttBroker.service.port | int }}
+      targetPort: mqtt
+{{- end }}

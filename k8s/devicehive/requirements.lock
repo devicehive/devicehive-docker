@@ -1,9 +1,12 @@
 dependencies:
 - name: postgresql
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 0.8.12
+  version: 0.8.14
 - name: kafka
   repository: https://kubernetes-charts-incubator.storage.googleapis.com/
-  version: 0.2.13
-digest: sha256:6a26108349d3209e03671b77f89786a41cb11afd936e3bfa6297717c5bd512fe
-generated: 2018-02-15T16:41:16.648263273+03:00
+  version: 0.2.15
+- name: redis
+  repository: https://kubernetes-charts.storage.googleapis.com/
+  version: 1.1.20
+digest: sha256:4b69bbeca4b7c5b396a6e65e3eba0f2a0da8af8ca64b2b10c24d9f2296bb35fb
+generated: 2018-03-23T18:47:38.727299897+03:00
