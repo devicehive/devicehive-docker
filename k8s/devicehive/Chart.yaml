@@ -1,12 +1,16 @@
-apiVersion: v1
 name: devicehive
 version: 0.3.1
+appVersion: 3.4.5
+kubeVersion: ^1.7.0
 description: Open Source IoT Data Platform with the wide range of integration options.
 home: https://www.devicehive.com/
 icon: https://files.readme.io/oTwbMTEQTKq2CwezNLJ3_DH-logo.png
 sources:
-- https://github.com/devicehive/devicehive-java-server
-- https://github.com/devicehive/devicehive-docker
-- https://github.com/devicehive/devicehive-admin-panel
-- https://github.com/devicehive/devicehive-ws-proxy
-- https://github.com/devicehive/devicehive-proxy
+  - https://github.com/devicehive/devicehive-java-server
+  - https://github.com/devicehive/devicehive-docker
+  - https://github.com/devicehive/devicehive-admin-panel
+  - https://github.com/devicehive/devicehive-ws-proxy
+  - https://github.com/devicehive/devicehive-proxy
+maintainers:
+  - name: Alexander Sitnik
+    url: https://github.com/devicehive/devicehive-docker/issues
