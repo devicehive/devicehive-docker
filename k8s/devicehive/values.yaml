@@ -50,6 +50,10 @@ proxy:
     #  kubernetes.io/ingress.class: nginx
     hosts: []
 
+rbac:
+  create: true
+  serviceAccountName: default
+
 # External dependencies
 # PostgreSQL
 postgresql:
@@ -65,7 +69,3 @@ postgresql:
 # Apache Kafka
 kafka:
   enabled: true
-
-rbac:
-  create: true
-  serviceAccountName: default
