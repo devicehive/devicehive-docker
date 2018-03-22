@@ -5,12 +5,18 @@ javaServer:
   auth:
     replicaCount: 1
     resources: {}
+    dhLogLevel: INFO
+    rootLogLevel: WARN
   backend:
     replicaCount: 1
     resources: {}
+    dhLogLevel: INFO
+    rootLogLevel: INFO
   frontend:
     replicaCount: 1
     resources: {}
+    dhLogLevel: INFO
+    rootLogLevel: WARN
   hazelcast:
     replicaCount: 1
     resources: {}
@@ -19,6 +25,8 @@ javaServer:
     pluginConnectUrl: ""
     replicaCount: 1
     resources: {}
+    dhLogLevel: INFO
+    rootLogLevel: WARN
   # Connection method to Kafka
   # wsproxy: connect to Kafka via devicehive-ws-proxy, default
   # rpc: direct connection to Kafka

@@ -48,5 +48,9 @@ spec:
           value: "dev-pass"
         - name: HC_MEMBERS
           value: "{{ .Release.Name }}-devicehive-hazelcast"
+        - name: DH_LOG_LEVEL
+          value: {{ .Values.javaServer.backend.dhLogLevel | quote }}
+        - name: ROOT_LOG_LEVEL
+          value: {{ .Values.javaServer.backend.rootLogLevel | quote }}
         resources:
 {{ toYaml .Values.javaServer.backend.resources | indent 10 }}

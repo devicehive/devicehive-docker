@@ -55,6 +55,10 @@ spec:
             secretKeyRef:
               name: {{ .Release.Name }}-jwtsecret
               key: jwtSecret
+        - name: DH_LOG_LEVEL
+          value: {{ .Values.javaServer.frontend.dhLogLevel | quote }}
+        - name: ROOT_LOG_LEVEL
+          value: {{ .Values.javaServer.frontend.rootLogLevel | quote }}
         ports:
         - name: dh-api
           containerPort: 8080

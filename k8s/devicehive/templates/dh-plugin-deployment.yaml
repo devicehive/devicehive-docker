@@ -58,6 +58,10 @@ spec:
           value: "dev"
         - name: HC_GROUP_PASSWORD
           value: "dev-pass"
+        - name: DH_LOG_LEVEL
+          value: {{ .Values.javaServer.plugin.dhLogLevel | quote }}
+        - name: ROOT_LOG_LEVEL
+          value: {{ .Values.javaServer.plugin.rootLogLevel | quote }}
         ports:
         - name: dh-plugin
           containerPort: 8110

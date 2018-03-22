@@ -69,16 +69,24 @@ Parameter | Description | Default
 `javaServer.pullPolicy` | Common image pull policy for devicehive-java-server images | `IfNotPresent`
 `javaServer.auth.replicaCount` | Desired number of Auth service pods | `1`
 `javaServer.auth.resources` | Auth service resource requests and limits | `{}`
+`javaServer.auth.dhLogLevel` | Log verbosity for DeviceHive Java classes | `INFO`
+`javaServer.auth.rootLogLevel` | Log verbosity for external dependencies | `WARN`
 `javaServer.backend.replicaCount` | Desired number of Backend service pods | `1`
 `javaServer.backend.resources` | Backend service resource requests and limits | `{}`
+`javaServer.backend.dhLogLevel` | Log verbosity for DeviceHive Java classes | `INFO`
+`javaServer.backend.rootLogLevel` | Log verbosity for external dependencies | `INFO`
 `javaServer.frontend.replicaCount` | Desired number of Frontend service pods | `1`
 `javaServer.frontend.resources` | Frontend service resource requests and limits  | `{}`
+`javaServer.frontend.dhLogLevel` | Log verbosity for DeviceHive Java classes | `INFO`
+`javaServer.frontend.rootLogLevel` | Log verbosity for external dependencies | `WARN`
 `javaServer.hazelcast.replicaCount` | Desired number of DeviceHive Hazelcast service pods | `1`
 `javaServer.hazelcast.resources` | DeviceHive Hazelcast service resource requests and limits  | `{}`
 `javaServer.plugin.enabled` | If true, DH Plugin service will be deployed | `false`
 `javaServer.plugin.pluginConnectUrl` | Sets URL for Plugin to connect via WebSocket protocol. Plugin service sends this URL to external plugins after registering. Defaults to 'ws://localhost/plugin/proxy' | `""`
 `javaServer.plugin.replicaCount` | Desired number of Plugin service pods | `1`
 `javaServer.plugin.resources` | Plugin service resource requests and limits  | `{}`
+`javaServer.plugin.dhLogLevel` | Log verbosity for DeviceHive Java classes | `INFO`
+`javaServer.plugin.rootLogLevel` | Log verbosity for external dependencies | `WARN`
 `javaServer.bus` | Message bus access method, WS Proxy by default. Other option is `rpc` | `wsproxy`
 `javaServer.jwtSecret` | JWT secret for signing JWT tokens. If empty (default) Helm generates random 16 characters string | `""`
 `wsProxy.image` | DH WS Proxy image name and tag | `devicehive/devicehive-ws-proxy:1.1.0`

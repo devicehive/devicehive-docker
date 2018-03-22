@@ -45,6 +45,10 @@ spec:
               key: jwtSecret
         - name: SPRING_PROFILES_ACTIVE
           value: "ws-kafka-proxy"
+        - name: DH_LOG_LEVEL
+          value: {{ .Values.javaServer.auth.dhLogLevel | quote }}
+        - name: ROOT_LOG_LEVEL
+          value: {{ .Values.javaServer.auth.rootLogLevel | quote }}
         ports:
         - name: dh-auth
           containerPort: 8090
