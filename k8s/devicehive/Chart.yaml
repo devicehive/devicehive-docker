@@ -1,7 +1,6 @@
 name: devicehive
 version: 0.3.1
 appVersion: 3.4.5
-kubeVersion: ^1.7.0
 description: Open Source IoT Data Platform with the wide range of integration options.
 home: https://www.devicehive.com/
 icon: https://files.readme.io/oTwbMTEQTKq2CwezNLJ3_DH-logo.png
