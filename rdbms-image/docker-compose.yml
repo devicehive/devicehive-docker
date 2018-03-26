@@ -135,7 +135,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${DH_BE_SPRING_PROFILES_ACTIVE:-ws-kafka-proxy-backend}
 
   dh_proxy:
-    image: devicehive/devicehive-proxy:${DH_PROXY_TAG:-3.4.5}
+    image: devicehive/devicehive-proxy:${DH_PROXY_TAG:-3.4.5.1}
     links:
       - "dh_auth"
       - "dh_frontend"
