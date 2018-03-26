@@ -48,7 +48,7 @@ wsProxy:
     resources: {}
 
 proxy:
-  image: devicehive/devicehive-proxy:3.4.5
+  image: devicehive/devicehive-proxy:3.4.5.1
   pullPolicy: IfNotPresent
   replicaCount: 1
   resources: {}

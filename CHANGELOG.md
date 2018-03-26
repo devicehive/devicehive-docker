@@ -2,6 +2,10 @@
 
 * k8s: add parameters for log level configuration in Java Server services
 
+## 3.4.5.1 / 2018-03-26
+
+* Update devicehive-proxy image to 3.4.5.1. Fixes absence of 'openssl' binary in image.
+
 ## 3.4.5 / 2018-03-20
 
 * Update images to DeviceHive Java Server 3.4.5, DeviceHive Proxy 3.4.5
