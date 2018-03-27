@@ -90,6 +90,7 @@ Parameter | Description | Default
 `javaServer.bus` | Message bus access method, WS Proxy by default. Other option is `rpc` | `wsproxy`
 `javaServer.jwtSecret` | JWT secret for signing JWT tokens. If empty (default) Helm generates random 16 characters string | `""`
 `mqttBroker.enabled` | If true, DH MQTT broker will be deployed | `false`
+`mqttBroker.appLogLevel` | Application logger level (levels: debug, info, warn, error) | `info`
 `mqttBroker.image` | MQTT broker image and tag | `devicehive/devicehive-mqtt:1.1.0`
 `mqttBroker.pullPolicy`| MQTT broker image pull policy | `IfNotPresent`
 `mqttBroker.service.type` | Type of MQTT broker service to create | `ClusterIP`

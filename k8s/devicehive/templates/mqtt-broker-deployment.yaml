@@ -25,10 +25,15 @@ spec:
           value: "_"
         - name: BROKER_ENABLE_PM
           value: "false"
+        - name: BROKER_BROKER_PORT
+          value: "1883"
         - name: BROKER_REDIS_SERVER_HOST
           value: "{{ .Release.Name }}-redis"
         - name: BROKER_REDIS_SERVER_PORT
           value: "6379"
+        - name: BROKER_APP_LOG_LEVEL
+          value: "debug"
+          value: {{ .Values.mqttBroker.appLogLevel | quote }}
         - name: BROKER_WS_SERVER_URL
           value: {{ .Values.mqttBroker.wsServerUrl | default "ws://localhost/api/websocket" | quote }}
         ports:
