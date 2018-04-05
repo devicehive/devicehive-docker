@@ -33,3 +33,7 @@ spec:
           containerPort: 3000
         resources:
 {{ toYaml .Values.wsProxy.internal.resources | indent 10 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}

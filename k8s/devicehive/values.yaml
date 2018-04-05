@@ -67,6 +67,8 @@ wsProxy:
     replicaCount: 1
     resources: {}
 
+nodeSelector: {}
+
 rbac:
   create: true
   serviceAccountName: default

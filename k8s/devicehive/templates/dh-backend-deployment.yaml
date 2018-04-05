@@ -54,3 +54,7 @@ spec:
           value: {{ .Values.javaServer.backend.rootLogLevel | quote }}
         resources:
 {{ toYaml .Values.javaServer.backend.resources | indent 10 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}

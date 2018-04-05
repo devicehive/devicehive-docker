@@ -9,6 +9,7 @@
 * Add `DH_AUTH_SPRING_PROFILES_ACTIVE` env variable for setting Kafka connection method in Auth service.
 * k8s: devicehive-auth deployment now supports javaServer.bus=rpc value
 * compose,k8s: Fix WS_SERVER_URL parameter for MQTT brokers. It should point to internal Frontend address and isn't required to be set by user (fixes: GH-51)
+* k8s: add common nodeSelector value for all DeviceHive Deployments
 
 ### Breaking changes
 

@@ -111,6 +111,7 @@ Parameter | Description | Default
 `wsProxy.external.enabled` | If true, External WS Proxy deployment will be created. Requires `javaServer.plugin.enabled` set to `true` | `false`
 `wsProxy.external.replicaCount` | Desired number of external WS Proxy service pods | `1`
 `wsProxy.external.resources` | External WS Proxy service resource requests and limits | `{}`
+`nodeSelector` | Node labels for DeviceHive pods assignment | `{}`
 `rbac.create` | If true, create & use RBAC resources | `true`
 `rbac.serviceAccountName` | Service account name to use (ignored if rbac.create=true) | `default`
 `kafka.enabled` | If true, installs Kafka chart. Required | `true`

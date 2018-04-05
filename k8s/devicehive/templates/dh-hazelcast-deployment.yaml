@@ -29,3 +29,7 @@ spec:
           containerPort: 5701
         resources:
 {{ toYaml .Values.javaServer.hazelcast.resources | indent 10 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}

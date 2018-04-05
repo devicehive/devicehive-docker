@@ -47,4 +47,8 @@ spec:
         - name: api-gateway-upstreams-conf
           configMap:
             name: {{ .Release.Name }}-api-gateway-upstreams-conf
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
 ...

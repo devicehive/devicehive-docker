@@ -75,3 +75,7 @@ spec:
           periodSeconds: 15
         resources:
 {{ toYaml .Values.javaServer.frontend.resources | indent 10 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
