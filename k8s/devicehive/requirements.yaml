@@ -1,17 +1,17 @@
 dependencies:
 - name: postgresql
-  version: ~0.8.12
+  version: ~0.11.2
   repository: https://kubernetes-charts.storage.googleapis.com/
   condition: postgresql.enabled
   tags:
     - devicehive-database
 
 - name: kafka
-  version: ~0.2.13
+  version: ~0.7.2
   repository: https://kubernetes-charts-incubator.storage.googleapis.com/
   condition: kafka.enabled
 
 - name: redis
-  version: ~1.1.20
+  version: ~3.2.5
   repository: https://kubernetes-charts.storage.googleapis.com/
   condition: redis.enabled, mqttBroker.enabled

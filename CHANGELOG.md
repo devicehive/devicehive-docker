@@ -13,6 +13,7 @@
 * docs,k8s: document replicaCount and resources values for MQTT brokers deployments
 * k8s: add values for Hazelcast min/max heap size
 * Add compose file variant and k8s deployment for devicehive-backend-node service
+* k8s: update chart dependencies
 
 ### Breaking changes
 
