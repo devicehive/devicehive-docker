@@ -4,6 +4,7 @@
 ## TL;DR;
 
 ``` console
+$ helm dependency update ./devicehive
 $ helm install ./devicehive
 ```
 
@@ -22,6 +23,7 @@ This chart probably will work on Kubernetes older that 1.7, but it wasn't tested
 To install the chart with release name `my-release`:
 
 ``` console
+$ helm dependency update ./devicehive
 $ helm install --name my-release ./devicehive
 ```
 

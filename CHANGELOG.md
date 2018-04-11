@@ -3,6 +3,7 @@
 * k8s: add parameters for log level configuration in Java Server services
 * k8s: add deployment for DeviceHive MQTT broker
 * update Prometheus JMX Exporter to version 0.3.0
+* k8s: update installation step in docs
 
 ## 3.4.5.1 / 2018-03-26
 
