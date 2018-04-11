@@ -140,7 +140,9 @@ $ helm install ./devicehive --name my-release -f values.yaml
 > **Tip**: You can use the default [values.yaml](devicehive/values.yaml)
 
 ### RBAC Configuration
-Roles and RoleBindings resources will be created automatically for each service
+First, Helm itself requires additional configuration to use on Kubernetes clusters where RBAC enabled. Follow instructions in [Helm documentation](https://docs.helm.sh/using_helm/#role-based-access-control).
+
+DeviceHive Role and RoleBinding resources will be created automatically for each service.
 
 To manually setup RBAC you need to set the parameter rbac.create=false and specify the service account to be used in rbac.serviceAccountName.
 
