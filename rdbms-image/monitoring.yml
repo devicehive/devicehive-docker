@@ -1,0 +1,52 @@
+version: "3"
+services:
+  cadvisor:
+    image: google/cadvisor:latest
+    restart: unless-stopped
+    privileged: true
+    volumes:
+      - "/:/rootfs:ro"
+      - "/var/run:/var/run:rw"
+      - "/sys:/sys:ro"
+      - "/var/lib/docker/:/var/lib/docker:ro"
+
+  prometheus:
+    image: prom/prometheus:v2.2.1
+    links:
+      - "cadvisor"
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    volumes:
+      - "/prometheus"
+      - prometheus:/prometheus
+      - "./lib/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z"
+
+  grafana:
+    image: sitnik/devicehive-grafana:5.0.4
+    links:
+      - "prometheus"
+    restart: unless-stopped
+    environment:
+      GF_USERS_ALLOW_SIGN_UP: "true"
+      GF_USERS_ALLOW_ORG_CREATE: "false"
+      GF_USERS_AUTO_ASSIGN_ORG: "false"
+      GF_USERS_AUTO_ASSIGN_ORG_ROLE: Admin
+      GF_ALERTING_ENABLED: "false"
+      GF_DEFAULT_INSTANCE_NAME: Grafana
+      GF_SERVER_ROOT_URL: "%(protocol)s://%(domain)s:/grafana"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - "./lib/monitoring/grafana-datasources-config.yaml:/etc/grafana/provisioning/datasources/datasources.yaml:ro,Z"
+      - "./lib/monitoring/grafana-dashboards-config.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro,Z"
+      - "./lib/monitoring/devicehive-dashboard.json:/opt/grafana/dashboards/devicehive-dashboard.json:ro,Z"
+
+  dh_proxy:
+    links:
+      - "grafana"
+    volumes:
+      -  "./grafana_location.conf:/etc/nginx/location.d/grafana.conf:ro,Z"
+
+volumes:
+  grafana-data:
+  prometheus:

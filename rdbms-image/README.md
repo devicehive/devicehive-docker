@@ -176,29 +176,28 @@ Or add line `COMPOSE_FILE=docker-compose.yml:devicehive-metrics.yml` in `.env` f
 
 Related Prometheus config for this exporter and link to Grafana Dashboard is in the [Monitoring Kafka with Prometheus](https://www.robustperception.io/monitoring-kafka-with-prometheus/) blog post by Prometheus developer.
 
-### DeviceHive Grafana Datasource
-DeviceHive project provides official [datasource plugin for Grafana][datasource-github-repo] which is also published in [Grafana plugin registry][datasource-in-plugin-registry]. For the means of testing DeviceHive datasource plugin we provide Docker image with only this datasource enabled.
+### Grafana
+We provide optional bundle of monitoring services for Docker Compose installation with cAdvisor, Prometheus and Grafana included. This bundle is provided for evaluation purposes only.
 
-> Please note that this image is for testing purposes only. If you want to use datasource plugin in production environment, install plugin in separately managed Grafana instance. We don't provide support for this image.
-
-To enable optional Grafana service with DeviceHive datasource run DeviceHive with the following command:
+To enable it run DeviceHive with the following command:
 ```
-sudo docker-compose -f docker-compose.yml -f grafana.yml up -d
+sudo docker-compose -f docker-compose.yml -f monitoring.yml up -d
 ```
-Or add line `COMPOSE_FILE=docker-compose.yml:grafana.yml` in `.env` file.
-
-This only adds Grafana container. After that you need to install plugin in it:
-```
-sudo docker-compose exec grafana bash -c 'grafana-cli plugins install devicehive-devicehive-datasource'
-sudo docker-compose down
-sudo docker-compose up
-```
+Or add line `COMPOSE_FILE=docker-compose.yml:monitoring.yml` in `.env` file.
 
 Grafana will be available at `http://<devicehive-host>/grafana` with [default Grafana credentials][grafana-conf-security].
+
+> Please note that this bundle of monitoring services is for testing purposes only. For production environment install separatetly managed Grafana instance. We don't provide support for this bundle.
+> And don't forget to change Grafana `admin` password.
 
 [datasource-github-repo]: https://github.com/devicehive/devicehive-grafana-datasource
 [datasource-in-plugin-registry]: https://grafana.com/plugins/devicehive-devicehive-datasource
 [grafana-conf-security]: http://docs.grafana.org/installation/configuration/#security
+
+#### DeviceHive Grafana Datasource
+DeviceHive project provides official [datasource plugin for Grafana][datasource-github-repo] which is also published in [Grafana plugin registry][datasource-in-plugin-registry]. For the means of testing this plugin, we included it Grafana Docker image in monitoring.yml bundle.
+
+> Please note that this image is for testing purposes only. If you want to use datasource plugin in production environment, install plugin in separately managed Grafana instance. We don't provide support for this image.
 
 ## Development environment
 ### Using CI images

@@ -4,6 +4,11 @@
 * k8s: add deployment for DeviceHive MQTT broker
 * update Prometheus JMX Exporter to version 0.3.0
 * k8s: update installation step in docs
+* docker-compose installation now includes cAdvisor and Prometheus containers, Grafana is provisioned with Prometheus datasource and example DeviceHive dashboard
+
+### Breaking changes
+
+* grafana.yml file for Docker Compose installation was renamed to monitoring.yml. Update your .env file or other startup scripts if you use it.
 
 ## 3.4.5.1 / 2018-03-26
 
