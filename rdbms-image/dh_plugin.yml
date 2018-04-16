@@ -63,4 +63,4 @@ services:
     restart: unless-stopped
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-    command: bash -c 'while true; do echo "Starting cleanup"; date; kafka-run-class.sh kafka.admin.TopicCommand --zookeeper $${KAFKA_ZOOKEEPER_CONNECT} --list | grep plugin_topic_ | sort -R | xargs -r -n1 kafka-run-class.sh kafka.admin.TopicCommand --zookeeper $${KAFKA_ZOOKEEPER_CONNECT} --delete --topic; date; echo "Cleanup ended"; sleep 4h; done'
+    command: bash -c 'while true; do echo "Starting cleanup at $$(date)"; PLUGIN_TOPICS_COUNT=$$(kafka-run-class.sh kafka.admin.TopicCommand --zookeeper $${KAFKA_ZOOKEEPER_CONNECT} --list | fgrep -c plugin_topic_); if [ $${PLUGIN_TOPICS_COUNT} -ge 50 ]; then echo "Found $${PLUGIN_TOPICS_COUNT} topics, cleaning"; kafka-run-class.sh kafka.admin.TopicCommand --zookeeper $${KAFKA_ZOOKEEPER_CONNECT} --list | fgrep plugin_topic_ | sort -R | xargs -r -n1 kafka-run-class.sh kafka.admin.TopicCommand --zookeeper $${KAFKA_ZOOKEEPER_CONNECT} --delete --topic; else echo "Found $${PLUGIN_TOPICS_COUNT} topics, not cleaning"; fi; echo "Cleanup ended at $$(date)"; sleep 10m; done'

@@ -5,6 +5,7 @@
 * update Prometheus JMX Exporter to version 0.3.0
 * k8s: update installation step in docs
 * docker-compose installation now includes cAdvisor and Prometheus containers, Grafana is provisioned with Prometheus datasource and example DeviceHive dashboard
+* cleanup DH Plugin topics from Kafka every 10 minutes
 
 ### Breaking changes
 
