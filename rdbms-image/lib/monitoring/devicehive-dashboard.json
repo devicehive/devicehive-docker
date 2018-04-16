@@ -75,7 +75,7 @@
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
-      "stack": true,
+      "stack": false,
       "steppedLine": false,
       "targets": [
         {
@@ -93,7 +93,7 @@
       "title": "Container memory usage, MiB",
       "tooltip": {
         "shared": true,
-        "sort": 0,
+        "sort": 2,
         "value_type": "individual"
       },
       "type": "graph",
@@ -160,7 +160,7 @@
       "renderer": "flot",
       "seriesOverrides": [],
       "spaceLength": 10,
-      "stack": true,
+      "stack": false,
       "steppedLine": false,
       "targets": [
         {
@@ -177,7 +177,7 @@
       "title": "Container CPU usage, %",
       "tooltip": {
         "shared": true,
-        "sort": 0,
+        "sort": 2,
         "value_type": "individual"
       },
       "type": "graph",
@@ -248,7 +248,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(container_network_receive_bytes_total{container_label_com_docker_compose_project!=\"\"}[1m])",
+          "expr": "sum by (container_label_com_docker_compose_service)(rate(container_network_receive_bytes_total{container_label_com_docker_compose_project!=\"\"}[1m]))",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{ container_label_com_docker_compose_service }}",
@@ -261,7 +261,7 @@
       "title": "Container receive bytes/s",
       "tooltip": {
         "shared": true,
-        "sort": 0,
+        "sort": 2,
         "value_type": "individual"
       },
       "type": "graph",
@@ -332,7 +332,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "rate(container_network_transmit_bytes_total{container_label_com_docker_compose_project!=\"\"}[1m])",
+          "expr": "sum by (container_label_com_docker_compose_service)(rate(container_network_transmit_bytes_total{container_label_com_docker_compose_project!=\"\"}[1m]))",
           "format": "time_series",
           "intervalFactor": 2,
           "legendFormat": "{{ container_label_com_docker_compose_service }}",
@@ -345,7 +345,7 @@
       "title": "Container transmit bytes/s",
       "tooltip": {
         "shared": true,
-        "sort": 0,
+        "sort": 2,
         "value_type": "individual"
       },
       "type": "graph",
@@ -415,5 +415,5 @@
   "timezone": "",
   "title": "DeviceHive containers",
   "uid": "300000001",
-  "version": 2
+  "version": 3
 }
