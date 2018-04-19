@@ -23,7 +23,7 @@ services:
       - "./lib/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro,Z"
 
   grafana:
-    image: sitnik/devicehive-grafana:5.0.4
+    image: devicehive/devicehive-grafana:5.0.4-custom
     links:
       - "prometheus"
     restart: unless-stopped
