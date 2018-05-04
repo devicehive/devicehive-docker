@@ -95,6 +95,8 @@ Parameter | Description | Default
 `mqttBroker.appLogLevel` | Application logger level (levels: debug, info, warn, error) | `info`
 `mqttBroker.image` | MQTT broker image and tag | `devicehive/devicehive-mqtt:1.1.0`
 `mqttBroker.pullPolicy`| MQTT broker image pull policy | `IfNotPresent`
+`mqttBroker.replicaCount` | Desired number of MQTT broker pods | `1`
+`mqttBroker.resources` | MQTT broker deployment resource requests and limits | `{}`
 `mqttBroker.service.type` | Type of MQTT broker service to create | `ClusterIP`
 `mqttBroker.service.port` | MQTT broker service port | `1883`
 `proxy.image` | DH Proxy image name and tag | `devicehive/devicehive-proxy:3.4.5`

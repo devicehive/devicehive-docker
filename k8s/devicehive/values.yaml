@@ -40,6 +40,8 @@ mqttBroker:
   enabled: false
   image: devicehive/devicehive-mqtt:1.1.0
   pullPolicy: IfNotPresent
+  replicaCount: 1
+  resources: {}
   service:
     type: ClusterIP
     port: 1883
