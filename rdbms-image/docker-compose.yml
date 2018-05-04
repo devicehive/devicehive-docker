@@ -78,11 +78,16 @@ services:
     ports:
       - "${DH_ADMIN_PORT:-8090}:8090"
     links:
-      - "postgres"
+      - "kafka"
       - "hazelcast"
+      - "postgres"
       - "wsproxy"
+      - "zookeeper"
     restart: unless-stopped
     environment:
+      DH_ZK_ADDRESS: ${DH_ZK_ADDRESS:-zookeeper}
+      DH_ZK_PORT: ${DH_ZK_PORT:-2181}
+      DH_KAFKA_BOOTSTRAP_SERVERS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
       DH_POSTGRES_ADDRESS: ${DH_POSTGRES_ADDRESS:-postgres}
       DH_POSTGRES_PORT: ${DH_POSTGRES_PORT:-5432}
       DH_POSTGRES_USERNAME: ${DH_POSTGRES_USERNAME:-postgres}
@@ -94,8 +99,8 @@ services:
       HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
       HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
       JWT_SECRET: ${JWT_SECRET}
-      SPRING_PROFILES_ACTIVE: ${DH_PLUGIN_SPRING_PROFILES_ACTIVE:-ws-kafka-proxy}
       DH_WS_PROXY: wsproxy:3000
+      SPRING_PROFILES_ACTIVE: ${DH_AUTH_SPRING_PROFILES_ACTIVE:-ws-kafka-proxy}
 
   hazelcast:
     image: devicehive/devicehive-hazelcast:${DH_TAG:-3.4.5}
