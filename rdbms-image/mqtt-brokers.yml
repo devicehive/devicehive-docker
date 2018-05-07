@@ -1,6 +1,5 @@
 version: '3'
 services:
-
   dh_proxy:
     ports:
       - "1883:1883"
@@ -12,18 +11,24 @@ services:
 
   mqtt_broker1:
     image: devicehive/devicehive-mqtt:1.1.0
+    links:
+      - dh_frontend
+      - redis
     restart: unless-stopped
     environment:
-      - BROKER.WS_SERVER_URL=ws://playground-dev.devicehive.com/api/websocket
+      - BROKER.WS_SERVER_URL=ws://dh_frontend/api/websocket
       - BROKER.REDIS_SERVER_HOST=redis
       - BROKER.REDIS_SERVER_PORT=6379
       - BROKER.ENABLE_PM=false
 
   mqtt_broker2:
     image: devicehive/devicehive-mqtt:1.1.0
+    links:
+      - dh_frontend
+      - redis
     restart: unless-stopped
     environment:
-      - BROKER.WS_SERVER_URL=ws://playground-dev.devicehive.com/api/websocket
+      - BROKER.WS_SERVER_URL=ws://dh_frontend/api/websocket
       - BROKER.REDIS_SERVER_HOST=redis
       - BROKER.REDIS_SERVER_PORT=6379
       - BROKER.ENABLE_PM=false

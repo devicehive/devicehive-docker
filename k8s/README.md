@@ -97,7 +97,6 @@ Parameter | Description | Default
 `mqttBroker.pullPolicy`| MQTT broker image pull policy | `IfNotPresent`
 `mqttBroker.service.type` | Type of MQTT broker service to create | `ClusterIP`
 `mqttBroker.service.port` | MQTT broker service port | `1883`
-`mqttBroker.wsServerUrl` | | URL of Frontend Web Socket server. Defaults to "ws://localhost:8080/api/websocket" if empty | `""`
 `proxy.image` | DH Proxy image name and tag | `devicehive/devicehive-proxy:3.4.5`
 `proxy.pullPolicy` | DH Proxy image pull policy | `IfNotPresent`
 `proxy.replicaCount` | Desired number DH Proxy pods | `1`

@@ -43,11 +43,7 @@ mqttBroker:
   service:
     type: ClusterIP
     port: 1883
-
-  # URL of Frontend Web Socket server. Defaults to "ws://localhost:8080/api/websocket" if empty
   appLogLevel: info
-  wsServerUrl: ""
-
 
 proxy:
   image: devicehive/devicehive-proxy:3.4.5.1
