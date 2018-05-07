@@ -101,7 +101,7 @@ To enable DeviceHive to communicate over Apache Kafka message bus to scale out a
 * `DH_RPC_SERVER_REQ_CONS_THREADS` - Kafka request consumer threads in the Backend, defaults to `3` if undefined.
 * `DH_RPC_SERVER_WORKER_THREADS` - Server worker threads in the Backend, defaults to `3` if undefined. On machine with many CPU cores and high load this value must be raised. For example on machine with 8 core it must be set to `6`.
 * `DH_RPC_CLIENT_RES_CONS_THREADS` - Kafka response consumer threads in the Frontend, defaults to `3`.
-* `DH_FE_SPRING_PROFILES_ACTIVE`, `DH_BE_SPRING_PROFILES_ACTIVE` and `DH_PLUGIN_SPRING_PROFILES_ACTIVE` - Changes which Spring profile use for Frontend, Backend and Plugin sevices respectively. Defaults to `ws-kafka-proxy-frontend` for Frontend, `ws-kafka-proxy-backend` for Backend and `ws-kafka-proxy` for Plugin. Can be changed to `rpc-client` for Frontend/Plugin and `rpc-server` for Backend to use direct connection to Kafka instead of devicehive-ws-proxy service.
+* `DH_AUTH_SPRING_PROFILES_ACTIVE`, `DH_FE_SPRING_PROFILES_ACTIVE`, `DH_BE_SPRING_PROFILES_ACTIVE` and `DH_PLUGIN_SPRING_PROFILES_ACTIVE` - Changes which Spring profile use for Auth, Frontend, Backend and Plugin sevices respectively. Defaults to `ws-kafka-proxy-frontend` for Frontend, `ws-kafka-proxy-backend` for Backend and `ws-kafka-proxy` for Auth/Plugin. Can be changed to `rpc-client` for Auth/Frontend/Plugin and `rpc-server` for Backend to use direct connection to Kafka instead of devicehive-ws-proxy service.
 
 ### MQTT brokers
 The [devicehive-mqtt plugin][dh-mqtt-url] is a MQTT transport layer between MQTT clients and DeviceHive server. The broker uses WebSocket sessions to communicate with DeviceHive Server and Redis server for persistence functionality.

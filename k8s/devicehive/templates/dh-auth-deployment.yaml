@@ -43,8 +43,16 @@ spec:
             secretKeyRef:
               name: {{ .Release.Name }}-jwtsecret
               key: jwtSecret
+        {{- if eq .Values.javaServer.bus "rpc" }}
         - name: SPRING_PROFILES_ACTIVE
-          value: "ws-kafka-proxy"
+          value: "rpc-client"
+        - name: DH_KAFKA_BOOTSTRAP_SERVERS
+          value: "{{ .Release.Name }}-kafka:9092"
+        - name: DH_ZK_ADDRESS
+          value: "{{ .Release.Name }}-zookeeper"
+        - name: DH_ZK_PORT
+          value: "2181"
+        {{- end }}
         - name: DH_LOG_LEVEL
           value: {{ .Values.javaServer.auth.dhLogLevel | quote }}
         - name: ROOT_LOG_LEVEL

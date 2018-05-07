@@ -6,6 +6,8 @@
 * k8s: update installation step in docs
 * docker-compose installation now includes cAdvisor and Prometheus containers, Grafana is provisioned with Prometheus datasource and example DeviceHive dashboard
 * cleanup DH Plugin topics from Kafka every 10 minutes
+* Add `DH_AUTH_SPRING_PROFILES_ACTIVE` env variable for setting Kafka connection method in Auth service.
+* k8s: devicehive-auth deployment now supports javaServer.bus=rpc value
 
 ### Breaking changes
 
