@@ -35,7 +35,7 @@ spec:
           value: "debug"
           value: {{ .Values.mqttBroker.appLogLevel | quote }}
         - name: BROKER_WS_SERVER_URL
-          value: "{{ .Release.Name }}-devicehive-frontend"
+          value: "{{ .Release.Name }}-devicehive-frontend:8080/api/websocket"
         ports:
         - name: mqtt
           containerPort: 1883

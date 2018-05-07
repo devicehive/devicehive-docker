@@ -16,7 +16,7 @@ services:
       - redis
     restart: unless-stopped
     environment:
-      - BROKER.WS_SERVER_URL=ws://dh_frontend/api/websocket
+      - BROKER.WS_SERVER_URL=ws://dh_frontend:8080/api/websocket
       - BROKER.REDIS_SERVER_HOST=redis
       - BROKER.REDIS_SERVER_PORT=6379
       - BROKER.ENABLE_PM=false
@@ -28,7 +28,7 @@ services:
       - redis
     restart: unless-stopped
     environment:
-      - BROKER.WS_SERVER_URL=ws://dh_frontend/api/websocket
+      - BROKER.WS_SERVER_URL=ws://dh_frontend:8080/api/websocket
       - BROKER.REDIS_SERVER_HOST=redis
       - BROKER.REDIS_SERVER_PORT=6379
       - BROKER.ENABLE_PM=false
