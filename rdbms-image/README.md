@@ -19,19 +19,19 @@ You can now access your DeviceHive microservices via endpoints decribed in the n
 Default DeviceHive admin user has name `dhadmin` and password `dhadmin_#911`.
 
 ### Service endpoints
-Table below lists endpoints where you can find various DeviceHive services. Replace *localhost* with actual hostname of the docker daemon and start observing DeviceHive capabilities.
+Table below lists endpoints where you can find various DeviceHive services. Replace *hostname* with actual hostname of the docker daemon and start observing DeviceHive capabilities.
 
 | Service              | URL                               | Notes                        |
 |----------------------|-----------------------------------|------------------------------|
-| Admin Console        | http://*localhost*/admin          |                              |
-| Frontend service API | http://*localhost*/api/rest       |                              |
-| Auth service API     | http://*localhost*/auth/rest      |                              |
-| Plugin service API   | http://*localhost*/plugin/rest    | If enabled, see [Run with DeviceHive Plugin Service](#run-with-devicehive-plugin-service) section below |
-| Frontend Swagger     | http://*localhost*/api/swagger    |                              |
-| Auth Swagger         | http://*localhost*/auth/swagger   |                              |
-| Plugin Swagger       | http://*localhost*/plugin/swagger | If Plugin service is enabled |
-| Grafana              | http://*localhost*/grafana        | If enabled, see [DeviceHive Grafana Datasource](#devicehive-grafana-datasource) section below |
-| MQTT brokers         | *localhost*:1883                  | If MQTT brokers are enabled, see [MQTT brokers](#mqtt-brokers) section below |
+| Admin Console        | http://*hostname*/admin          |                              |
+| Frontend service API | http://*hostname*/api/rest       |                              |
+| Auth service API     | http://*hostname*/auth/rest      |                              |
+| Plugin service API   | http://*hostname*/plugin/rest    | If enabled, see [Run with DeviceHive Plugin Service](#run-with-devicehive-plugin-service) section below |
+| Frontend Swagger     | http://*hostname*/api/swagger    |                              |
+| Auth Swagger         | http://*hostname*/auth/swagger   |                              |
+| Plugin Swagger       | http://*hostname*/plugin/swagger | If Plugin service is enabled |
+| Grafana              | http://*hostname*/grafana        | If enabled, see [DeviceHive Grafana Datasource](#devicehive-grafana-datasource) section below |
+| MQTT brokers         | *hostname*:1883                  | If MQTT brokers are enabled, see [MQTT brokers](#mqtt-brokers) section below |
 
 ### Exposed ports
 | Port    | Service          | Notes                         |
@@ -55,7 +55,7 @@ sudo docker-compose -f docker-compose.yml -f dh_plugin.yml up -d
 ```
 Or add line `COMPOSE_FILE=docker-compose.yml:dh_plugin.yml` in `.env` file.
 
-This also starts *devicehive-ws-proxy* instance for external connections from plugins. It's available at http://*localhost*/plugin/proxy.
+This also starts *devicehive-ws-proxy* instance for external connections from plugins. It's available at http://*hostname*/plugin/proxy.
 When new plugin is registered, Plugin service returns JSON with "proxyEndpoint" address, something like this:
 ```json
 {
