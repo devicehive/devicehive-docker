@@ -81,6 +81,8 @@ Parameter | Description | Default
 `javaServer.frontend.resources` | Frontend service resource requests and limits  | `{}`
 `javaServer.frontend.dhLogLevel` | Log verbosity for DeviceHive Java classes | `INFO`
 `javaServer.frontend.rootLogLevel` | Log verbosity for external dependencies | `WARN`
+`javaServer.hazelcast.minHeapSize` | Hazelcast minimum heap size | `512m`
+`javaServer.hazelcast.maxHeapSize` | Hazelcast maximum heap size | `512m`
 `javaServer.hazelcast.replicaCount` | Desired number of DeviceHive Hazelcast service pods | `1`
 `javaServer.hazelcast.resources` | DeviceHive Hazelcast service resource requests and limits  | `{}`
 `javaServer.plugin.enabled` | If true, DH Plugin service will be deployed | `false`

@@ -18,6 +18,8 @@ javaServer:
     dhLogLevel: INFO
     rootLogLevel: WARN
   hazelcast:
+    minHeapSize: 512m
+    maxHeapSize: 512m
     replicaCount: 1
     resources: {}
   plugin:

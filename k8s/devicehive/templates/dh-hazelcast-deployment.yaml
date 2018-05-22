@@ -21,9 +21,9 @@ spec:
         imagePullPolicy: {{ .Values.javaServer.PullPolicy }}
         env:
         - name: MIN_HEAP_SIZE
-          value: "512m"
+          value: {{ .Values.javaServer.hazelcast.minHeapSize | quote }}
         - name: MAX_HEAP_SIZE
-          value: "512m"
+          value: {{ .Values.javaServer.hazelcast.maxHeapSize | quote }}
         ports:
         - name: hazelcast
           containerPort: 5701
