@@ -209,6 +209,20 @@ DeviceHive project provides official [datasource plugin for Grafana][datasource-
 
 > Please note that this image is for testing purposes only. If you want to use datasource plugin in production environment, install plugin in separately managed Grafana instance. We don't provide support for this image.
 
+## DeviceHive Backend Node
+[DeviceHive NodeJS backend][devicehive-backend-node] project provides alternative implementation of Backend service written in JavaScript. Feature wise it should be on a par with devicehive-java-server implementation and is being continuously tested using the same set of integration tests.
+
+To use NodeJS backend implementation add following line in `.env` file:
+
+```
+COMPOSE_FILE=docker-compose-node.yml
+```
+
+When run with docker-compose this service accepts following parameters via environment variable or `.env` file:
+* DH_BACKEND_NODE_LOGGER_LEVEL - Application logging level. Possible values are "debug", "info", "warn" and "error", default is "info".
+
+[devicehive-backend-node]: https://github.com/devicehive/devicehive-backend-node
+
 ## Development environment
 ### Using CI images
 Continuous Integration system uploads images built from every branch to [devicehiveci](https://hub.docker.com/r/devicehiveci/) repository on Docker Hub.

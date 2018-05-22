@@ -12,6 +12,7 @@
 * k8s: add common nodeSelector value for all DeviceHive Deployments
 * docs,k8s: document replicaCount and resources values for MQTT brokers deployments
 * k8s: add values for Hazelcast min/max heap size
+* Add compose file variant and k8s deployment for devicehive-backend-node service
 
 ### Breaking changes
 
