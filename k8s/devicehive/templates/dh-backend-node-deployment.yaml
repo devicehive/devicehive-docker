@@ -1,0 +1,52 @@
+{{- if .Values.backendNode.enabled }}
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-devicehive-backend-node
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "devicehive-backend-node"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+spec:
+  replicas: {{ .Values.backendNode.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-devicehive-backend-node
+    spec:
+      serviceAccountName: {{ if .Values.rbac.create }}{{ template "devicehive.fullname" . }}{{ else }}"{{ .Values.rbac.serviceAccountName }}"{{ end}}
+      containers:
+      - name: devicehive-backend-node
+        image: {{ .Values.backendNode.image | quote }}
+        imagePullPolicy: {{ .Values.backendNode.PullPolicy }}
+        env:
+        - name: ENVSEPARATOR
+          value: '_'
+        - name: BACKEND_LOGGER_LEVEL
+          value: {{ .Values.backendNode.loggerLevel | quote }}
+        - name: PROXY_WS_PROXY_ENDPOINT: ws://wsproxy:3000
+          value: "ws://{{ .Release.Name }}-devicehive-ws-proxy-internal:3000"
+        - name: POSTGRES_HOST: ${DH_POSTGRES_ADDRESS:-postgres}
+          value: "{{ .Release.Name }}-postgresql"
+        - name: POSTGRES_PORT: ${DH_POSTGRES_PORT:-5432}
+          value: "5432"
+        - name: POSTGRES_USER: ${DH_POSTGRES_USERNAME:-postgres}
+          value: "{{ .Values.postgresql.postgresUser }}"
+        - name: POSTGRES_PASSWORD: ${DH_POSTGRES_PASSWORD:-mysecretpassword}
+          value: "{{ .Values.postgresql.postgresPassword }}"
+        - name: POSTGRES_DATABASE: ${DH_POSTGRES_DB:-postgres}
+          value: "{{ .Values.postgresql.postgresDatabase }}"
+        - name: HAZELCAST_ADDRESSES
+          value: "{{ .Release.Name }}-devicehive-hazelcast:5701"
+        - name: HAZELCAST_GROUP_NAME
+          value: "dev"
+        - name: HAZELCAST_GROUP_PASSWORD
+          value: "dev-pass"
+        resources:
+{{ toYaml .Values.backendNode.resources | indent 10 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+{{- end }}

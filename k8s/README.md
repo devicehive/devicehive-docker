@@ -93,6 +93,12 @@ Parameter | Description | Default
 `javaServer.plugin.rootLogLevel` | Log verbosity for external dependencies | `WARN`
 `javaServer.bus` | Message bus access method, WS Proxy by default. Other option is `rpc` | `wsproxy`
 `javaServer.jwtSecret` | JWT secret for signing JWT tokens. If empty (default) Helm generates random 16 characters string | `""`
+`backendNode.enabled` | If true enables devicehive-backend-node backend service and disables devicehive-java-server one | `false`
+`backendNode.image` | Node backend image and tag | `devicehive/devicehive-backend-node:development`
+`backendNode.pullPolicy` | Node backend image pull policy | `IfNotPresent`
+`backendNode.loggerLevel` | Node backend logger level (levels: debug, info, warn, error ) | `info`
+`backendNode.replicaCount` | Desired number of Node backend pods | `1`
+`backendNode.resources` | Node backend  resource requests and limits | `{}`
 `mqttBroker.enabled` | If true, DH MQTT broker will be deployed | `false`
 `mqttBroker.appLogLevel` | Application logger level (levels: debug, info, warn, error) | `info`
 `mqttBroker.image` | MQTT broker image and tag | `devicehive/devicehive-mqtt:1.1.0`
