@@ -132,7 +132,6 @@ Parameter | Description | Default
 `postgresql.persistence.enabled` | Use a PVC to persist database | `true`
 `postgresql.persistence.size` | Size of data volume | `1Gi`
 `postgresql.imageTag` | `postgresql` chart image tag, if `postgresql.enabled` is `true` | `10`
-`redis.enabled` | If true, installs Redis chart, which is requred by MQTT broker. Requires `mqttBroker.enabled` set to `true` | `true`
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 

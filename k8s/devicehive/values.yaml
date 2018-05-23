@@ -103,6 +103,5 @@ kafka:
 
 # Redis for syncronization between MQTT brokers
 redis:
-  enabled: true
   # MQTT broker doesn't support password auth with Redis so disable it
   usePassword: false
