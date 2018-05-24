@@ -1,0 +1,96 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "devicehive-cassandra-plugin.fullname" . }}
+  labels:
+    app: {{ template "devicehive-cassandra-plugin.name" . }}
+    chart: {{ template "devicehive-cassandra-plugin.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "devicehive-cassandra-plugin.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "devicehive-cassandra-plugin.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      initContainers:
+        - name: {{ .Chart.Name }}-schema
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command: ["npm", "run", "schema"]
+          env:
+          - name: ENVSEPARATOR
+            value: _
+          - name: cassandra_connection_keyspace
+            value: {{ .Values.connection.keyspace | quote }}
+          - name: cassandra_connection_username
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "devicehive-cassandra-plugin.fullname" . }}
+                key: cassandraUsername
+          - name: cassandra_connection_password
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "devicehive-cassandra-plugin.fullname" . }}
+                key: cassandraPassword
+          - name: cassandra_connection_contactPoints
+            value: {{ .Values.connection.contactPoints | quote }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: ENVSEPARATOR
+            value: _
+          - name: plugin_user_login
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "devicehive-cassandra-plugin.fullname" . }}
+                key: pluginLogin
+          - name: plugin_user_password
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "devicehive-cassandra-plugin.fullname" . }}
+                key: pluginPassword
+          - name: plugin_plugin_topic
+            value: {{ .Values.plugin.topic }}
+          - name: plugin_device_hive_plugin_ws_endpoint
+            value: {{ .Values.plugin.devicehivePluginWsEndpoint | quote }}
+          - name: plugin_device_hive_auth_service_api_url
+            value: {{ .Values.plugin.devicehiveAuthServiceApiUrl | quote }}
+          - name: plugin_subscription_group
+            value: cassandra_plugin
+          - name: cassandra_connection_keyspace
+            value: {{ .Values.connection.keyspace | quote }}
+          - name: cassandra_connection_username
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "devicehive-cassandra-plugin.fullname" . }}
+                key: cassandraUsername
+          - name: cassandra_connection_password
+            valueFrom:
+              secretKeyRef:
+                name: {{ template "devicehive-cassandra-plugin.fullname" . }}
+                key: cassandraPassword
+          - name: cassandra_connection_contactPoints
+            value: {{ .Values.connection.contactPoints | quote }}
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
