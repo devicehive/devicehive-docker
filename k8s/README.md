@@ -67,7 +67,7 @@ The following tables lists the configurable parameters of the DeviceHive chart a
 Parameter | Description | Default
 --------- | ----------- | -------
 `javaServer.repository` | DockerHub user or organization with all devicehive-java-server images | `devicehive`
-`javaServer.tag` | Common image tag of devicehive-java-server images | `3.4.5`
+`javaServer.tag` | Common image tag of devicehive-java-server images | `3.5.0`
 `javaServer.pullPolicy` | Common image pull policy for devicehive-java-server images | `IfNotPresent`
 `javaServer.auth.replicaCount` | Desired number of Auth service pods | `1`
 `javaServer.auth.resources` | Auth service resource requests and limits | `{}`
@@ -110,7 +110,7 @@ Parameter | Description | Default
 `mqttBroker.resources` | MQTT broker deployment resource requests and limits | `{}`
 `mqttBroker.service.type` | Type of MQTT broker service to create | `ClusterIP`
 `mqttBroker.service.port` | MQTT broker service port | `1883`
-`proxy.image` | DH Proxy image name and tag | `devicehive/devicehive-proxy:3.4.5`
+`proxy.image` | DH Proxy image name and tag | `devicehive/devicehive-proxy:3.5.0`
 `proxy.pullPolicy` | DH Proxy image pull policy | `IfNotPresent`
 `proxy.replicaCount` | Desired number DH Proxy pods | `1`
 `proxy.resources` | DH Proxy service resource requests and limits | `{}`

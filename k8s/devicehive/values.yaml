@@ -1,6 +1,6 @@
 javaServer:
   repository: devicehive
-  tag: 3.4.5
+  tag: 3.5.0
   pullPolicy: IfNotPresent
   auth:
     replicaCount: 1
@@ -64,7 +64,7 @@ mqttBroker:
   appLogLevel: info
 
 proxy:
-  image: devicehive/devicehive-proxy:3.4.5.1
+  image: devicehive/devicehive-proxy:3.5.0
   pullPolicy: IfNotPresent
   replicaCount: 1
   resources: {}

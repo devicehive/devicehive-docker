@@ -42,7 +42,7 @@ services:
       PROXY.WEB_SOCKET_SERVER_HOST: 'wsproxy'
 
   dh_frontend:
-    image: devicehive/devicehive-frontend:${DH_TAG:-3.4.5}
+    image: devicehive/devicehive-frontend:${DH_TAG:-3.5.0}
     ports:
       - "${DH_FRONTEND_PORT:-8080}:8080"
     links:
@@ -74,7 +74,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${DH_FE_SPRING_PROFILES_ACTIVE:-ws-kafka-proxy-frontend}
 
   dh_auth:
-    image: devicehive/devicehive-auth:${DH_TAG:-3.4.5}
+    image: devicehive/devicehive-auth:${DH_TAG:-3.5.0}
     ports:
       - "${DH_ADMIN_PORT:-8090}:8090"
     links:
@@ -103,7 +103,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${DH_AUTH_SPRING_PROFILES_ACTIVE:-ws-kafka-proxy}
 
   hazelcast:
-    image: devicehive/devicehive-hazelcast:${DH_TAG:-3.4.5}
+    image: devicehive/devicehive-hazelcast:${DH_TAG:-3.5.0}
     ports:
       - "5701:5701"
     restart: unless-stopped
@@ -112,7 +112,7 @@ services:
       MIN_HEAP_SIZE: "512m"
 
   dh_backend:
-    image: devicehive/devicehive-backend:${DH_TAG:-3.4.5}
+    image: devicehive/devicehive-backend:${DH_TAG:-3.5.0}
     links:
       - "hazelcast"
       - "kafka"
@@ -140,7 +140,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${DH_BE_SPRING_PROFILES_ACTIVE:-ws-kafka-proxy-backend}
 
   dh_proxy:
-    image: devicehive/devicehive-proxy:${DH_PROXY_TAG:-3.4.5.1}
+    image: devicehive/devicehive-proxy:${DH_PROXY_TAG:-3.5.0}
     links:
       - "dh_auth"
       - "dh_frontend"

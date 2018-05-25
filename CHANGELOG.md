@@ -1,4 +1,4 @@
-## Development
+## 3.5.0 / 2018-06-04
 
 * k8s: add parameters for log level configuration in Java Server services
 * k8s: add deployment for DeviceHive MQTT broker
@@ -19,6 +19,7 @@
 * compose: self-signed certificates generation in DeviceHive Proxy is removed, description in "Breaking changes" section. Fixes: [#50](https://github.com/devicehive/devicehive-docker/issues/50).
 * k8s: deploy internal WS proxy only when bus is 'wsproxy'
 * k8s: add common ingress to bypass devicehive-proxy
+* Update images to DeviceHive Java Server 3.5.0, DeviceHive Proxy 3.5.0
 
 ### Breaking changes
 
