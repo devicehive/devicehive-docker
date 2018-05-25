@@ -1,0 +1,50 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "device-simulator.fullname" . }}
+  labels:
+    app: {{ template "device-simulator.name" . }}
+    chart: {{ template "device-simulator.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "device-simulator.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "device-simulator.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: DHDS_DEVICES
+            value: {{ .Values.devices | quote }}
+          - name: DHDS_DELAY
+            value: {{ .Values.delay | quote }}
+          - name: DHDS_URL
+            value: {{ .Values.url | quote }}
+          - name: DHDS_REFRESH_TOKEN
+            value: {{ .Values.refreshToken | quote }}
+          - name: DHDS_MESSAGE_PAYLOAD
+            value: '{"timestamp":"$timestamp", "value": "$random"}'
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
