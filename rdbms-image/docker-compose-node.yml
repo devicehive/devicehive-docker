@@ -1,0 +1,147 @@
+version: "3"
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+    restart: unless-stopped
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+
+  kafka:
+    image: wurstmeister/kafka:1.0.0
+    ports:
+      - "9092:9092"
+    links:
+      - "zookeeper"
+    restart: unless-stopped
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_NUM_PARTITIONS: 3
+
+  postgres:
+    image: postgres:10
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DH_POSTGRES_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DH_POSTGRES_PASSWORD:-mysecretpassword}
+      POSTGRES_DB: ${DH_POSTGRES_DB:-postgres}
+    volumes:
+      - devicehive-db:/var/lib/postgresql/data
+
+  wsproxy:
+    image: devicehive/devicehive-ws-proxy:${DH_WS_PROXY_TAG:-1.1.0}
+    links:
+      - "kafka"
+    restart: unless-stopped
+    environment:
+      KAFKA.KAFKA_HOSTS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
+      PROXY.WEB_SOCKET_SERVER_HOST: 'wsproxy'
+
+  dh_frontend:
+    image: devicehive/devicehive-frontend:${DH_TAG:-3.4.5}
+    ports:
+      - "${DH_FRONTEND_PORT:-8080}:8080"
+    links:
+      - "postgres"
+      - "kafka"
+      - "zookeeper"
+      - "dh_backend_node"
+      - "dh_auth"
+      - "wsproxy"
+    restart: unless-stopped
+    environment:
+      DH_ZK_ADDRESS: ${DH_ZK_ADDRESS:-zookeeper}
+      DH_ZK_PORT: ${DH_ZK_PORT:-2181}
+      DH_KAFKA_BOOTSTRAP_SERVERS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
+      DH_POSTGRES_ADDRESS: ${DH_POSTGRES_ADDRESS:-postgres}
+      DH_POSTGRES_PORT: ${DH_POSTGRES_PORT:-5432}
+      DH_POSTGRES_USERNAME: ${DH_POSTGRES_USERNAME:-postgres}
+      DH_POSTGRES_PASSWORD: ${DH_POSTGRES_PASSWORD:-mysecretpassword}
+      DH_POSTGRES_DB: ${DH_POSTGRES_DB:-postgres}
+      DH_RPC_CLIENT_RES_CONS_THREADS: ${DH_RPC_CLIENT_RES_CONS_THREADS:-3}
+      DH_LOG_LEVEL: ${DH_LOG_LEVEL:-INFO}
+      DH_WS_PROXY: wsproxy:3000
+      ROOT_LOG_LEVEL: ${ROOT_LOG_LEVEL:-WARN}
+      DH_AUTH_URL: ${DH_AUTH_URL:-http://dh_auth:8090/auth/rest}
+      HC_MEMBERS: hazelcast
+      HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
+      HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
+      JWT_SECRET: ${JWT_SECRET}
+      SPRING_PROFILES_ACTIVE: ${DH_FE_SPRING_PROFILES_ACTIVE:-ws-kafka-proxy-frontend}
+
+  dh_auth:
+    image: devicehive/devicehive-auth:${DH_TAG:-3.4.5}
+    ports:
+      - "${DH_ADMIN_PORT:-8090}:8090"
+    links:
+      - "kafka"
+      - "hazelcast"
+      - "postgres"
+      - "wsproxy"
+      - "zookeeper"
+    restart: unless-stopped
+    environment:
+      DH_ZK_ADDRESS: ${DH_ZK_ADDRESS:-zookeeper}
+      DH_ZK_PORT: ${DH_ZK_PORT:-2181}
+      DH_KAFKA_BOOTSTRAP_SERVERS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
+      DH_POSTGRES_ADDRESS: ${DH_POSTGRES_ADDRESS:-postgres}
+      DH_POSTGRES_PORT: ${DH_POSTGRES_PORT:-5432}
+      DH_POSTGRES_USERNAME: ${DH_POSTGRES_USERNAME:-postgres}
+      DH_POSTGRES_PASSWORD: ${DH_POSTGRES_PASSWORD:-mysecretpassword}
+      DH_POSTGRES_DB: ${DH_POSTGRES_DB:-postgres}
+      DH_LOG_LEVEL: ${DH_LOG_LEVEL:-INFO}
+      ROOT_LOG_LEVEL: ${ROOT_LOG_LEVEL:-WARN}
+      HC_MEMBERS: hazelcast
+      HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
+      HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
+      JWT_SECRET: ${JWT_SECRET}
+      DH_WS_PROXY: wsproxy:3000
+      SPRING_PROFILES_ACTIVE: ${DH_AUTH_SPRING_PROFILES_ACTIVE:-ws-kafka-proxy}
+
+  hazelcast:
+    image: devicehive/devicehive-hazelcast:${DH_TAG:-3.4.5}
+    ports:
+      - "5701:5701"
+    restart: unless-stopped
+    environment:
+      MAX_HEAP_SIZE: "512m"
+      MIN_HEAP_SIZE: "512m"
+
+  dh_backend_node:
+    image: devicehiveci/devicehive-backend-node:${DH_BACKEND_NODE_TAG:-jenkins}
+    links:
+      - "hazelcast"
+      - "postgres"
+      - "wsproxy"
+    restart: unless-stopped
+    environment:
+      BACKEND.LOGGER_LEVEL: ${DH_BACKEND_NODE_LOGGER_LEVEL:-info}
+      PROXY.WS_PROXY_ENDPOINT: ws://wsproxy:3000
+      POSTGRES.HOST: ${DH_POSTGRES_ADDRESS:-postgres}
+      POSTGRES.PORT: ${DH_POSTGRES_PORT:-5432}
+      POSTGRES.USER: ${DH_POSTGRES_USERNAME:-postgres}
+      POSTGRES.PASSWORD: ${DH_POSTGRES_PASSWORD:-mysecretpassword}
+      POSTGRES.DATABASE: ${DH_POSTGRES_DB:-postgres}
+      HAZELCAST.ADDRESSES: hazelcast:5701
+      HAZELCAST.GROUP_NAME: ${HC_GROUP_NAME:-dev}
+      HAZELCAST.GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
+
+  dh_proxy:
+    image: devicehive/devicehive-proxy:${DH_PROXY_TAG:-3.4.5.1}
+    links:
+      - "dh_auth"
+      - "dh_frontend"
+    ports:
+      - "80:8080"
+      - "443:8443"
+    restart: unless-stopped
+    volumes:
+      - dh-proxy-ssl:/etc/ssl
+
+volumes:
+  devicehive-db:
+  dh-proxy-ssl:
