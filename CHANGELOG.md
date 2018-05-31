@@ -17,6 +17,7 @@
 * k8s: fix deployment condition for Redis dependency
 * k8s: add devicehive-cassandra-plugin Helm chart
 * compose: self-signed certificates generation in DeviceHive Proxy is removed, description in "Breaking changes" section. Fixes: [#50](https://github.com/devicehive/devicehive-docker/issues/50).
+* k8s: deploy internal WS proxy only when bus is 'wsproxy'
 
 ### Breaking changes
 
