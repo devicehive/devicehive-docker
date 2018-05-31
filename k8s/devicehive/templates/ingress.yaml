@@ -1,12 +1,14 @@
-{{- if .Values.proxy.ingress.enabled -}}
+{{- if .Values.ingress.enabled -}}
 {{- $releaseName := .Release.Name -}}
+{{- $javaServerPluginEnabled := .Values.javaServer.plugin.enabled -}}
+{{- $wsProxyExternalEnabled := .Values.wsProxy.external.enabled -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ template "devicehive.fullname" . }}
-{{- if .Values.proxy.ingress.annotations }}
+{{- if .Values.ingress.annotations }}
   annotations:
-{{ toYaml .Values.proxy.ingress.annotations | indent 4 }}
+{{ toYaml .Values.ingress.annotations | indent 4 }}
 {{- end}}
   labels:
     app: {{ template "devicehive.name" . }}
@@ -16,13 +18,37 @@ metadata:
     release: "{{ .Release.Name }}"
 spec:
   rules:
-  {{- range .Values.proxy.ingress.hosts }}
-    - host: {{ . }}
-      http:
-        paths:
-          - backend:
-              serviceName: {{ $releaseName }}-devicehive-proxy
-              servicePort: 8080
-            path: /
+  {{- range .Values.ingress.hosts }}
+  - host: {{ . }}
+    http:
+      paths:
+      - path: /auth
+        backend:
+          serviceName: {{ $releaseName }}-devicehive-auth
+          servicePort: 8090
+      - path: /admin
+        backend:
+          serviceName: {{ $releaseName }}-devicehive-proxy
+          servicePort: 8080
+      - path: /api/rest/token
+        backend:
+          serviceName: {{ $releaseName }}-devicehive-auth
+          servicePort: 8090
+      - path: /api
+        backend:
+          serviceName: {{ $releaseName }}-devicehive-frontend
+          servicePort: 8080
+      {{- if $javaServerPluginEnabled }}
+      - path: /plugin
+        backend:
+          serviceName: {{ $releaseName }}-devicehive-plugin
+          servicePort: 8110
+      {{- end }}
+      {{- if $wsProxyExternalEnabled }}
+      - path: /plugin/proxy
+        backend:
+          serviceName: {{ $releaseName }}-devicehive-ws-proxy-external
+          servicePort: 3000
+      {{- end }}
   {{- end }}
 {{- end -}}

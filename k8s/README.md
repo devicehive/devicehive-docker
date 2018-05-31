@@ -93,6 +93,9 @@ Parameter | Description | Default
 `javaServer.plugin.rootLogLevel` | Log verbosity for external dependencies | `WARN`
 `javaServer.bus` | Message bus access method, WS Proxy by default. Other option is `rpc` | `wsproxy`
 `javaServer.jwtSecret` | JWT secret for signing JWT tokens. If empty (default) Helm generates random 16 characters string | `""`
+`ingress.enabled` | If true, ingress will be created | `false`
+`ingress.annotations` | Ingress annotations | `{}` ###  kubernetes.io/ingress.class: nginx
+`ingress.hosts` | Ingress hostnames | `[]`
 `backendNode.enabled` | If true enables devicehive-backend-node backend service and disables devicehive-java-server one | `false`
 `backendNode.image` | Node backend image and tag | `devicehive/devicehive-backend-node:development`
 `backendNode.pullPolicy` | Node backend image pull policy | `IfNotPresent`
@@ -111,7 +114,7 @@ Parameter | Description | Default
 `proxy.pullPolicy` | DH Proxy image pull policy | `IfNotPresent`
 `proxy.replicaCount` | Desired number DH Proxy pods | `1`
 `proxy.resources` | DH Proxy service resource requests and limits | `{}`
-`proxy.ingress.enabled` |If true, DH Proxy Ingress will be created | `false`
+`proxy.ingress.enabled` |If true, DH Proxy Ingress will be created. Deprecated in favour of root 'ingress' values | `false`
 `proxy.ingress.annotations` | DH Proxy Ingress annotations | `{}` ###  kubernetes.io/ingress.class: nginx
 `proxy.ingress.hosts` | DH Proxy server Ingress hostnames | `[]`
 `wsProxy.image` | DH WS Proxy image name and tag | `devicehive/devicehive-ws-proxy:1.1.0`

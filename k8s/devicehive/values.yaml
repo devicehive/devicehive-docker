@@ -38,6 +38,12 @@ javaServer:
   ## If not set, a random 16 characters secret will be used
   jwtSecret: ""
 
+ingress:
+  enabled: false
+  annotations: {}
+  # kubernetes.io/ingress.class: nginx
+  hosts: []
+
 backendNode:
   enabled: false
   image: devicehive/devicehive-backend-node:development

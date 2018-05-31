@@ -1,0 +1,28 @@
+{{- if .Values.proxy.ingress.enabled -}}
+{{- $releaseName := .Release.Name -}}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "devicehive.fullname" . }}
+{{- if .Values.proxy.ingress.annotations }}
+  annotations:
+{{ toYaml .Values.proxy.ingress.annotations | indent 4 }}
+{{- end}}
+  labels:
+    app: {{ template "devicehive.name" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "devicehive-proxy"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+spec:
+  rules:
+  {{- range .Values.proxy.ingress.hosts }}
+    - host: {{ . }}
+      http:
+        paths:
+          - backend:
+              serviceName: {{ $releaseName }}-devicehive-proxy
+              servicePort: 8080
+            path: /
+  {{- end }}
+{{- end -}}
