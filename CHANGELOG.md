@@ -8,7 +8,7 @@
 * cleanup DH Plugin topics from Kafka every 10 minutes
 * Add `DH_AUTH_SPRING_PROFILES_ACTIVE` env variable for setting Kafka connection method in Auth service.
 * k8s: devicehive-auth deployment now supports javaServer.bus=rpc value
-* compose,k8s: Fix WS_SERVER_URL parameter for MQTT brokers. It should point to internal Frontend address and isn't required to be set by user (fixes: GH-51)
+* compose,k8s: Fix WS_SERVER_URL parameter for MQTT brokers. It should point to internal Frontend address and isn't required to be set by user. Fixes: [#51](https://github.com/devicehive/devicehive-docker/issues/51).
 * k8s: add common nodeSelector value for all DeviceHive Deployments
 * docs,k8s: document replicaCount and resources values for MQTT brokers deployments
 * k8s: add values for Hazelcast min/max heap size
@@ -16,12 +16,12 @@
 * k8s: update chart dependencies
 * k8s: fix deployment condition for Redis dependency
 * k8s: add devicehive-cassandra-plugin Helm chart
-* compose: self-signed certificates generation in DeviceHive Proxy is removed, description in "Breaking changes" section. Fixes #50
+* compose: self-signed certificates generation in DeviceHive Proxy is removed, description in "Breaking changes" section. Fixes: [#50](https://github.com/devicehive/devicehive-docker/issues/50).
 
 ### Breaking changes
 
 * grafana.yml file for Docker Compose installation was renamed to monitoring.yml. Update your .env file or other startup scripts if you use it.
-* compose: self-signed certificates generation in Devicehive Proxy is removed. If you relied on this, please read instructions in [rdbms-image/README#https-configuration-tls] for setting up TLS with custom certificates. This is caused by removal of openssl binary from official nginx Docker images (https://github.com/nginxinc/docker-nginx/issues/182).
+* compose: self-signed certificates generation in Devicehive Proxy is removed. If you relied on this, please read instructions in [HTTPS configuration (TLS)](rdbms-image/README.md#https-configuration-tls) for setting up TLS with custom certificates. This is caused by removal of openssl binary from official nginx Docker images (https://github.com/nginxinc/docker-nginx/issues/182).
 
 ## 3.4.5.1 / 2018-03-26
 
