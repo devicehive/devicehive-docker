@@ -16,10 +16,12 @@
 * k8s: update chart dependencies
 * k8s: fix deployment condition for Redis dependency
 * k8s: add devicehive-cassandra-plugin Helm chart
+* compose: self-signed certificates generation in DeviceHive Proxy is removed, description in "Breaking changes" section. Fixes #50
 
 ### Breaking changes
 
 * grafana.yml file for Docker Compose installation was renamed to monitoring.yml. Update your .env file or other startup scripts if you use it.
+* compose: self-signed certificates generation in Devicehive Proxy is removed. If you relied on this, please read instructions in [rdbms-image/README#https-configuration-tls] for setting up TLS with custom certificates. This is caused by removal of openssl binary from official nginx Docker images (https://github.com/nginxinc/docker-nginx/issues/182).
 
 ## 3.4.5.1 / 2018-03-26
 

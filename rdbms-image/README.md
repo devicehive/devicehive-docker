@@ -139,13 +139,13 @@ You can find more configurable parameters in [frontend][fe-script-url] and [back
 [be-script-url]: https://github.com/devicehive/devicehive-java-server/blob/master/dockerfiles/devicehive-backend/devicehive-start.sh
 
 ## HTTPS configuration (TLS)
-DeviceHive Proxy provides TLS support by default. If custom certificate is not configured it generates self-signed certificate and stores them in `dh-proxy-ssl` Docker volume.
+TLS support in DeviceHive Proxy can be enable by providing you own certificate files. See instructions below.
 
 ### Using custom certificate
 For Docker Compose installation we will use Compose feature to read configuration from [multiple Compose files](https://docs.docker.com/compose/extends/#multiple-compose-files). Second Compose file will start devicehive-proxy container with custom certificate.
 To configure DeviceHive Proxy to use your own certificate follow next steps:
 1. Generate key and certificate signing request for your domain, sign CSR with Certificate Authority. Resulting certificate and key files must be in the PEM format.
-2. Create `ssl` directory outside of `devicehive-docker` directory, on the same level.
+2. Create `ssl` directory outside of `devicehive-docker` directory, on the same directory level.
 3. Generate dhparam file for nginx:
 ```
 openssl dhparam -out ssl/dhparam.pem 2048

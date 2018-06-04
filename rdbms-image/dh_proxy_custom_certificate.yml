@@ -1,6 +1,8 @@
 version: "3"
 services:
   dh_proxy:
+    ports:
+      - "443:8443"
     volumes:
       - "../../ssl/dhparam.pem:/etc/ssl/dhparam.pem:ro,Z"
       - "../../ssl/ssl_certificate:/etc/ssl/ssl_certificate:ro,Z"
