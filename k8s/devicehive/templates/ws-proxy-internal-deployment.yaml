@@ -19,7 +19,7 @@ spec:
       containers:
       - name: devicehive-ws-proxy-internal
         image: {{ .Values.wsProxy.image | quote }}
-        imagePullPolicy: {{ .Values.wsProxy.PullPolicy }}
+        imagePullPolicy: {{ .Values.wsProxy.pullPolicy }}
         env:
         - name: ENVSEPARATOR
           value: '_'

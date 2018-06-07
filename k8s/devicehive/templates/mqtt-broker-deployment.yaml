@@ -19,7 +19,7 @@ spec:
       containers:
       - name: mqtt-broker
         image: {{ .Values.mqttBroker.image | quote }}
-        imagePullPolicy: {{ .Values.mqttBroker.PullPolicy }}
+        imagePullPolicy: {{ .Values.mqttBroker.pullPolicy }}
         env:
         - name: ENVSEPARATOR
           value: "_"

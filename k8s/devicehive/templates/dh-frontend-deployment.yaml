@@ -18,7 +18,7 @@ spec:
       containers:
       - name: devicehive-frontend
         image: "{{ .Values.javaServer.repository }}/devicehive-frontend:{{ .Values.javaServer.tag }}"
-        imagePullPolicy: {{ .Values.javaServer.PullPolicy }}
+        imagePullPolicy: {{ .Values.javaServer.pullPolicy }}
         env:
         {{- if eq .Values.javaServer.bus "rpc" }}
         - name: SPRING_PROFILES_ACTIVE

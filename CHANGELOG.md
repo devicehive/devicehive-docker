@@ -1,3 +1,8 @@
+## Development
+
+### Kubernetes
+* Fix usage of 'pullPolicy' values in deployments
+
 ## 3.5.0 / 2018-06-04
 
 * k8s: add parameters for log level configuration in Java Server services
