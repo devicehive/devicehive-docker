@@ -28,7 +28,7 @@ More details in the [rdbms-image](rdbms-image/) subdirectory.
 Installation was tested on machine with CentOS 7 distribution.
 
 ## Kubernetes installation
-DeviceHive can be installed on Kubernetes with provided [Helm chart](k8s/). This chart also installs PostgreSQL chart and Kafka chart from [Kubeapps](https://kubeapps.com) repositories. External installations of PostgreSQL and Kafka are not supported at the moment.
+DeviceHive can be installed on Kubernetes with provided [Helm chart](k8s/devicehive). This chart also installs PostgreSQL chart and Kafka chart from [Kubeapps](https://kubeapps.com) repositories. External installations of PostgreSQL and Kafka are not supported at the moment.
 
 Previous installation method on Kubernetes using a `kubectl` utility and a plain YAML files are deprecated now. Please [issue a ticket](https://github.com/devicehive/devicehive-docker/issues/new) in our [GitHub repository](https://github.com/devicehive/devicehive-docker/) if you have questions about mirgating such environment to the one deployed with Helm chart.
 

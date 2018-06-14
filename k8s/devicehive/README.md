@@ -38,7 +38,7 @@ The command deploys DeviceHive on the Kubernetes cluster in the default configur
 Default DeviceHive admin user has name `dhadmin` and password `dhadmin_#911`.
 
 ### Service endpoints
-Table below lists endpoints where you can find various DeviceHive services. If `proxy.ingress` set to `true`, replace *localhost* with hostname(s) used in `proxy.ingress.hosts` parameter.
+Table below lists endpoints where you can find various DeviceHive services. If `ingress` set to `true`, replace *localhost* with hostname(s) used in `ingress.hosts` parameter.
 
 | Service              | URL                               | Notes                        |
 |----------------------|-----------------------------------|------------------------------|
