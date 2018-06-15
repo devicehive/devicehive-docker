@@ -3,6 +3,7 @@
 ### Kubernetes
 * Fix usage of 'pullPolicy' values in deployments
 * Change env vars setup for deployments. Setup only necessary vars for choosen bus type
+* Documentation updates
 
 ## 3.5.0 / 2018-06-04
 
