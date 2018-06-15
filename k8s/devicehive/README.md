@@ -160,3 +160,31 @@ To manually setup RBAC you need to set the parameter rbac.create=false and speci
 
 ### Ingress TLS
 Ingress TLS doesn't supported yet by this Helm chart.
+
+### Setting up horizontal autoscaling for services
+
+Autoscaling DeviceHive in Kubernetes relies on Horizontal Pod Authoscaler in your cluster. DeviceHive Helm chart provides ability to set resources for pods and cluster administrator have to create HPA manualy.
+
+When deploying application specify .resource.requests values, see [Configuration section](#configuration) for available values. Here is example from `values.yaml` file used by `helm install --name test ./devicehive -f values.yaml`:
+```yaml
+javaServer:
+  backend:
+    resources:
+      requests:
+        cpu: 2
+        memory: 1536Mi
+  frontend:
+    resources:
+      requests:
+        cpu: 2
+        memory: 1536Mi
+```
+
+When resources.requests for pods are set create hpa by issuing follwing commands:
+```console
+$ kubectl autoscale deployment test-devicehive-backend --cpu-percent=70 --min=1 --max=3
+$ kubectl autoscale deployment test-devicehive-frontend --cpu-percent=70 --min=1 --max=3
+$ kubectl get hpa
+```
+
+> **Note**: resources.requests values and HPA configuration provided above had to be tweaked for your deployment. Please consult [HPA walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/) in Kubernetes documentation for more details.
