@@ -5,6 +5,9 @@
 * Change env vars setup for deployments. Setup only necessary vars for choosen bus type
 * Documentation updates
 
+### Docker Compose
+* Add compose file for CoAP-WebSockets proxy
+
 ## 3.5.0 / 2018-06-04
 
 * k8s: add parameters for log level configuration in Java Server services

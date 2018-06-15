@@ -1,0 +1,19 @@
+version: "3"
+services:
+  coap_proxy:
+    image: devicehive/devicehive-coap-proxy:1.0.0
+    links:
+      - dh_frontend
+    restart: unless-stopped
+    environment:
+      - PROXY.HOST=0.0.0.0
+      - PROXY.PORT=5683
+      - PROXY.TARGET=ws://dh_frontend:8080/api/websocket
+
+  dh_proxy:
+    ports:
+      - "5683:5683/udp"
+    links:
+      - coap_proxy
+    volumes:
+      - "./nginx-coap-proxy.conf:/etc/nginx/stream.d/nginx-coap-proxy.conf:ro,Z"
