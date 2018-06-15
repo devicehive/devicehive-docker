@@ -4,6 +4,7 @@
 * Fix usage of 'pullPolicy' values in deployments
 * Change env vars setup for deployments. Setup only necessary vars for choosen bus type
 * Documentation updates
+* Add CoAP-WebSockets proxy deployment and service in chart
 
 ### Docker Compose
 * Add compose file for CoAP-WebSockets proxy

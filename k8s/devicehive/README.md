@@ -102,6 +102,13 @@ Parameter | Description | Default
 `backendNode.loggerLevel` | Node backend logger level (levels: debug, info, warn, error ) | `info`
 `backendNode.replicaCount` | Desired number of Node backend pods | `1`
 `backendNode.resources` | Node backend  resource requests and limits | `{}`
+`coapProxy.enabled` | If true, CoAP-WebSockets proxy will be deployed | `false`
+`coapProxy.image` | CoAP-WebSockets proxy image and tag | `devicehive/devicehive-coap-proxy:1.0.0`
+`coapProxy.pullPolicy`| CoAP-WebSockets proxy image pull policy | `IfNotPresent`
+`coapProxy.replicaCount` | Desired number of CoAP-WebSockets proxy pods | `1`
+`coapProxy.resources` | CoAP-WebSockets proxy deployment resource requests and limits | `{}`
+`coapProxy.service.type` | Type of CoAP-WebSockets proxy service to create | `ClusterIP`
+`coapProxy.service.port` | CoAP-WebSockets proxy service port | `5683`
 `mqttBroker.enabled` | If true, DH MQTT broker will be deployed | `false`
 `mqttBroker.appLogLevel` | Application logger level (levels: debug, info, warn, error) | `info`
 `mqttBroker.image` | MQTT broker image and tag | `devicehive/devicehive-mqtt:1.1.0`

@@ -1,0 +1,42 @@
+{{- if .Values.coapProxy.enabled }}
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-devicehive-coap-proxy
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    component: "coap-proxy"
+    heritage: "{{ .Release.Service }}"
+    release: "{{ .Release.Name }}"
+spec:
+  replicas: {{ .Values.coapProxy.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-devicehive-coap-proxy
+    spec:
+      serviceAccountName: {{ if .Values.rbac.create }}{{ template "devicehive.fullname" . }}{{ else }}"{{ .Values.rbac.serviceAccountName }}"{{ end }}
+      containers:
+      - name: coap-proxy
+        image: {{ .Values.coapProxy.image | quote }}
+        imagePullPolicy: {{ .Values.coapProxy.pullPolicy }}
+        env:
+        - name: ENVSEPARATOR
+          value: "_"
+        - name: PROXY_HOST
+          value: 0.0.0.0
+        - name: PROXY_PORT
+          value: "5683"
+        - name: PROXY_TARGET
+          value: "ws://{{ .Release.Name }}-devicehive-frontend:8080/api/websocket"
+        ports:
+        - name: coap
+          protocol: UDP
+          containerPort: 5683
+        resources:
+{{ toYaml .Values.coapProxy.resources | indent 10 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+{{- end }}
