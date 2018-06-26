@@ -1,4 +1,4 @@
-{{- if .Values.wsProxy.external.enabled }}
+{{- if .Values.javaServer.plugin.enabled -}}
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:

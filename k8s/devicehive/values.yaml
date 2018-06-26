@@ -91,7 +91,6 @@ wsProxy:
     replicaCount: 1
     resources: {}
   external:
-    enabled: false
     replicaCount: 1
     resources: {}
 

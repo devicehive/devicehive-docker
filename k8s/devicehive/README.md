@@ -40,15 +40,16 @@ Default DeviceHive admin user has name `dhadmin` and password `dhadmin_#911`.
 ### Service endpoints
 Table below lists endpoints where you can find various DeviceHive services. If `ingress` set to `true`, replace *localhost* with hostname(s) used in `ingress.hosts` parameter.
 
-| Service              | URL                               | Notes                        |
-|----------------------|-----------------------------------|------------------------------|
-| Admin Console        | http://*localhost*/admin          |                              |
-| Frontend service API | http://*localhost*/api/rest       |                              |
-| Auth service API     | http://*localhost*/auth/rest      |                              |
-| Plugin service API   | http://*localhost*/plugin/rest    | If enabled, see [Run with DeviceHive Plugin Service](#run-with-devicehive-plugin-service) section below |
-| Frontend Swagger     | http://*localhost*/api/swagger    |                              |
-| Auth Swagger         | http://*localhost*/auth/swagger   |                              |
-| Plugin Swagger       | http://*localhost*/plugin/swagger | If Plugin service is enabled |
+| Service                       | URL                               | Notes                        |
+|-------------------------------|-----------------------------------|------------------------------|
+| Admin Console                 | http://*localhost*/admin          |                              |
+| Frontend service API          | http://*localhost*/api/rest       |                              |
+| Auth service API              | http://*localhost*/auth/rest      |                              |
+| Plugin management service API | http://*localhost*/plugin/rest    | If enabled, see [Install with DeviceHive Plugin Management Service](#install-with-devicehive-plugin-management-service) section below |
+| External WS Proxy for plugins | http://*localhost*/plugin/proxy   | If Plugin service is enabled |
+| Frontend Swagger              | http://*localhost*/api/swagger    |                              |
+| Auth Swagger                  | http://*localhost*/auth/swagger   |                              |
+| Plugin Swagger                | http://*localhost*/plugin/swagger | If Plugin service is enabled |
 
 ## Uninstalling the Chart
 
@@ -62,7 +63,7 @@ The command removes all the Kubernetes components associated with the chart and 
 
 ## Configuration
 
-The following tables lists the configurable parameters of the DeviceHive chart and their default values.
+The following table lists the configurable parameters of the DeviceHive chart and their default values.
 
 Parameter | Description | Default
 --------- | ----------- | -------
@@ -128,7 +129,6 @@ Parameter | Description | Default
 `wsProxy.pullPolicy` | DH WS Proxy image pull policy | `IfNotPresent`
 `wsProxy.internal.replicaCount` | Desired number of internal WS Proxy service pods | `1`
 `wsProxy.internal.resources` | Internal WS Proxy service resource requests and limits  | `{}`
-`wsProxy.external.enabled` | If true, External WS Proxy deployment will be created. Requires `javaServer.plugin.enabled` set to `true` | `false`
 `wsProxy.external.replicaCount` | Desired number of external WS Proxy service pods | `1`
 `wsProxy.external.resources` | External WS Proxy service resource requests and limits | `{}`
 `nodeSelector` | Node labels for DeviceHive pods assignment | `{}`
@@ -157,6 +157,26 @@ $ helm install ./devicehive --name my-release -f values.yaml
 ```
 
 > **Tip**: You can use the default [values.yaml](devicehive/values.yaml)
+
+### Install with DeviceHive Plugin Management Service
+
+Plugin management service disabled by default. To enable it you need to pass several values to `helm`.
+Change <external_hostname> to hostname pointing to your cluster. For example, if you setup Ingress resource with host 'devicehive.example.com' then pluginConnectUrl will be 'ws://devicehive.example.com/plugin/proxy':
+``` console
+$ helm install \
+  --name my-release
+  --set javaServer.plugin.enabled=true \
+  --set javaServer.plugin.pluginConnectUrl=ws://<external_hostname>/plugin/proxy \
+  ./devicehive
+```
+or with following parameters in values file:
+``` yaml
+javaServer:
+  plugin:
+    enabled: true
+    pluginConnectUrl: ws://<external_hostname>/plugin/proxy
+```
+Enabling Plugin management service automaticaly enables external WebSocket proxy for plugins.
 
 ### RBAC Configuration
 First, Helm itself requires additional configuration to use on Kubernetes clusters where RBAC enabled. Follow instructions in [Helm documentation](https://docs.helm.sh/using_helm/#role-based-access-control).
