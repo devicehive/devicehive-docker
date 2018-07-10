@@ -48,10 +48,8 @@ spec:
           value: "{{ .Values.postgresql.postgresUser }}"
         - name: DH_POSTGRES_PASSWORD
           value: "{{ .Values.postgresql.postgresPassword }}"
-{{- if .Values.wsProxy.external.enabled }}
         - name: DH_PROXY_PLUGIN_CONNECT
           value: {{ .Values.javaServer.plugin.pluginConnectUrl | default "ws://localhost/plugin/proxy" | quote }}
-{{- end }}
         - name: DH_ZK_ADDRESS
           value: "{{ .Release.Name }}-zookeeper"
         - name: DH_ZK_PORT
