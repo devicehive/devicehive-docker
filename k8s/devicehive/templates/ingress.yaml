@@ -43,8 +43,6 @@ spec:
         backend:
           serviceName: {{ $releaseName }}-devicehive-plugin
           servicePort: 8110
-      {{- end }}
-      {{- if $wsProxyExternalEnabled }}
       - path: /plugin/proxy
         backend:
           serviceName: {{ $releaseName }}-devicehive-ws-proxy-external
