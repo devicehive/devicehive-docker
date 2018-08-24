@@ -29,6 +29,14 @@ spec:
           containerPort: 5701
         resources:
 {{ toYaml .Values.javaServer.hazelcast.resources | indent 10 }}
+        volumeMounts:
+        - name: hazelcast-xml
+          mountPath: /opt/hazelcast/hazelcast.xml
+          subPath: hazelcast.xml
+      volumes:
+        - name: hazelcast-xml
+          configMap:
+            name: {{ .Release.Name }}-devicehive-hazelcast-conf
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}

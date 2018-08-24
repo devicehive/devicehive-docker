@@ -1,0 +1,54 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-devicehive-hazelcast-conf
+data:
+  hazelcast.xml: |-
+    <?xml version="1.0" encoding="UTF-8"?>
+    <hazelcast xmlns="http://www.hazelcast.com/schema/config"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="http://www.hazelcast.com/schema/config
+               http://www.hazelcast.com/schema/config/hazelcast-config-3.10.xsd">
+       <properties>
+         <property name="hazelcast.discovery.enabled">true</property>
+       </properties>
+
+       <serialization>
+          <portable-version>0</portable-version>
+          <portable-factories>
+             <portable-factory factory-id="1">com.devicehive.model.DevicePortableFactory</portable-factory>
+          </portable-factories>
+       </serialization>
+       <map name="default">
+          <eviction-policy>LRU</eviction-policy>
+       </map>
+       <map name="NOTIFICATIONS-MAP">
+          <time-to-live-seconds>120</time-to-live-seconds>
+       </map>
+       <map name="COMMANDS-MAP">
+          <time-to-live-seconds>120</time-to-live-seconds>
+       </map>
+       <multimap name="default">
+          <backup-count>0</backup-count>
+          <async-backup-count>1</async-backup-count>
+          <value-collection-type>SET</value-collection-type>
+       </multimap>
+       <management-center enabled="false">
+          http://127.0.0.1:8090/mancenter
+       </management-center>
+
+       <network>
+         <join>
+           <multicast enabled="false"/>
+           <tcp-ip enabled="false" />
+           <discovery-strategies>
+             <discovery-strategy enabled="true" class="com.hazelcast.kubernetes.HazelcastKubernetesDiscoveryStrategy">
+                <properties>
+                   <property name="service-name">{{ .Release.Name }}-devicehive-hazelcast</property>
+                   <property name="namespace">{{ .Release.Namespace }}</property>
+                </properties>
+             </discovery-strategy>
+           </discovery-strategies>
+         </join>
+       </network>
+    </hazelcast>
