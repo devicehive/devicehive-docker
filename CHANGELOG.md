@@ -10,6 +10,7 @@
 
 ### Docker Compose
 * Add compose file for CoAP-WebSockets proxy
+* Add `DEBUG_RMI_HOSTNAME` variable for setting up JMX debug access via env
 
 ## 3.5.0 / 2018-06-04
 

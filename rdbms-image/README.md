@@ -256,7 +256,7 @@ echo "developer readwrite" > jmxremote.access
 chmod 0400 jmxremote.password
 ```
 
-2. Open `jmx-remote.yml` file and replace `<external hostname>` in _JAVA_OPTIONS env vars with actual hostname of DeviceHive server.
+2. Set `DEBUG_RMI_HOSTNAME` variable (export in environment or add line in .env file) with the actual hostname of DeviceHive server.
 3. Run DeviceHive with the following command:
 ```
 sudo docker-compose -f docker-compose.yml -f jmx-remote.yml
