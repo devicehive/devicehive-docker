@@ -7,6 +7,7 @@
 * Add CoAP-WebSockets proxy deployment and service in chart
 * Remove separate switch for deploying external WebSocket proxy. It is requred for Plugin management service and must be deployed if it is enabled.
 * Add top level Ingress in chart Notes
+* Add Hazelcast config for enabling discovery in Kubernetes
 
 ### Docker Compose
 * Add compose file for CoAP-WebSockets proxy
