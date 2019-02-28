@@ -18,21 +18,21 @@ spec:
       containers:
       - name: devicehive-auth
         image: "{{ .Values.javaServer.repository }}/devicehive-auth:{{ .Values.javaServer.tag }}"
-        imagePullPolicy: {{ .Values.javaServer.PullPolicy }}
+        imagePullPolicy: {{ .Values.javaServer.pullPolicy }}
         env:
         {{- if eq .Values.javaServer.bus "rpc" }}
         - name: SPRING_PROFILES_ACTIVE
           value: "rpc-client"
-        {{- else }}
-        - name: DH_WS_PROXY
-          value: "{{ .Release.Name }}-devicehive-ws-proxy-internal:3000"
-        {{- end }}
         - name: DH_KAFKA_BOOTSTRAP_SERVERS
           value: "{{ .Release.Name }}-kafka:9092"
         - name: DH_ZK_ADDRESS
           value: "{{ .Release.Name }}-zookeeper"
         - name: DH_ZK_PORT
           value: "2181"
+        {{- else }}
+        - name: DH_WS_PROXY
+          value: "{{ .Release.Name }}-devicehive-ws-proxy-internal:3000"
+        {{- end }}
         - name: DH_POSTGRES_ADDRESS
           value: "{{ .Release.Name }}-postgresql"
         - name: DH_POSTGRES_DB

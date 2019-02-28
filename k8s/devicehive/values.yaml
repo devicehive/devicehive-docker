@@ -52,6 +52,16 @@ backendNode:
   replicaCount: 1
   resources: {}
 
+coapProxy:
+  enabled: false
+  image: devicehive/devicehive-coap-proxy:1.0.0
+  pullPolicy: IfNotPresent
+  replicaCount: 1
+  resources: {}
+  service:
+    type: ClusterIP
+    port: 5683
+
 mqttBroker:
   enabled: false
   image: devicehive/devicehive-mqtt:1.1.0
@@ -81,7 +91,6 @@ wsProxy:
     replicaCount: 1
     resources: {}
   external:
-    enabled: false
     replicaCount: 1
     resources: {}
 

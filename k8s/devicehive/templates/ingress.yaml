@@ -1,7 +1,6 @@
 {{- if .Values.ingress.enabled -}}
 {{- $releaseName := .Release.Name -}}
 {{- $javaServerPluginEnabled := .Values.javaServer.plugin.enabled -}}
-{{- $wsProxyExternalEnabled := .Values.wsProxy.external.enabled -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -43,8 +42,6 @@ spec:
         backend:
           serviceName: {{ $releaseName }}-devicehive-plugin
           servicePort: 8110
-      {{- end }}
-      {{- if $wsProxyExternalEnabled }}
       - path: /plugin/proxy
         backend:
           serviceName: {{ $releaseName }}-devicehive-ws-proxy-external

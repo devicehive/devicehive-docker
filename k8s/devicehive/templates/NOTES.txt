@@ -1,8 +1,13 @@
-Thank you for installing {{ .Chart.Name }}.
+Thank you for installing {{ .Chart.Name }} chart.
 
 Your release is named {{ .Release.Name }}.
 
-{{ if .Values.proxy.ingress.enabled -}}
+{{ if .Values.ingress.enabled -}}
+From outside the cluster, DeviceHive Admin Console URL(s) are:
+{{- range .Values.ingress.hosts }}
+http://{{ . }}/admin/
+{{- end }}
+{{- else if .Values.proxy.ingress.enabled -}}
 From outside the cluster, DeviceHive Admin Console URL(s) are:
 {{- range .Values.proxy.ingress.hosts }}
 http://{{ . }}/admin/

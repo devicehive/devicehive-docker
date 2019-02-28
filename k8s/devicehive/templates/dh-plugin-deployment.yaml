@@ -19,15 +19,11 @@ spec:
       containers:
       - name: devicehive-plugin
         image: "{{ .Values.javaServer.repository }}/devicehive-plugin:{{ .Values.javaServer.tag }}"
-        imagePullPolicy: {{ .Values.javaServer.PullPolicy }}
+        imagePullPolicy: {{ .Values.javaServer.pullPolicy }}
         env:
         {{- if eq .Values.javaServer.bus "rpc" }}
         - name: SPRING_PROFILES_ACTIVE
           value: "rpc-client"
-        {{- else }}
-        - name: DH_WS_PROXY
-          value: "{{ .Release.Name }}-devicehive-ws-proxy-internal:3000"
-        {{- end }}
         - name: DH_KAFKA_BOOTSTRAP_SERVERS
           value: "{{ .Release.Name }}-kafka:9092"
         - name: DH_ZK_ADDRESS
@@ -36,6 +32,10 @@ spec:
           value: "2181"
         - name: DH_RPC_CLIENT_RES_CONS_THREADS
           value: "3"
+        {{- else }}
+        - name: DH_WS_PROXY
+          value: "{{ .Release.Name }}-devicehive-ws-proxy-internal:3000"
+        {{- end }}
         - name: DH_AUTH_URL
           value: "http://{{ .Release.Name }}-devicehive-auth:8090/auth/rest"
         - name: DH_POSTGRES_ADDRESS
@@ -48,10 +48,8 @@ spec:
           value: "{{ .Values.postgresql.postgresUser }}"
         - name: DH_POSTGRES_PASSWORD
           value: "{{ .Values.postgresql.postgresPassword }}"
-{{- if .Values.wsProxy.external.enabled }}
         - name: DH_PROXY_PLUGIN_CONNECT
           value: {{ .Values.javaServer.plugin.pluginConnectUrl | default "ws://localhost/plugin/proxy" | quote }}
-{{- end }}
         - name: DH_ZK_ADDRESS
           value: "{{ .Release.Name }}-zookeeper"
         - name: DH_ZK_PORT

@@ -19,7 +19,7 @@ spec:
       containers:
       - name: devicehive-proxy
         image: {{ .Values.proxy.image | quote }}
-        imagePullPolicy: {{ .Values.proxy.PullPolicy }}
+        imagePullPolicy: {{ .Values.proxy.pullPolicy }}
         ports:
         - name: http
           containerPort: 8080

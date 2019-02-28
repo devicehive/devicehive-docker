@@ -19,7 +19,7 @@ spec:
       containers:
       - name: devicehive-backend-node
         image: {{ .Values.backendNode.image | quote }}
-        imagePullPolicy: {{ .Values.backendNode.PullPolicy }}
+        imagePullPolicy: {{ .Values.backendNode.pullPolicy }}
         env:
         - name: ENVSEPARATOR
           value: '_'

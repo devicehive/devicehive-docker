@@ -1,4 +1,4 @@
-{{- if .Values.wsProxy.external.enabled }}
+{{- if .Values.javaServer.plugin.enabled -}}
 kind: Service
 apiVersion: v1
 metadata:

@@ -1,4 +1,4 @@
-{{- if .Values.wsProxy.external.enabled }}
+{{- if .Values.javaServer.plugin.enabled -}}
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
@@ -19,7 +19,7 @@ spec:
       containers:
       - name: devicehive-ws-proxy-external
         image: {{ .Values.wsProxy.image | quote }}
-        imagePullPolicy: {{ .Values.wsProxy.PullPolicy }}
+        imagePullPolicy: {{ .Values.wsProxy.pullPolicy }}
         env:
         - name: ENVSEPARATOR
           value: '_'

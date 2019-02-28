@@ -19,7 +19,7 @@ spec:
       containers:
       - name: mqtt-broker
         image: {{ .Values.mqttBroker.image | quote }}
-        imagePullPolicy: {{ .Values.mqttBroker.PullPolicy }}
+        imagePullPolicy: {{ .Values.mqttBroker.pullPolicy }}
         env:
         - name: ENVSEPARATOR
           value: "_"
@@ -32,7 +32,6 @@ spec:
         - name: BROKER_REDIS_SERVER_PORT
           value: "6379"
         - name: BROKER_APP_LOG_LEVEL
-          value: "debug"
           value: {{ .Values.mqttBroker.appLogLevel | quote }}
         - name: BROKER_WS_SERVER_URL
           value: "{{ .Release.Name }}-devicehive-frontend:8080/api/websocket"
