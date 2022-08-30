@@ -22,7 +22,6 @@ services:
       - KAFKA_CFG_LISTENERS=CLIENT://:9092
       - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
-      - KAFKA_CFG_NUM_PARTITIONS=3
       - ALLOW_PLAINTEXT_LISTENER=yes
 
   postgres:
@@ -43,7 +42,7 @@ services:
       - "kafka"
     restart: unless-stopped
     environment:
-      KAFKA.KAFKA_HOSTS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
+      FRANZ.KAFKA_HOSTS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
       PROXY.WEB_SOCKET_SERVER_HOST: 'wsproxy'
 
   dh_frontend:
