@@ -1,4 +1,4 @@
-version: "3"
+version: "3.9"
 services:
   dh_plugin:
     image: devicehive/devicehive-plugin:${DH_TAG:-3.5.0}
@@ -27,40 +27,34 @@ services:
       DH_WS_PROXY: wsproxy:3000
       DH_PROXY_PLUGIN_CONNECT: ${DH_PROXY_PLUGIN_CONNECT:-ws://localhost/plugin/proxy}
       DH_AUTH_URL: http://dh_auth:8090/auth/rest
-      HC_MEMBERS: hazelcast
-      HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
-      HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
+      REDIS_MASTER_HOST: ${REDIS_MASTER_HOST:-redis_master}
+      REDIS_MASTER_PORT: ${REDIS_MASTER_PORT:-6379}
       JWT_SECRET: ${JWT_SECRET}
       SPRING_PROFILES_ACTIVE: ${DH_PLUGIN_SPRING_PROFILES_ACTIVE:-ws-kafka-proxy}
+    profiles:
+      - front
+      - all
 
-  wsproxyext:
+  wsproxy_external:
     image: devicehive/devicehive-ws-proxy:${DH_WS_PROXY_TAG:-1.1.0}
+    ports:
+      - "3001:3000"
     links:
       - "dh_auth"
       - "dh_plugin"
       - "kafka"
     restart: unless-stopped
     environment:
-      KAFKA.KAFKA_HOSTS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
+      FRANZ.KAFKA_HOSTS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
       PLUGIN_MANAGER.AUTH_SERVICE_ENDPOINT: http://dh_auth:8090/auth/rest
       PLUGIN_MANAGER.PLUGIN_MANAGEMENT_SERVICE_ENDPOINT: http://dh_plugin:8110/plugin/rest
       PROXY.ENABLE_PLUGIN_MANAGER: 'true'
-      PROXY.WEB_SOCKET_SERVER_HOST: 'wsproxyext'
+      PROXY.WEB_SOCKET_SERVER_HOST: 'wsproxy_external'
+    profiles:
+      - dev
+      - all
 
   dh_proxy:
     links:
       - "dh_plugin"
-      - "wsproxyext"
-
-# This service once a day cleanups topics created by Devicehive Plugin service.
-# Kafka 1.0.0 doesn't have API call for removing unneeded topics when user plugin unregisters, so we do it there.
-# Topics are created automatically when accessed so if plugin still running he will have his topic back.
-  kafka-cleanup:
-    image: wurstmeister/kafka:1.0.0
-    links:
-      - "zookeeper"
-      - "kafka"
-    restart: unless-stopped
-    environment:
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-    command: bash -c 'while true; do echo "Starting cleanup at $$(date)"; PLUGIN_TOPICS_COUNT=$$(kafka-run-class.sh kafka.admin.TopicCommand --zookeeper $${KAFKA_ZOOKEEPER_CONNECT} --list | fgrep -c plugin_topic_); if [ $${PLUGIN_TOPICS_COUNT} -ge 50 ]; then echo "Found $${PLUGIN_TOPICS_COUNT} topics, cleaning"; kafka-run-class.sh kafka.admin.TopicCommand --zookeeper $${KAFKA_ZOOKEEPER_CONNECT} --list | fgrep plugin_topic_ | sort -R | xargs -r -n1 kafka-run-class.sh kafka.admin.TopicCommand --zookeeper $${KAFKA_ZOOKEEPER_CONNECT} --delete --topic; else echo "Found $${PLUGIN_TOPICS_COUNT} topics, not cleaning"; fi; echo "Cleanup ended at $$(date)"; sleep 10m; done'
+      - "wsproxy_external"

@@ -1,16 +1,18 @@
-version: "3"
+version: "3.9"
 services:
   zookeeper:
-    image: bitnami/zookeeper:3.8
+    image: docker.io/bitnami/zookeeper:3.8
     ports:
       - "2181:2181"
     restart: unless-stopped
     environment:
-      - ZOOKEEPER_CLIENT_PORT=2181
       - ALLOW_ANONYMOUS_LOGIN=yes
+    profiles:
+      - infra
+      - all
 
   kafka:
-    image: bitnami/kafka:3.2
+    image: docker.io/bitnami/kafka:3.1
     ports:
       - "9092:9092"
     links:
@@ -23,6 +25,9 @@ services:
       - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
       - ALLOW_PLAINTEXT_LISTENER=yes
+    profiles:
+      - infra
+      - all
 
   postgres:
     image: postgres:14.4
@@ -35,15 +40,24 @@ services:
       POSTGRES_DB: ${DH_POSTGRES_DB:-postgres}
     volumes:
       - devicehive-db:/var/lib/postgresql/data
+    profiles:
+      - infra
+      - all
 
   wsproxy:
     image: devicehive/devicehive-ws-proxy:${DH_WS_PROXY_TAG:-1.1.0}
+    ports:
+      - "3000:3000"
     links:
       - "kafka"
     restart: unless-stopped
     environment:
       FRANZ.KAFKA_HOSTS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
       PROXY.WEB_SOCKET_SERVER_HOST: 'wsproxy'
+      PROXY.ENABLE_PLUGIN_MANAGER: 'false'
+    profiles:
+      - infra
+      - all
 
   dh_frontend:
     image: devicehive/devicehive-frontend:${DH_TAG:-3.5.0}
@@ -71,11 +85,13 @@ services:
       DH_WS_PROXY: wsproxy:3000
       ROOT_LOG_LEVEL: ${ROOT_LOG_LEVEL:-WARN}
       DH_AUTH_URL: ${DH_AUTH_URL:-http://dh_auth:8090/auth/rest}
-      HC_MEMBERS: hazelcast
-      HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
-      HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
+      REDIS_MASTER_HOST: ${REDIS_MASTER_HOST:-redis_master}
+      REDIS_MASTER_PORT: ${REDIS_MASTER_PORT:-6379}
       JWT_SECRET: ${JWT_SECRET}
       SPRING_PROFILES_ACTIVE: ${DH_FE_SPRING_PROFILES_ACTIVE:-ws-kafka-proxy-frontend}
+    profiles:
+      - front
+      - all
 
   dh_auth:
     image: devicehive/devicehive-auth:${DH_TAG:-3.5.0}
@@ -83,10 +99,10 @@ services:
       - "${DH_ADMIN_PORT:-8090}:8090"
     links:
       - "kafka"
-      - "hazelcast"
       - "postgres"
       - "wsproxy"
       - "zookeeper"
+      - "dh_backend"
     restart: unless-stopped
     environment:
       DH_ZK_ADDRESS: ${DH_ZK_ADDRESS:-zookeeper}
@@ -99,30 +115,51 @@ services:
       DH_POSTGRES_DB: ${DH_POSTGRES_DB:-postgres}
       DH_LOG_LEVEL: ${DH_LOG_LEVEL:-INFO}
       ROOT_LOG_LEVEL: ${ROOT_LOG_LEVEL:-WARN}
-      HC_MEMBERS: hazelcast
-      HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
-      HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
+      REDIS_MASTER_HOST: ${REDIS_MASTER_HOST:-redis_master}
+      REDIS_MASTER_PORT: ${REDIS_MASTER_PORT:-6379}
       JWT_SECRET: ${JWT_SECRET}
       DH_WS_PROXY: wsproxy:3000
       SPRING_PROFILES_ACTIVE: ${DH_AUTH_SPRING_PROFILES_ACTIVE:-ws-kafka-proxy}
+    profiles:
+      - front
+      - all
 
-  hazelcast:
-    image: devicehive/devicehive-hazelcast:${DH_TAG:-3.5.0}
+  redis_master:
+    image: bitnami/redis:7.0
     ports:
-      - "5701:5701"
-    restart: unless-stopped
+      - "6379:6379"
+    volumes:
+      - devicehive-redis:/bitnami
     environment:
-      MAX_HEAP_SIZE: "512m"
-      MIN_HEAP_SIZE: "512m"
+      - REDIS_REPLICATION_MODE=master
+      - ALLOW_EMPTY_PASSWORD=yes
+    profiles:
+      - infra
+      - all
+
+  redis_replica:
+    image: bitnami/redis:7.0
+    ports:
+      - "7001:6379"
+    depends_on:
+      - redis_master
+    environment:
+      - REDIS_REPLICATION_MODE=slave
+      - REDIS_MASTER_HOST=redis_master
+      - REDIS_MASTER_PORT_NUMBER=6379
+      - ALLOW_EMPTY_PASSWORD=yes
+    profiles:
+      - infra
+      - all
 
   dh_backend:
     image: devicehive/devicehive-backend:${DH_TAG:-3.5.0}
     links:
-      - "hazelcast"
       - "kafka"
       - "postgres"
       - "zookeeper"
       - "wsproxy"
+      - "redis_master"
     restart: unless-stopped
     environment:
       DH_ZK_ADDRESS: ${DH_ZK_ADDRESS:-zookeeper}
@@ -137,11 +174,13 @@ services:
       DH_RPC_SERVER_WORKER_THREADS: ${DH_RPC_SERVER_WORKER_THREADS:-3}
       DH_LOG_LEVEL: ${DH_LOG_LEVEL:-INFO}
       DH_WS_PROXY: wsproxy:3000
+      REDIS_MASTER_HOST: ${REDIS_MASTER_HOST:-redis_master}
+      REDIS_MASTER_PORT: ${REDIS_MASTER_PORT:-6379}
       ROOT_LOG_LEVEL: ${ROOT_LOG_LEVEL:-INFO}
-      HC_MEMBERS: hazelcast
-      HC_GROUP_NAME: ${HC_GROUP_NAME:-dev}
-      HC_GROUP_PASSWORD: ${HC_GROUP_PASSWORD:-dev-pass}
       SPRING_PROFILES_ACTIVE: ${DH_BE_SPRING_PROFILES_ACTIVE:-ws-kafka-proxy-backend}
+    profiles:
+      - backend
+      - all
 
   dh_proxy:
     image: devicehive/devicehive-proxy:${DH_PROXY_TAG:-3.5.0}
@@ -151,6 +190,10 @@ services:
     ports:
       - "80:8080"
     restart: unless-stopped
+    profiles:
+      - dev
+      - all
 
 volumes:
   devicehive-db:
+  devicehive-redis:
