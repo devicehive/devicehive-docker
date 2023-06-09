@@ -1,0 +1,41 @@
+# Rename to .env
+COMPOSE_PROJECT_NAME=dev
+COMPOSE_FILE=docker-compose.yml:dh_proxy_custom_certificate.yml:dh_plugin.yml:devicehive-metrics.yml:dh_playground.yml:public_grafana.yml:mqtt-brokers.yml
+DH_TAG=latest
+DH_PROXY_TAG=latest
+DH_WS_PROXY_TAG=latest
+DH_MQTT_TAG=latest
+DH_POSTGRES_USERNAME=login
+DH_POSTGRES_PASSWORD=pass
+DH_POSTGRES_DB=devicehivedb
+DH_RPC_SERVER_REQ_CONS_THREADS=3
+DH_RPC_SERVER_WORKER_THREADS=3
+#DH_PROXY_PLUGIN_CONNECT=wss://dev.devicehive/plugin/proxy
+JWT_SECRET=secret
+
+###
+# DeviceHive Plaground parameters
+###
+DH_PLAYGROUND_TAG=latest
+DH_ADMIN_LOGIN=login
+DH_ADMIN_PASSWORD=pass
+
+DH_URL=https://dev.devicehive/
+DH_API_URL=http://dh_proxy:8080
+DH_ADMIN_URL=http://dh_proxy:8080
+DH_INTERNAL_API=http://dh_proxy:8080/api/rest
+#FACEBOOK_CLIENT_ID=
+#FACEBOOK_SECRET=
+#GITHUB_CLIENT_ID=
+#GITHUB_SECRET=
+#GOOGLE_CLIENT_ID=
+#GOOGLE_SECRET=
+#INTERCOM_ACCESS_TOKEN=
+
+###
+# Debug config
+###
+DEBUG_RMI_HOSTNAME=dev.devicehive
+
+#DH_LOG_LEVEL=DEBUG
+#ROOT_LOG_LEVEL=DEBUG
