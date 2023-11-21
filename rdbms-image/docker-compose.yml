@@ -1,27 +1,30 @@
 version: "3.9"
 services:
+  zookeeper:
+    image: docker.io/bitnami/zookeeper:3.8
+    ports:
+      - "2181:2181"
+    restart: unless-stopped
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    profiles:
+      - infra
+      - all
 
   kafka:
     image: devicehive/devicehive-kafka:${DH_TAG:-3.5.0}
     ports:
       - "9092:9092"
-    container_name: kafka
+    links:
+      - "zookeeper"
     restart: unless-stopped
     environment:
-      - KAFKA_ENABLE_KRAFT=yes
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKA_CFG_NODE_ID=1001
-      - KAFKA_KRAFT_CLUSTER_ID=OTMwNzFhYTY1ODNiNGE5OT
-
-      - KAFKA_CFG_PROCESS_ROLES=broker,controller
-      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,CONTROLLER:PLAINTEXT,INTERNAL:PLAINTEXT
-      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1001@kafka:29092
-
-      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://localhost:9092,INTERNAL://kafka:19092
-      - KAFKA_CFG_LISTENERS=CLIENT://:9092,CONTROLLER://kafka:29092,INTERNAL://:19092
-      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
-
     healthcheck:
       test: /bin/nc -z localhost 9092
       interval: 2s
@@ -94,11 +97,14 @@ services:
     links:
       - "postgres"
       - "kafka"
+      - "zookeeper"
       - "dh_frontend"
       - "dh_auth"
       - "wsproxy"
     restart: unless-stopped
     environment:
+      DH_ZK_ADDRESS: ${DH_ZK_ADDRESS:-zookeeper}
+      DH_ZK_PORT: ${DH_ZK_PORT:-2181}
       DH_KAFKA_BOOTSTRAP_SERVERS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
       DH_POSTGRES_ADDRESS: ${DH_POSTGRES_ADDRESS:-postgres}
       DH_POSTGRES_PORT: ${DH_POSTGRES_PORT:-5432}
@@ -127,11 +133,14 @@ services:
     links:
       - "postgres"
       - "kafka"
+      - "zookeeper"
       - "dh_backend"
       - "dh_auth"
       - "wsproxy"
     restart: unless-stopped
     environment:
+      DH_ZK_ADDRESS: ${DH_ZK_ADDRESS:-zookeeper}
+      DH_ZK_PORT: ${DH_ZK_PORT:-2181}
       DH_KAFKA_BOOTSTRAP_SERVERS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
       DH_POSTGRES_ADDRESS: ${DH_POSTGRES_ADDRESS:-postgres}
       DH_POSTGRES_PORT: ${DH_POSTGRES_PORT:-5432}
@@ -162,9 +171,12 @@ services:
       - "kafka"
       - "postgres"
       - "wsproxy"
+      - "zookeeper"
       - "dh_backend"
     restart: unless-stopped
     environment:
+      DH_ZK_ADDRESS: ${DH_ZK_ADDRESS:-zookeeper}
+      DH_ZK_PORT: ${DH_ZK_PORT:-2181}
       DH_KAFKA_BOOTSTRAP_SERVERS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
       DH_POSTGRES_ADDRESS: ${DH_POSTGRES_ADDRESS:-postgres}
       DH_POSTGRES_PORT: ${DH_POSTGRES_PORT:-5432}
@@ -216,10 +228,13 @@ services:
     links:
       - "kafka"
       - "postgres"
+      - "zookeeper"
       - "wsproxy"
       - "redis_master"
     restart: unless-stopped
     environment:
+      DH_ZK_ADDRESS: ${DH_ZK_ADDRESS:-zookeeper}
+      DH_ZK_PORT: ${DH_ZK_PORT:-2181}
       DH_KAFKA_BOOTSTRAP_SERVERS: ${DH_KAFKA_BOOTSTRAP_SERVERS:-kafka:9092}
       DH_POSTGRES_ADDRESS: ${DH_POSTGRES_ADDRESS:-postgres}
       DH_POSTGRES_PORT: ${DH_POSTGRES_PORT:-5432}
