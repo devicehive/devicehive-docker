@@ -10,6 +10,17 @@ services:
     profiles:
       - infra
       - all
+  zookeeper-2:
+    image: docker.io/bitnami/zookeeper:3.8
+    ports:
+      - "2182:2182"
+    restart: unless-stopped
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    profiles:
+      - infra
+      - all
+      - local
 
   kafka:
     image: devicehive/devicehive-kafka:${DH_TAG:-3.5.0}
@@ -17,17 +28,40 @@ services:
       - "9092:9092"
     links:
       - "zookeeper"
+      - "zookeeper-2"
     restart: unless-stopped
     environment:
-      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
-      - KAFKA_CFG_LISTENERS=INTERNAL://:29092,CLIENT://:9092
-      - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka:29092,CLIENT://kafka:9092
-      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
-      - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181,zookeeper-2:2182
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
+      - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka:9092
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
+      - KAFKA_CFG_LISTENERS=INTERNAL://:9092
       - ALLOW_PLAINTEXT_LISTENER=yes
     healthcheck:
       test: /bin/nc -z localhost 9092
+      interval: 2s
+      timeout: 2s
+      retries: 15
+    profiles:
+      - infra
+      - all
+  kafka-2:
+    image: devicehive-kafka:local
+    ports:
+      - "9093:9093"
+    links:
+      - "zookeeper"
+      - "zookeeper-2"
+    restart: unless-stopped
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181,zookeeper-2:2182
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=EXTERNAL:PLAINTEXT,INTERNAL:PLAINTEXT
+      - KAFKA_CFG_ADVERTISED_LISTENERS=INTERNAL://kafka-2:9092
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=INTERNAL
+      - KAFKA_CFG_LISTENERS=INTERNAL://:9092
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    healthcheck:
+      test: /bin/nc -z localhost 9093
       interval: 2s
       timeout: 2s
       retries: 15
@@ -56,6 +90,7 @@ services:
       - "3000:3000"
     links:
       - "kafka"
+      - "kafka-2"
 
     depends_on:
       kafka:
