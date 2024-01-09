@@ -14,8 +14,6 @@ data:
     upstream plugin_upstream {
         server {{ .Release.Name }}-devicehive-plugin:8110;
     }
-{{- end }}
-{{- if .Values.wsProxy.external.enabled }}
     upstream wsproxyext {
         server {{ .Release.Name }}-devicehive-ws-proxy-external:3000;
     }

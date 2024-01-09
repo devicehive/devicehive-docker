@@ -1,3 +1,17 @@
+## Development
+
+### Kubernetes
+* Fix usage of 'pullPolicy' values in deployments
+* Change env vars setup for deployments. Setup only necessary vars for choosen bus type
+* Documentation updates
+* Add CoAP-WebSockets proxy deployment and service in chart
+* Remove separate switch for deploying external WebSocket proxy. It is requred for Plugin management service and must be deployed if it is enabled.
+* Add top level Ingress in chart Notes
+
+### Docker Compose
+* Add compose file for CoAP-WebSockets proxy
+* Add `DEBUG_RMI_HOSTNAME` variable for setting up JMX debug access via env
+
 ## 3.5.0 / 2018-06-04
 
 * k8s: add parameters for log level configuration in Java Server services

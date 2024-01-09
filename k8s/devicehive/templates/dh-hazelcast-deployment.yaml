@@ -18,7 +18,7 @@ spec:
       containers:
       - name: devicehive-hazelcast
         image: "{{ .Values.javaServer.repository }}/devicehive-hazelcast:{{ .Values.javaServer.tag }}"
-        imagePullPolicy: {{ .Values.javaServer.PullPolicy }}
+        imagePullPolicy: {{ .Values.javaServer.pullPolicy }}
         env:
         - name: MIN_HEAP_SIZE
           value: {{ .Values.javaServer.hazelcast.minHeapSize | quote }}

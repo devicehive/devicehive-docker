@@ -40,6 +40,7 @@ Table below lists endpoints where you can find various DeviceHive services. Repl
 |    1883 | MQTT brokers     | If enabled                    |
 |    2181 | Zookeeper        |                               |
 |    5432 | PostgreSQL DB    |                               |
+|    5683 | CoAP-WebSockets proxy | If enabled, see [CoAP-WebSockets proxy](#coap-websockets-proxy) section below |
 |    5701 | Hazelcast        |                               |
 |    7071 | Kafka metrics    | If enabled, see [Kafka metrics](#kafka-metrics) section below |
 |    8080 | Frontend service |                               |
@@ -112,6 +113,19 @@ To enable DeviceHive to communicate over Apache Kafka message bus to scale out a
 * `DH_RPC_SERVER_WORKER_THREADS` - Server worker threads in the Backend, defaults to `3` if undefined. On machine with many CPU cores and high load this value must be raised. For example on machine with 8 core it must be set to `6`.
 * `DH_RPC_CLIENT_RES_CONS_THREADS` - Kafka response consumer threads in the Frontend, defaults to `3`.
 * `DH_AUTH_SPRING_PROFILES_ACTIVE`, `DH_FE_SPRING_PROFILES_ACTIVE`, `DH_BE_SPRING_PROFILES_ACTIVE` and `DH_PLUGIN_SPRING_PROFILES_ACTIVE` - Changes which Spring profile use for Auth, Frontend, Backend and Plugin sevices respectively. Defaults to `ws-kafka-proxy-frontend` for Frontend, `ws-kafka-proxy-backend` for Backend and `ws-kafka-proxy` for Auth/Plugin. Can be changed to `rpc-client` for Auth/Frontend/Plugin and `rpc-server` for Backend to use direct connection to Kafka instead of devicehive-ws-proxy service.
+
+### CoAP-WebSockets proxy
+The [devicehive-coap-proxy][coap-proxy-url] is a CoAP to WebSockets proxy between CoAP clients and DeviceHive server. The proxy uses WebSocket sessions to communicate with DeviceHive Server and listens on standard CoAP UDP port 5683 for clients.
+
+To enable optional DeviceHive MQTT brokers run DeviceHive with the following command. This will start MQTT brokers on port 1883 and internal Redis container:
+
+```
+sudo docker-compose -f docker-compose.yml -f coap-proxy.yml
+```
+
+Or add line `COMPOSE_FILE=docker-compose.yml:coap-proxy.yml` in `.env` file.
+
+[coap-proxy-url]: https://github.com/devicehive/devicehive-coap-proxy
 
 ### MQTT brokers
 The [devicehive-mqtt plugin][dh-mqtt-url] is a MQTT transport layer between MQTT clients and DeviceHive server. The broker uses WebSocket sessions to communicate with DeviceHive Server and Redis server for persistence functionality.
@@ -242,7 +256,7 @@ echo "developer readwrite" > jmxremote.access
 chmod 0400 jmxremote.password
 ```
 
-2. Open `jmx-remote.yml` file and replace `<external hostname>` in _JAVA_OPTIONS env vars with actual hostname of DeviceHive server.
+2. Set `DEBUG_RMI_HOSTNAME` variable (export in environment or add line in .env file) with the actual hostname of DeviceHive server.
 3. Run DeviceHive with the following command:
 ```
 sudo docker-compose -f docker-compose.yml -f jmx-remote.yml
